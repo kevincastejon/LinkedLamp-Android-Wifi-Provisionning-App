@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LinkedRGB.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="12">
+            <Button Text="Scanner BLE (10s)" Clicked="OnScanClicked" />
+            <Label x:Name="StatusLabel" Text="Prêt." />
+            <CollectionView x:Name="DevicesView"
+                SelectionMode="Single"
+                SelectionChanged="OnDeviceSelected">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout Padding="8">
+                            <Label Text="{Binding Name}" FontAttributes="Bold" />
+                            <Label Text="{Binding Id}" FontSize="12" />
+                            <Label Text="{Binding Rssi, StringFormat='RSSI: {0} dBm'}" FontSize="12" />
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+
+    </ScrollView>
+
+</ContentPage>
