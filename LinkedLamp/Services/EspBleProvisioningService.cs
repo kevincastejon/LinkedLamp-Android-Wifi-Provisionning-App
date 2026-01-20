@@ -16,6 +16,7 @@ public class EspBleProvisioningService
     private IDevice? _connectedDevice;
     private ICharacteristic? _wifiProvChar;
     private ICharacteristic? _wifiConfChar;
+    private string _groupName = "";
     private string _ssid = "";
     private string _pass = "";
     EventHandler<CharacteristicUpdatedEventArgs> _handler;
@@ -58,10 +59,11 @@ public class EspBleProvisioningService
         }
         return foundDevices;
     }
-    public async Task ConnectAndSetup(IDevice device, string ssid, string pass)
+    public async Task ConnectAndSetup(IDevice device, string groupName, string ssid, string pass)
     {
-        _ssid = ssid;
-        _pass = pass;
+        _groupName = groupName.Trim();
+        _ssid = ssid.Trim();
+        _pass = pass.Trim();
         await _adapter.ConnectToDeviceAsync(device);
         var services = await device.GetServicesAsync();
         var provService = services.FirstOrDefault(s => s.Id == SERVICE_UUID) ?? throw new InvalidOperationException("Service not found.");
@@ -117,17 +119,19 @@ public class EspBleProvisioningService
     }
     private async Task SendWifiCredentialsAndConnectAsync()
     {
-        _ssid = _ssid.Trim();
         if (string.IsNullOrWhiteSpace(_ssid))
             throw new ArgumentException("SSID empty.");
 
-        await _wifiProvChar!.WriteAsync(SerializeCredentials(_ssid, _pass));
+        await _wifiProvChar!.WriteAsync(SerializeCredentials(_groupName, _ssid, _pass));
     }
-    static private byte[] SerializeCredentials(string ssid, string pass)
+    static private byte[] SerializeCredentials(string groupName, string ssid, string pass)
     {
         List<byte> data = new();
+        byte[] groupNameBytes = Encoding.UTF8.GetBytes(groupName);
         byte[] ssidBytes = Encoding.UTF8.GetBytes(ssid);
         byte[] passBytes = Encoding.UTF8.GetBytes(pass);
+        data.Add((byte)groupNameBytes.Length);
+        data.AddRange(groupNameBytes);
         data.Add((byte)ssidBytes.Length);
         data.AddRange(ssidBytes);
         data.Add((byte)passBytes.Length);

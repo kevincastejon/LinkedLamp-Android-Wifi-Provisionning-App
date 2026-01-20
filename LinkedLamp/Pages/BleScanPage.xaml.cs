@@ -192,6 +192,7 @@ public partial class BleScanPage : ContentPage
         {
             await _prov.ConnectAndSetup(
             selectedDevice,
+            GroupNameEntry.Text ?? "",
             (string)SsidPicker.SelectedItem,
             PassEntry.Text ?? ""
         );
@@ -227,6 +228,11 @@ public partial class BleScanPage : ContentPage
             .Select(r => r.Ssid)
             .ToList();
     }
-
+    public void OpenWifiSettings(object sender, EventArgs e)
+    {
+        var intent = new Intent(Settings.ActionWifiSettings);
+        intent.AddFlags(ActivityFlags.NewTask);
+        Android.App.Application.Context.StartActivity(intent);
+    }
 }
 #endif
