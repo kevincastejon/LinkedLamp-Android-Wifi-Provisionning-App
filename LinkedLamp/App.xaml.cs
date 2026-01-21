@@ -4,19 +4,17 @@ namespace LinkedLamp
 {
     public partial class App : Application
     {
-        private readonly BleScanPage _bleScanPage;
+        private readonly HomePage _homePage;
 
-        // MAUI va injecter BleScanPage via DI
-        public App(BleScanPage bleScanPage)
+        public App(HomePage homePage)
         {
             InitializeComponent();
-            _bleScanPage = bleScanPage;
+            _homePage = homePage;
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            // NavigationPage => permet Navigation.PushAsync() entre pages
-            return new Window(new NavigationPage(_bleScanPage));
+            return new Window(new NavigationPage(_homePage));
         }
     }
 }

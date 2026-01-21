@@ -19,7 +19,7 @@ namespace LinkedLamp
     		builder.Logging.AddDebug();
 #endif
             builder.Services.AddSingleton<LinkedLamp.Services.EspBleProvisioningService>();
-            builder.Services.AddTransient<LinkedLamp.Pages.BleScanPage>();
+            builder.Services.AddTransient<LinkedLamp.Pages.HomePage>();
 
             return builder.Build();
         }

@@ -15,7 +15,7 @@ using MauiPermissions = Microsoft.Maui.ApplicationModel.Permissions;
 namespace LinkedLamp.Pages;
 
 #if ANDROID
-public partial class BleScanPage : ContentPage
+public partial class HomePage : ContentPage
 {
     public class DeviceRow : IEquatable<DeviceRow>
     {
@@ -31,7 +31,7 @@ public partial class BleScanPage : ContentPage
     private ObservableCollection<DeviceRow> _devices = new();
     private WifiManager? _wifiManager;
     private WifiStateReceiver? _wifiReceiver;
-    public BleScanPage(EspBleProvisioningService prov)
+    public HomePage(EspBleProvisioningService prov)
     {
         InitializeComponent();
         _wifiManager = null;
