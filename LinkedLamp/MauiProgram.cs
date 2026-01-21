@@ -1,27 +1,33 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 
-namespace LinkedLamp
+namespace LinkedLamp;
+
+public static class MauiProgram
 {
-    public static class MauiProgram
+    public static MauiApp CreateMauiApp()
     {
-        public static MauiApp CreateMauiApp()
-        {
-            var builder = MauiApp.CreateBuilder();
-            builder
-                .UseMauiApp<App>()
-                .ConfigureFonts(fonts =>
-                {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                });
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            });
 
 #if DEBUG
-    		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
-            builder.Services.AddSingleton<LinkedLamp.Services.EspBleProvisioningService>();
-            builder.Services.AddTransient<LinkedLamp.Pages.HomePage>();
 
-            return builder.Build();
-        }
+        builder.Services.AddSingleton<LinkedLamp.Services.EspBleProvisioningService>();
+
+        builder.Services.AddTransient<LinkedLamp.Pages.HomePage>();
+        builder.Services.AddTransient<LinkedLamp.Pages.WifiPage>();
+        builder.Services.AddTransient<LinkedLamp.Pages.GroupPage>();
+        builder.Services.AddTransient<LinkedLamp.Pages.BluetoothMode>();
+        builder.Services.AddTransient<LinkedLamp.Pages.ScanPage>();
+        builder.Services.AddTransient<LinkedLamp.Pages.SendConfigPage>();
+
+        return builder.Build();
     }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LinkedLamp.Pages.BluetoothMode"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Home">
+
+    <VerticalStackLayout Padding="24" Spacing="16">
+        <Label x:Name="MainLabel"
+       FontSize="18" >
+            <Label.Text>
+                Turn on the BluetoothMode on your LinkedLamp device :
+                    - Press the bouton of your LinkedLamp device and keep it pressed
+                    - Power your LinkedLamp device (still maintain the button pressed)
+                    - Wait for your LinkedLamp device to flash blue
+                    - You can release the button of your LinkedLamp device
+                    - The BlueTooth mode of your LinkedLamp device is on!"
+            </Label.Text>
+        </Label>
+
+        <Button x:Name="NextButton"
+                Text="Next"
+                Clicked="OnNextClicked" />
+    </VerticalStackLayout>
+</ContentPage>

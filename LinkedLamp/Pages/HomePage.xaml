@@ -3,25 +3,14 @@
     x:Class="LinkedLamp.Pages.HomePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="LinkedLamp Wifi Setup">
+    Title="Home">
 
-	<VerticalStackLayout Padding="16" Spacing="12">
-		<Label x:Name="MainLabel" Text="Activez le wifi" />
-        <Entry x:Name="GroupNameEntry" Placeholder="Group name" TextChanged="OnGroupNameEntryChanged" IsPassword="True" IsVisible="False" MaxLength="63" />
-		<Picker x:Name="SsidPicker" Title="Select Wi-Fi network" SelectedIndexChanged="OnSsidSelected" IsVisible="False"/>
-        <Entry x:Name="PassEntry" Placeholder="Mot de passe Wi-Fi" TextChanged="OnPassEntryChanged"  IsPassword="True" IsVisible="False" MaxLength="63" />
-        <Button x:Name="SetupGroupName" Text="Next" Clicked="OnSetupGroupName"  IsVisible="False" />
-		<Button x:Name="SetupArduino" Text="Scan" Clicked="EnsureBluetoothEnabled"  IsVisible="False" />
-		<CollectionView x:Name="DevicesView" SelectionMode="Single" IsVisible="False" SelectionChanged="OnDeviceSelected">
-			<CollectionView.ItemTemplate>
-				<DataTemplate>
-					<VerticalStackLayout Padding="8">
-						<Label Text="{Binding Name}" FontAttributes="Bold" />
-					</VerticalStackLayout>
-				</DataTemplate>
-			</CollectionView.ItemTemplate>
-		</CollectionView>
-		<Label x:Name="SecondaryLabel" Text="No device detected. Ensure your LinkedLamp is turned on and near of your android device." IsVisible="False"/>
-		<Button x:Name="OpenWifi" Text="Open WiFi settings" Clicked="OpenWifiSettings"  IsVisible="False" />
-	</VerticalStackLayout>
+    <VerticalStackLayout Padding="24" Spacing="16">
+        <Label x:Name="MainLabel"
+               Text="This app will guide you on the configuration of your LinkedLamp devices"
+               FontSize="18" />
+
+        <Button Text="Start"
+                Clicked="OnStartClicked" />
+    </VerticalStackLayout>
 </ContentPage>

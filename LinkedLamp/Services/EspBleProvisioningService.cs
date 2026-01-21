@@ -80,7 +80,6 @@ public class EspBleProvisioningService
             _wifiConfChar.ValueUpdated -= _handler;
             try
             {
-                Debug.WriteLine(">>> "+e.Characteristic.Value[0]);
                 if (e.Characteristic.Value[0] == 0)
                 {
                     tcs.TrySetResult(false);

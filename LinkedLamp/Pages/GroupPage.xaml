@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LinkedLamp.Pages.GroupPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Group">
+
+    <VerticalStackLayout Padding="24" Spacing="12">
+        <Label x:Name="MainLabel"
+               Text="Enter the group name you want to join or create&#10;All the LinkedLamp devices configured with that group name will be linked together"
+               FontSize="18" />
+
+        <Entry x:Name="GroupNameEntry"
+               Placeholder="Group name"
+               TextChanged="OnGroupNameChanged"
+               MaxLength="32"/>
+
+        <Button x:Name="NextButton"
+                Text="Next"
+                IsEnabled="False"
+                Clicked="OnNextClicked" />
+    </VerticalStackLayout>
+</ContentPage>

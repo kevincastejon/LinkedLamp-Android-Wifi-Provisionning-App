@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LinkedLamp.Pages.ScanPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Scan">
+
+    <VerticalStackLayout Padding="24" Spacing="12">
+        <Label x:Name="MainLabel"
+               Text="Scanning for nearby LinkedLamp devices..."
+               FontSize="18" >
+        </Label>
+
+        <Button x:Name="ScanButton"
+                Text="Scan"
+                Clicked="OnScanClicked" />
+
+        <CollectionView x:Name="DevicesView"
+                        SelectionMode="Single"
+                        SelectionChanged="OnDeviceSelected">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="8">
+                        <Label Text="{Binding Name}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>
