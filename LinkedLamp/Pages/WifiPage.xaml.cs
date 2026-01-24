@@ -171,7 +171,7 @@ public partial class WifiPage : ContentPage
     private void OnPassEntryChanged(object? sender, TextChangedEventArgs e)
     {
         _ctx.Password = e.NewTextValue ?? "";
-        NextButton.IsEnabled = _ctx.Password.Length > 8;
+        NextButton.IsEnabled = _ctx.Password.Length > 4;
     }
 
     private async void OnNextClicked(object sender, EventArgs e)

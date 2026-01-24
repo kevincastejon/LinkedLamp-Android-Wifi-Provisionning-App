@@ -12,6 +12,7 @@ public partial class SendConfigPage : ContentPage
     private ProvisioningContext? _ctx;
     private IDevice? _device;
     private bool _started;
+    private CancellationTokenSource? _provCts;
 
     public SendConfigPage(LinkedLamp.Services.EspBleProvisioningService prov)
     {
@@ -25,7 +26,6 @@ public partial class SendConfigPage : ContentPage
         _device = device;
         _started = false;
         MainLabel.Text = "Sending configuration...";
-        BackButton.IsVisible = false;
     }
 
     protected override async void OnAppearing()
@@ -36,23 +36,52 @@ public partial class SendConfigPage : ContentPage
             return;
 
         _started = true;
+        _ = RunProvisioningAsync();
+    }
 
+    protected override void OnDisappearing()
+    {
+        try { _provCts?.Cancel(); } catch { }
+        _provCts?.Dispose();
+        _provCts = null;
+        base.OnDisappearing();
+    }
+
+    private async void OnBackClicked(object sender, EventArgs e)
+    {
+        try { _provCts?.Cancel(); } catch { }
+        _provCts?.Dispose();
+        _provCts = null;
+        await Navigation.PopAsync();
+    }
+    private async Task RunProvisioningAsync()
+    {
         if (_ctx == null || _device == null)
         {
             MainLabel.Text = "Missing provisioning data.";
-            BackButton.IsVisible = true;
             return;
         }
+        MainLabel.Text = "Sending configuration...";
 
-        var success = true;
+        _provCts?.Cancel();
+        _provCts?.Dispose();
+        _provCts = new CancellationTokenSource();
+
+        bool success;
         try
         {
             await _prov.ConnectAndSetup(
                 _device,
                 _ctx.GroupName,
                 _ctx.Ssid,
-                _ctx.Password
-            );
+                _ctx.Password,
+                _provCts.Token);
+
+            success = true;
+        }
+        catch (OperationCanceledException)
+        {
+            return;
         }
         catch
         {
@@ -62,27 +91,6 @@ public partial class SendConfigPage : ContentPage
         MainLabel.Text = success
             ? "Configuration sent successfully."
             : "Configuration failed. Please check WiFi credentials and try again.";
-
-        BackButton.IsVisible = true;
     }
-
-    private async void OnBackClicked(object sender, EventArgs e)
-    {
-        await Navigation.PopAsync();
-    }
-#else
-    public SendConfigPage()
-    {
-        InitializeComponent();
-        MainLabel.Text = "BLE provisioning is only supported on Android for now.";
-        BackButton.IsVisible = true;
-    }
-
-    private async void OnBackClicked(object sender, EventArgs e)
-    {
-        await Navigation.PopAsync();
-    }
-
-    public void SetContext(LinkedLamp.Models.ProvisioningContext ctx, object device) { }
 #endif
 }

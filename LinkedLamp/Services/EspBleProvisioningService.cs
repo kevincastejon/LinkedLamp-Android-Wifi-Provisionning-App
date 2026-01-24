@@ -1,8 +1,10 @@
 ﻿using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
+using Plugin.BLE.Abstractions.Extensions;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 
 namespace LinkedLamp.Services;
 
@@ -19,86 +21,134 @@ public class EspBleProvisioningService
     private string _groupName = "";
     private string _ssid = "";
     private string _pass = "";
-    EventHandler<CharacteristicUpdatedEventArgs> _handler;
+    EventHandler<CharacteristicUpdatedEventArgs>? _handler;
     public EspBleProvisioningService()
     {
         _adapter = CrossBluetoothLE.Current.Adapter;
     }
-    public async Task<HashSet<IDevice>> Scan(int durationMs)
+    public async Task<HashSet<IDevice>> Scan(CancellationToken cancellationToken = default)
     {
-        HashSet<IDevice> foundDevices = [];
+        Dictionary<Guid, IDevice> found = new();
+
         void Handler(object? sender, DeviceEventArgs e)
         {
-            var name = e.Device.Name;
-            if (string.IsNullOrWhiteSpace(name)) return;
-            if (!name.StartsWith("LinkedLamp_Caskev_")) return;
+            if (cancellationToken.IsCancellationRequested)
+                return;
 
-            lock (foundDevices)
+            var device = e.Device;
+            var name = device?.Name;
+
+            if (string.IsNullOrWhiteSpace(name))
+                return;
+
+            if (!name.StartsWith("LinkedLamp_Caskev_", StringComparison.Ordinal))
+                return;
+
+            lock (found)
             {
-                if (!foundDevices.Contains(e.Device))
-                    foundDevices.Add(e.Device);
+                if (device != null)
+                {
+                    found[device.Id] = device;
+                }
             }
         }
+
         _adapter.DeviceDiscovered += Handler;
+
         try
         {
-            using var cts = new CancellationTokenSource(durationMs);
-            await _adapter.StartScanningForDevicesAsync(new Plugin.BLE.Abstractions.ScanFilterOptions() { ServiceUuids = new Guid[] { SERVICE_UUID } });
+            if (_adapter.IsScanning)
+                await _adapter.StopScanningForDevicesAsync();
+
+            await _adapter.StartScanningForDevicesAsync(
+                new Plugin.BLE.Abstractions.ScanFilterOptions
+                {
+                    ServiceUuids = [SERVICE_UUID]
+                },
+                deviceFilter: null,
+                allowDuplicatesKey: false,
+                cancellationToken: cancellationToken
+            );
         }
         catch (OperationCanceledException)
-        {
-            // expected when duration expires
-        }
-        catch (Exception)
         {
             throw;
         }
         finally
         {
             _adapter.DeviceDiscovered -= Handler;
+
+            if (_adapter.IsScanning)
+            {
+                try { await _adapter.StopScanningForDevicesAsync(); }
+                catch { }
+            }
         }
-        return foundDevices;
+
+        lock (found)
+            return found.Values.ToHashSet();
     }
-    public async Task ConnectAndSetup(IDevice device, string groupName, string ssid, string pass)
+
+    public async Task ConnectAndSetup(IDevice device, string groupName, string ssid, string pass, CancellationToken cancellationToken = default)
     {
         _groupName = groupName.Trim();
         _ssid = ssid.Trim();
         _pass = pass.Trim();
-        await _adapter.ConnectToDeviceAsync(device);
-        var services = await device.GetServicesAsync();
+        await _adapter.ConnectToDeviceAsync(device, default, cancellationToken);
+        var services = await device.GetServicesAsync(cancellationToken);
         var provService = services.FirstOrDefault(s => s.Id == SERVICE_UUID) ?? throw new InvalidOperationException("Service not found.");
-        ICharacteristic wifiProvChar = await provService.GetCharacteristicAsync(WIFIPROV_UUID) ?? throw new InvalidOperationException("Characteristic not found.");
-        ICharacteristic wifiConfChar = await provService.GetCharacteristicAsync(WIFICONF_UUID) ?? throw new InvalidOperationException("Characteristic not found.");
+        ICharacteristic wifiProvChar = await provService.GetCharacteristicAsync(WIFIPROV_UUID, cancellationToken) ?? throw new InvalidOperationException("Characteristic not found.");
+        ICharacteristic wifiConfChar = await provService.GetCharacteristicAsync(WIFICONF_UUID, cancellationToken) ?? throw new InvalidOperationException("Characteristic not found.");
         if (wifiProvChar is null || wifiConfChar is null)
             throw new InvalidOperationException("Required characteristics not found.");
         _connectedDevice = device;
         _wifiProvChar = wifiProvChar;
         _wifiConfChar = wifiConfChar;
         var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-        _handler = async (object? sender, CharacteristicUpdatedEventArgs e) =>
+
+        CancellationTokenRegistration ctr = cancellationToken.Register(() =>
         {
-            _wifiConfChar.ValueUpdated -= _handler;
             try
             {
-                if (e.Characteristic.Value[0] == 0)
-                {
-                    tcs.TrySetResult(false);
-                }
-                else if (e.Characteristic.Value[0] == 1)
-                {
-                    tcs.TrySetResult(true);
-                }
+                _wifiConfChar.ValueUpdated -= _handler;
+                _wifiConfChar.StopUpdatesAsync().ConfigureAwait(false);
             }
-            catch (Exception ex)
+            catch { }
+
+            tcs.TrySetCanceled(cancellationToken);
+        });
+
+        _handler = (sender, e) =>
+        {
+            _wifiConfChar.ValueUpdated -= _handler;
+
+            if (e.Characteristic.Value?.Length > 0)
             {
-                tcs.TrySetException(ex);
-                throw;
+                bool success = e.Characteristic.Value[0] == 1;
+                tcs.TrySetResult(success);
+            }
+            else
+            {
+                tcs.TrySetException(new InvalidOperationException("Empty BLE response"));
             }
         };
+
         _wifiConfChar.ValueUpdated += _handler;
-        await _wifiConfChar.StartUpdatesAsync();
-        await SendWifiCredentialsAndConnectAsync();
-        bool wifiSuccess = await tcs.Task;
+        await _wifiConfChar.StartUpdatesAsync(cancellationToken);
+        await SendWifiCredentialsAndConnectAsync(cancellationToken);
+        bool wifiSuccess;
+        try
+        {
+            wifiSuccess = await tcs.Task;
+        }
+        finally
+        {
+            ctr.Dispose();
+            if (_handler != null)
+            {
+                _wifiConfChar.ValueUpdated -= _handler;
+            }
+        }
         await DisconnectAsync();
         if (!wifiSuccess)
         {
@@ -116,12 +166,12 @@ public class EspBleProvisioningService
         _connectedDevice = null;
         _wifiProvChar = null;
     }
-    private async Task SendWifiCredentialsAndConnectAsync()
+    private async Task SendWifiCredentialsAndConnectAsync(CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(_ssid))
             throw new ArgumentException("SSID empty.");
 
-        await _wifiProvChar!.WriteAsync(SerializeCredentials(_groupName, _ssid, _pass));
+        await _wifiProvChar!.WriteAsync(SerializeCredentials(_groupName, _ssid, _pass), cancellationToken);
     }
     static private byte[] SerializeCredentials(string groupName, string ssid, string pass)
     {
