@@ -2,9 +2,9 @@ namespace LinkedLamp.Pages;
 
 public partial class HomePage : ContentPage
 {
-    private readonly WifiPage _wifiPage;
+    private readonly WifiSsidPage _wifiPage;
 
-    public HomePage(WifiPage wifiPage)
+    public HomePage(WifiSsidPage wifiPage)
     {
         InitializeComponent();
         _wifiPage = wifiPage;

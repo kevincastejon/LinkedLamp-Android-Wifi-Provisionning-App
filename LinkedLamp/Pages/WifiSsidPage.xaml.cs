@@ -9,9 +9,9 @@ using LinkedLamp.Models;
 
 namespace LinkedLamp.Pages;
 
-public partial class WifiPage : ContentPage
+public partial class WifiSsidPage : ContentPage
 {
-    private readonly GroupPage _groupPage;
+    private readonly WifiPassPage _wifiPassPage;
     private readonly ProvisioningContext _ctx;
 
 #if ANDROID
@@ -19,10 +19,10 @@ public partial class WifiPage : ContentPage
     private WifiStateReceiver? _wifiReceiver;
 #endif
 
-    public WifiPage(GroupPage groupPage)
+    public WifiSsidPage(WifiPassPage wifiPassPage)
     {
         InitializeComponent();
-        _groupPage = groupPage;
+        _wifiPassPage = wifiPassPage;
         _ctx = new ProvisioningContext();
 #if ANDROID
         _wifiManager = null;
@@ -35,9 +35,6 @@ public partial class WifiPage : ContentPage
         SsidPicker.IsVisible = false;
         SsidPicker.SelectedItem = null;
         SsidPicker.ItemsSource = null;
-        PassEntry.IsVisible = false;
-        NextButton.IsVisible = false;
-        NextButton.IsEnabled = false;
 #if ANDROID
         var context = Android.App.Application.Context;
         _wifiManager = (WifiManager?)context.GetSystemService(Context.WifiService);
@@ -59,9 +56,6 @@ public partial class WifiPage : ContentPage
         {
             await OnWifiEnabledAsync();
         }
-#else
-        MainLabel.Text = "WiFi selection is only supported on Android for now.";
-        SsidPicker.IsVisible = false;
 #endif
     }
 
@@ -103,8 +97,6 @@ public partial class WifiPage : ContentPage
         MainLabel.Text = "Please activate the Wifi.";
         OpenWifi.IsVisible = true;
         SsidPicker.IsVisible = false;
-        PassEntry.IsVisible = false;
-        NextButton.IsVisible = false;
     }
 
     private async Task OnWifiEnabledAsync()
@@ -154,30 +146,13 @@ public partial class WifiPage : ContentPage
     }
 #endif
 
-    private void OnSsidSelected(object? sender, EventArgs e)
+    private async void OnSsidSelected(object? sender, EventArgs e)
     {
         if (SsidPicker.SelectedItem == null)
             return;
 
         _ctx.Ssid = (string)SsidPicker.SelectedItem;
-
-        MainLabel.Text = "Enter the password for the selected WiFi network";
-        PassEntry.Text = "";
-        PassEntry.IsVisible = true;
-
-        NextButton.IsVisible = true;
-        NextButton.IsEnabled = false;
-    }
-
-    private void OnPassEntryChanged(object? sender, TextChangedEventArgs e)
-    {
-        _ctx.Password = e.NewTextValue ?? "";
-        NextButton.IsEnabled = _ctx.Password.Length > 4;
-    }
-
-    private async void OnNextClicked(object sender, EventArgs e)
-    {
-        _groupPage.SetContext(_ctx);
-        await Navigation.PushAsync(_groupPage);
+        _wifiPassPage.SetContext(_ctx);
+        await Navigation.PushAsync(_wifiPassPage);
     }
 }

@@ -1,35 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="LinkedLamp.Pages.WifiPage"
+    x:Class="LinkedLamp.Pages.WifiPassPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="WiFi">
 
     <VerticalStackLayout Padding="24" Spacing="12">
         <Label x:Name="MainLabel"
-               Text="Select the WiFi network you want your LinkedLamp to connect to"
+               Text="Enter the password for this WiFi network"
                FontSize="18" />
-
-        <Button x:Name="OpenWifi"
-                Text="Open WiFi settings"
-                IsVisible="False"
-                Clicked="OpenWifiSettings" />
-
-        <Picker x:Name="SsidPicker"
-                Title="Select SSID"
-                SelectedIndexChanged="OnSsidSelected" 
-                IsVisible = "false"/>
-
+        <Label x:Name="SsidLabel"
+                Text=""
+                FontSize="14" />
         <Entry x:Name="PassEntry"
-               Placeholder="Password"
-               IsVisible="False"
+               Placeholder="Wifi password"
                IsPassword="True"
                TextChanged="OnPassEntryChanged"
                MaxLength="63"/>
 
         <Button x:Name="NextButton"
                 Text="Next"
-                IsVisible="False"
                 IsEnabled="False"
                 Clicked="OnNextClicked" />
     </VerticalStackLayout>
