@@ -25,7 +25,6 @@ public static class MauiProgram
         builder.Services.AddTransient<LinkedLamp.Pages.WifiSsidPage>();
         builder.Services.AddTransient<LinkedLamp.Pages.WifiPassPage>();
         builder.Services.AddTransient<LinkedLamp.Pages.GroupPage>();
-        builder.Services.AddTransient<LinkedLamp.Pages.BluetoothMode>();
         builder.Services.AddTransient<LinkedLamp.Pages.ScanPage>();
         builder.Services.AddTransient<LinkedLamp.Pages.SendConfigPage>();
 

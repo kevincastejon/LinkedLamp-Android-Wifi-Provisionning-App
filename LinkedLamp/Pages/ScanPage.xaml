@@ -7,24 +7,10 @@
 
     <VerticalStackLayout Padding="24" Spacing="12">
         <Label x:Name="MainLabel"
-               Text="Scanning for nearby LinkedLamp devices..."
-               FontSize="18" >
-        </Label>
-
-        <Button x:Name="ScanButton"
-                Text="Scan"
-                Clicked="OnScanClicked" />
-
-        <CollectionView x:Name="DevicesView"
-                        SelectionMode="Single"
-                        SelectionChanged="OnDeviceSelected">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="8">
-                        <Label Text="{Binding Name}" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            FontSize="18"
+            Text="Turn on the bluetooth mode on your LinkedLamp device by powering it on while holding the button pressed"/>
+        <Label x:Name="SecondaryLabel"
+            Text="Detecting..."
+            FontSize="18"/>
     </VerticalStackLayout>
 </ContentPage>

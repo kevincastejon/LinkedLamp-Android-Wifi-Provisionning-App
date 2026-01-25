@@ -2,6 +2,7 @@
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Extensions;
+using System;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
@@ -21,14 +22,26 @@ public class EspBleProvisioningService
     private string _groupName = "";
     private string _ssid = "";
     private string _pass = "";
-    EventHandler<CharacteristicUpdatedEventArgs>? _handler;
+    private EventHandler<CharacteristicUpdatedEventArgs>? _handler;
+    private Action<IDevice>? _onDeviceFound = null;
+
+    public Action<IDevice>? OnDeviceFound { get => _onDeviceFound; set => _onDeviceFound = value; }
+
     public EspBleProvisioningService()
     {
         _adapter = CrossBluetoothLE.Current.Adapter;
     }
+    public async Task<HashSet<IDevice>> Scan(string? deviceNameStartWithFilter = null)
+    {
+        return await Scan(deviceNameStartWithFilter, default);
+    }
     public async Task<HashSet<IDevice>> Scan(CancellationToken cancellationToken = default)
     {
-        Dictionary<Guid, IDevice> found = new();
+        return await Scan(null, cancellationToken);
+    }
+    public async Task<HashSet<IDevice>> Scan(string? deviceNameStartWithFilter = null, CancellationToken cancellationToken = default)
+    {
+        Dictionary<Guid, IDevice> found = [];
 
         void Handler(object? sender, DeviceEventArgs e)
         {
@@ -41,7 +54,7 @@ public class EspBleProvisioningService
             if (string.IsNullOrWhiteSpace(name))
                 return;
 
-            if (!name.StartsWith("LinkedLamp_Caskev_", StringComparison.Ordinal))
+            if (deviceNameStartWithFilter != null && !name.StartsWith(deviceNameStartWithFilter, StringComparison.Ordinal))
                 return;
 
             lock (found)
@@ -50,6 +63,10 @@ public class EspBleProvisioningService
                 {
                     found[device.Id] = device;
                 }
+            }
+            if (device != null)
+            {
+                _onDeviceFound?.Invoke(device);
             }
         }
 
@@ -86,7 +103,9 @@ public class EspBleProvisioningService
         }
 
         lock (found)
+        {
             return found.Values.ToHashSet();
+        }
     }
 
     public async Task ConnectAndSetup(IDevice device, string groupName, string ssid, string pass, CancellationToken cancellationToken = default)

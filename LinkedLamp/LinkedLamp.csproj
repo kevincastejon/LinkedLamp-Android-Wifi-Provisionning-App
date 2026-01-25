@@ -63,9 +63,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Pages\BluetoothMode.xaml.cs">
-	    <DependentUpon>BluetoothMode.xaml</DependentUpon>
-	  </Compile>
 	  <Compile Update="Pages\HomePage.xaml.cs">
 	    <DependentUpon>HomePage.xaml</DependentUpon>
 	  </Compile>
@@ -78,9 +75,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Pages\BluetoothMode.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Pages\HomePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -4,13 +4,13 @@ namespace LinkedLamp.Pages;
 
 public partial class GroupPage : ContentPage
 {
-    private readonly BluetoothMode _advertisingPage;
+    private readonly ScanPage _scanPage;
     private ProvisioningContext? _ctx;
 
-    public GroupPage(BluetoothMode advertisingPage)
+    public GroupPage(ScanPage scanPage)
     {
         InitializeComponent();
-        _advertisingPage = advertisingPage;
+        _scanPage = scanPage;
     }
 
     public void SetContext(ProvisioningContext ctx)
@@ -33,8 +33,7 @@ public partial class GroupPage : ContentPage
     {
         if (_ctx == null)
             return;
-
-        _advertisingPage.SetContext(_ctx);
-        await Navigation.PushAsync(_advertisingPage);
+        _scanPage.SetContext(_ctx);
+        await Navigation.PushAsync(_scanPage);
     }
 }

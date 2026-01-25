@@ -54,6 +54,7 @@ public partial class SendConfigPage : ContentPage
         _provCts = null;
         await Navigation.PopAsync();
     }
+
     private async Task RunProvisioningAsync()
     {
         if (_ctx == null || _device == null)
@@ -87,7 +88,7 @@ public partial class SendConfigPage : ContentPage
         {
             success = false;
         }
-
+        //BackButton.IsVisible = !success;
         MainLabel.Text = success
             ? "Configuration sent successfully."
             : "Configuration failed. Please check WiFi credentials and try again.";
