@@ -32,7 +32,7 @@ public partial class SendConfigPage : ContentPage
         _device = device;
         _started = false;
 
-        MainLabel.Text = "Sending configuration...";
+        SecondaryLabel.Text = "Sending configuration...";
         BackWifiButton.IsVisible = false;
         BackHomeButton.IsVisible = false;
     }
@@ -78,14 +78,14 @@ public partial class SendConfigPage : ContentPage
     {
         if (_ctx == null || _device == null)
         {
-            MainLabel.Text = "Missing provisioning data.";
+            SecondaryLabel.Text = "Missing provisioning data.";
             BackWifiButton.IsVisible = true;
             return;
         }
 
         try
         {
-            MainLabel.Text = "Sending configuration...";
+            SecondaryLabel.Text = "Sending configuration...";
 
             await _prov.ProvisionAsync(
                 _device,
@@ -97,7 +97,7 @@ public partial class SendConfigPage : ContentPage
 
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
-                MainLabel.Text = "Configuration sent successfully.";
+                SecondaryLabel.Text = "Configuration sent successfully.";
                 BackWifiButton.IsVisible = false;
                 BackHomeButton.IsVisible = true;
             });
@@ -110,7 +110,7 @@ public partial class SendConfigPage : ContentPage
         {
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
-                MainLabel.Text = "Configuration failed. Please check WiFi credentials and try again.";
+                SecondaryLabel.Text = "Configuration failed. Please check WiFi credentials and try again.";
                 BackWifiButton.IsVisible = true;
                 BackHomeButton.IsVisible = false;
             });

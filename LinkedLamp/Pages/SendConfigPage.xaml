@@ -7,6 +7,9 @@
 
     <VerticalStackLayout Padding="24" Spacing="12">
         <Label x:Name="MainLabel"
+       Text="LinkedLamp detected"
+       FontSize="18" />
+        <Label x:Name="SecondaryLabel"
                Text="Sending configuration..."
                FontSize="18" />
 
