@@ -19,7 +19,7 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
-        builder.Services.AddSingleton<LinkedLamp.Services.EspBleProvisioningService>();
+        builder.Services.AddSingleton<LinkedLamp.Services.LinkedLampBLEService>();
 
         builder.Services.AddTransient<LinkedLamp.Pages.HomePage>();
         builder.Services.AddTransient<LinkedLamp.Pages.PermissionsPage>();

@@ -10,11 +10,6 @@
                Text="Select the WiFi network you want your LinkedLamp to connect to"
                FontSize="18" />
 
-        <Button x:Name="OpenWifi"
-                Text="Open WiFi settings"
-                IsVisible="False"
-                Clicked="OpenWifiSettings" />
-
         <Picker x:Name="SsidPicker"
                 Title="Select SSID"
                 SelectedIndexChanged="OnSsidSelected" 
