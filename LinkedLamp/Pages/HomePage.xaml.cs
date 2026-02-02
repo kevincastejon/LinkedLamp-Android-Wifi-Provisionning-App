@@ -3,16 +3,16 @@ namespace LinkedLamp.Pages;
 public partial class HomePage : ContentPage
 {
     //private readonly WifiSsidPage _wifiPage;
-    private readonly PermissionsPage _permissionsPage;
+    private readonly ScanPage _scanPage;
 
-    public HomePage(PermissionsPage permissionsPage)
+    public HomePage(ScanPage scanPage)
     {
         InitializeComponent();
-        _permissionsPage = permissionsPage;
+        _scanPage = scanPage;
     }
 
     private async void OnStartClicked(object sender, EventArgs e)
     {
-        await Navigation.PushAsync(_permissionsPage);
+        await Navigation.PushAsync(_scanPage);
     }
 }

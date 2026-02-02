@@ -10,11 +10,28 @@
             FontSize="18"
             Text="Turn on the bluetooth mode on your LinkedLamp device by powering it on while holding the button pressed"/>
         <Button
-            x:Name="ScanButton"
-            Text="Start Scan"
+            x:Name="RetryScanAndConnectProcessButton"
+            Text="Retry"
             FontSize="18"
-            Clicked="OnScanButtonClicked"/>
-        
+            Clicked="OnRetryScanAndConnectProcessButtonClicked"/>
+        <Picker x:Name="SsidPicker"
+            Title="Select SSID"
+            SelectedIndexChanged="OnSsidSelected" 
+            IsVisible = "false"/>
+        <Entry x:Name="PassEntry"
+            Placeholder="Wifi password"
+            IsPassword="True"
+            TextChanged="OnPassEntryChanged"
+            MaxLength="63"/>
+        <Entry x:Name="GroupNameEntry"
+            Placeholder="Group name"
+            TextChanged="OnGroupNameChanged"
+            MaxLength="32"/>
+        <Button
+            x:Name="StartProvisionProcessButton"
+            Text="Send configuration"
+            FontSize="18"
+            Clicked="OnStartProvisionProcessButtonClicked"/>
         <Label x:Name="SecondaryLabel"
             Text=""
             FontSize="18"/>

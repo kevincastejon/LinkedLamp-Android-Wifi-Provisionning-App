@@ -25,52 +25,56 @@ public partial class PermissionsPage : ContentPage
     protected async override void OnAppearing()
     {
         base.OnAppearing();
-        PermissionStatus st;
-        try
-        {
-            st = await MauiPermissions.CheckStatusAsync<BluetoothScanPermission>();
-        }
-        catch (Exception)
-        {
-            SecondaryLabel.Text = "Bluetooth permission error.";
-            return;
-        }
-        if (st != PermissionStatus.Granted)
-        {
-            bool canAskPermission;
-            if (!Preferences.Get("PermissionAsked", false))
-            {
-                canAskPermission = true;
-            }
-            else
-            {
-                try
-                {
-                    canAskPermission = MauiPermissions.ShouldShowRationale<BluetoothScanPermission>();
-                }
-                catch (Exception)
-                {
-                    SecondaryLabel.Text = "Bluetooth permission error.";
-                    return;
-                }
-            }
-            if (canAskPermission)
-            {
-                SecondaryLabel.Text = $"";
-            }
-            else
-            {
-                SecondaryLabel.Text = $"Please activate permission in the app settings.";
-            }
-        }
+        StartProcessButton.IsVisible = false;
+        OnStartProcessButtonClicked(new(), new());
+        //PermissionStatus st;
+        //try
+        //{
+        //    st = await MauiPermissions.CheckStatusAsync<BluetoothScanPermission>();
+        //}
+        //catch (Exception)
+        //{
+        //    SecondaryLabel.Text = "Bluetooth permission error.";
+        //    StartProcessButton.IsVisible = true;
+        //    return;
+        //}
+        //if (st != PermissionStatus.Granted)
+        //{
+        //    bool canAskPermission;
+        //    if (!Preferences.Get("PermissionAsked", false))
+        //    {
+        //        canAskPermission = true;
+        //    }
+        //    else
+        //    {
+        //        try
+        //        {
+        //            canAskPermission = MauiPermissions.ShouldShowRationale<BluetoothScanPermission>();
+        //        }
+        //        catch (Exception)
+        //        {
+        //            SecondaryLabel.Text = "Bluetooth permission error.";
+        //            return;
+        //        }
+        //    }
+        //    if (canAskPermission)
+        //    {
+        //        SecondaryLabel.Text = $"";
+        //    }
+        //    else
+        //    {
+        //        SecondaryLabel.Text = $"Please activate permission in the app settings.";
+        //    }
+        //}
     }
 
     protected override async void OnDisappearing()
     {
         base.OnDisappearing();
     }
-    private async void OnScanButtonClicked(object sender, EventArgs e)
+    private async void OnStartProcessButtonClicked(object sender, EventArgs e)
     {
+        StartProcessButton.IsVisible = false;
         PermissionStatus st;
         try
         {
@@ -79,6 +83,7 @@ public partial class PermissionsPage : ContentPage
         catch (Exception)
         {
             SecondaryLabel.Text = "Bluetooth permission error.";
+            StartProcessButton.IsVisible = true;
             return;
         }
         if (st != PermissionStatus.Granted)
@@ -97,6 +102,7 @@ public partial class PermissionsPage : ContentPage
                 catch (Exception)
                 {
                     SecondaryLabel.Text = "Bluetooth permission error.";
+                    StartProcessButton.IsVisible = true;
                     return;
                 }
             }
@@ -110,6 +116,7 @@ public partial class PermissionsPage : ContentPage
                 catch (Exception)
                 {
                     SecondaryLabel.Text = "Bluetooth permission error.";
+                    StartProcessButton.IsVisible = true;
                     return;
                 }
                 if (st != PermissionStatus.Granted)
@@ -122,6 +129,7 @@ public partial class PermissionsPage : ContentPage
                     catch (Exception)
                     {
                         SecondaryLabel.Text = "Bluetooth permission error.";
+                        StartProcessButton.IsVisible = true;
                         return;
                     }
                     if (!canAskAgain)
@@ -131,6 +139,7 @@ public partial class PermissionsPage : ContentPage
                     else
                     {
                         SecondaryLabel.Text = $"Bluetooth permission is mandatory.";
+                        StartProcessButton.IsVisible = true;
                     }
                     return;
                 }
@@ -154,17 +163,19 @@ public partial class PermissionsPage : ContentPage
             bool btEnabled = CrossBluetoothLE.Current.State == BluetoothState.On;
             if (!btEnabled)
             {
-                btEnabled = await Platforms.Android.BluetoothEnabler.RequestEnableAsync();
+                btEnabled = await Platforms.Android.AndroidBluetoothEnabler.RequestEnableAsync();
             }
             if (!btEnabled)
             {
                 SecondaryLabel.Text = "Please activate Bluetooth.";
+                StartProcessButton.IsVisible = true;
                 return;
             }
         }
         catch (Exception)
         {
             SecondaryLabel.Text = "Bluetooth activation error.";
+            StartProcessButton.IsVisible = true;
             return;
         }
         GoToNextPage();

@@ -10,10 +10,10 @@
             FontSize="18"
             Text="Start detecting your LinkedLamp device."/>
         <Button
-            x:Name="ScanButton"
-            Text="Start Detecting"
+            x:Name="StartProcessButton"
+            Text="Retry"
             FontSize="18"
-            Clicked="OnScanButtonClicked"/>        
+            Clicked="OnStartProcessButtonClicked"/>        
         <Label x:Name="SecondaryLabel"
             Text="You might be asked for permissions."
             FontSize="18"/>

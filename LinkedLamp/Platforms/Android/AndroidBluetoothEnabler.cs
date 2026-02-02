@@ -2,10 +2,9 @@
 using Android.App;
 using Android.Bluetooth;
 using Android.Content;
-
 namespace LinkedLamp.Platforms.Android;
 
-public static class BluetoothEnabler
+public static class AndroidBluetoothEnabler
 {
     const int RequestEnableBtCode = 4242;
     static TaskCompletionSource<bool>? _tcs;

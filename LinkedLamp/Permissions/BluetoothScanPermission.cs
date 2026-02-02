@@ -1,7 +1,6 @@
 ﻿#if ANDROID
 using Android.OS;
 #endif
-using Microsoft.Maui.ApplicationModel;
 
 namespace LinkedLamp.Permissions;
 

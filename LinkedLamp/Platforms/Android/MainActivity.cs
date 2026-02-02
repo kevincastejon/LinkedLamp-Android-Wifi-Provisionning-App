@@ -12,7 +12,7 @@ namespace LinkedLamp
         {
             base.OnActivityResult(requestCode, resultCode, data);
 
-            LinkedLamp.Platforms.Android.BluetoothEnabler.OnActivityResult(requestCode, resultCode, data);
+            LinkedLamp.Platforms.Android.AndroidBluetoothEnabler.OnActivityResult(requestCode, resultCode, data);
         }
     }
 }
