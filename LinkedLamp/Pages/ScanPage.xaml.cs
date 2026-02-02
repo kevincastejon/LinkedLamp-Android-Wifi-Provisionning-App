@@ -9,7 +9,6 @@ using LinkedLamp.Permissions;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using MauiPermissions = Microsoft.Maui.ApplicationModel.Permissions;
-using Microsoft.Maui;
 using System.Text.RegularExpressions;
 
 namespace LinkedLamp.Pages;
@@ -18,7 +17,6 @@ public partial class ScanPage : ContentPage
 {
     private const string DeviceNameFilter = "LinkedLamp_Caskev_";
     private readonly LinkedLampBLEService _prov;
-    private readonly WifiSsidPage _wifiSsidPage;
 
     private CancellationTokenSource? _scanAndConnectCts;
     private CancellationTokenSource? _provisionCts;
@@ -28,12 +26,11 @@ public partial class ScanPage : ContentPage
     private string _password = "";
     private string _groupName = "";
 
-    public ScanPage(LinkedLampBLEService prov, WifiSsidPage wifiSsidPage)
+    public ScanPage(LinkedLampBLEService prov)
     {
         InitializeComponent();
         _prov = prov;
         _prov.Verbose = true;
-        _wifiSsidPage = wifiSsidPage;
     }
 
     protected override void OnAppearing()
@@ -117,6 +114,7 @@ public partial class ScanPage : ContentPage
             Log($"[OnScan] <Exception> Scan cancelled.");
             SecondaryLabel.Text = "";
             RetryScanAndConnectProcessButton.IsVisible = true;
+            await DisconnectDevice();
             return false;
         }
         catch (Exception ex)
@@ -124,12 +122,12 @@ public partial class ScanPage : ContentPage
             Log($"[OnScan] <Exception> {ex.Message}.");
             SecondaryLabel.Text = "Error during scan.";
             RetryScanAndConnectProcessButton.IsVisible = true;
+            await DisconnectDevice();
             return false;
         }
         finally
         {
             CancelScanAndDisposeCancellationToken();
-            await DisconnectDevice();
         }
         Log($"[OnScan] Process success.");
         if (ssids.Count == 0)

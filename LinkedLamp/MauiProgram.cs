@@ -22,12 +22,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<LinkedLamp.Services.LinkedLampBLEService>();
 
         builder.Services.AddTransient<LinkedLamp.Pages.HomePage>();
-        builder.Services.AddTransient<LinkedLamp.Pages.PermissionsPage>();
         builder.Services.AddTransient<LinkedLamp.Pages.ScanPage>();
-        builder.Services.AddTransient<LinkedLamp.Pages.WifiSsidPage>();
-        builder.Services.AddTransient<LinkedLamp.Pages.WifiPassPage>();
-        builder.Services.AddTransient<LinkedLamp.Pages.GroupPage>();
-        builder.Services.AddTransient<LinkedLamp.Pages.SendConfigPage>();
 
         return builder.Build();
     }

@@ -1,5 +1,4 @@
-﻿using Android.Health.Connect.DataTypes.Units;
-using Plugin.BLE;
+﻿using Plugin.BLE;
 using Plugin.BLE.Abstractions;
 using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
@@ -238,7 +237,7 @@ public sealed class LinkedLampBLEService
             _isConnected = false;
             _connectedDevice = null;
         }
-        Log($"[DisconnectAsync] Disconnection sucess");
+        Log($"[DisconnectAsync] Disconnection success");
     }
     public async Task<List<string>> RequestSsidList()
     {
@@ -297,7 +296,7 @@ public sealed class LinkedLampBLEService
     {
         if (_appToEspChar == null)
         {
-            Log($"[ConnectAsync] <Exception> AppToEsp characteristic is null.");
+            Log($"[ProvisionAsync] <Exception> AppToEsp characteristic is null.");
             throw new InvalidOperationException("AppToEsp characteristic is null.");
         }
         var payload = SerializeConfiguration(groupName.Trim(), ssid.Trim(), password.Trim());
