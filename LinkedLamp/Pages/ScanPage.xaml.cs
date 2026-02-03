@@ -138,9 +138,13 @@ public partial class ScanPage : ContentPage
             return false;
         }
         Log($"[OnScan] Ssids list : {string.Join(',', ssids)}");
+        SsidPicker.SelectedIndex = -1;
         SsidPicker.ItemsSource = ssids;
         SsidPicker.IsVisible = true;
         SsidPicker.SelectedIndex = 0;
+        PassEntry.IsVisible = true;
+        GroupNameEntry.IsVisible = true;
+        GroupNameEntry.Text = Preferences.Get("GroupName", "");
         return true;
     }
     private async Task<bool> CheckPermissions()
@@ -304,9 +308,6 @@ public partial class ScanPage : ContentPage
         }
         _ssid = SsidPicker.SelectedItem.ToString();
         Log($"[OnSsidSelected] Ssid selected: {_ssid}");
-        PassEntry.IsVisible = true;
-        GroupNameEntry.IsVisible = true;
-        GroupNameEntry.Text = Preferences.Get("GroupName", "");
     }
     private void OnPassEntryChanged(object sender, TextChangedEventArgs e)
     {

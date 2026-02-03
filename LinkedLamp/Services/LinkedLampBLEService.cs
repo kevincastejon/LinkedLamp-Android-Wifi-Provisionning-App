@@ -28,7 +28,6 @@ public sealed class LinkedLampBLEService
     private static readonly Guid SERVICE_UUID = Guid.Parse("6E400001-B5A3-F393-E0A9-E50E24DCCA9E");
     private static readonly Guid APP_TO_ESP_UUID = Guid.Parse("6E400002-B5A3-F393-E0A9-E50E24DCCA9E");
     private static readonly Guid ESP_TO_APP_UUID = Guid.Parse("6E400003-B5A3-F393-E0A9-E50E24DCCA9E");
-
     private readonly IAdapter _adapter;
     private readonly ConcurrentDictionary<Guid, IDevice?> _foundDevices = [];
     private readonly ConcurrentDictionary<int, string> _ssidList = [];
@@ -46,7 +45,6 @@ public sealed class LinkedLampBLEService
     public bool IsScanning => _adapter.IsScanning;
     public bool IsConnected => _isConnected;
     public bool IsConnecting => _isConnecting;
-
     public Action? OnDeviceDisconnected { get => _onDeviceDisconnected; set => _onDeviceDisconnected = value; }
     public bool Verbose { get => _verbose; set => _verbose = value; }
 
@@ -371,7 +369,10 @@ public sealed class LinkedLampBLEService
         Log($"[OnDeviceDisconnected] Device disconnected Id:{e.Device.Id} Name:{e.Device.Name} RSSI:{e.Device.Rssi} .");
         _isConnected = false;
         _connectedDevice = null;
-        _onDeviceDisconnected?.Invoke();
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            _onDeviceDisconnected?.Invoke();
+        });
     }
     private void OnMessageReceived(object? sender, CharacteristicUpdatedEventArgs e)
     {
