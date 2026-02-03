@@ -79,6 +79,19 @@ public sealed class LinkedLampBLEService
         await ConnectAsync(bestDevice, cancellationToken);
         return true;
     }
+    public async Task<IDevice> ScanUntilFindBestDeviceAsync(string? deviceNameStartsWithFilter = null, int delayBetweenScansMs = 500, CancellationToken cancellationToken = default)
+    {
+        IDevice? device = null;
+        while (device == null)
+        {
+            device = await ScanAndFindBestDeviceAsync(deviceNameStartsWithFilter, cancellationToken);
+            if (device == null)
+            {
+                await Task.Delay(delayBetweenScansMs, cancellationToken);
+            }
+        }
+        return device;
+    }
     public async Task<IDevice?> ScanAndFindBestDeviceAsync(string? deviceNameStartsWithFilter = null, CancellationToken cancellationToken = default)
     {
         return (await ScanAndFindDevicesAsync(deviceNameStartsWithFilter, cancellationToken)).FirstOrDefault();
@@ -414,7 +427,7 @@ public sealed class LinkedLampBLEService
     }
     private void OnEspWifiFailed()
     {
-        _provisionTcs?.TrySetResult(false);        
+        _provisionTcs?.TrySetResult(false);
     }
     private async void OnSsidReceived(byte[] ssidMsg)
     {

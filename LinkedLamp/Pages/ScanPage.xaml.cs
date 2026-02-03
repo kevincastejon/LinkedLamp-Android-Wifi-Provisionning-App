@@ -107,7 +107,11 @@ public partial class ScanPage : ContentPage
         Log($"[OnScan] Scan until find and connect to best device process then request ssids list process started.");
         try
         {
-            ssids = await _prov.ScanUntilFindAndConnectToBestDeviceThenRequestSsidsListAsync(DeviceNameFilter, 500, _scanAndConnectCts.Token);
+            IDevice? device = await _prov.ScanUntilFindBestDeviceAsync(DeviceNameFilter, 500, _scanAndConnectCts.Token);
+            MainLabel.Text = "LinkedLamp detected.\nConnecting...";
+            await _prov.ConnectAsync(device);
+            MainLabel.Text = "Connected to LinkedLamp.\nLinkedLamp scanning for WiFi networks...";
+            ssids = await _prov.RequestSsidList();
         }
         catch (System.OperationCanceledException)
         {
@@ -133,8 +137,10 @@ public partial class ScanPage : ContentPage
         if (ssids.Count == 0)
         {
             Log($"[OnScan] <Exception> Ssids list is empty.");
+            MainLabel.Text = "Connected to LinkedLamp.\nLinkedLamp scanning for WiFi networks...";
             SecondaryLabel.Text = "Your LinkedLamp has not found any WiFi network around.";
             RetryScanAndConnectProcessButton.IsVisible = true;
+            await DisconnectDevice();
             return false;
         }
         Log($"[OnScan] Ssids list : {string.Join(',', ssids)}");
