@@ -326,7 +326,7 @@ public partial class ScanPage : ContentPage
         bool espWifiConnected;
         try
         {
-            espWifiConnected = await _prov.ProvisionAsync(_ssid, _password, _groupId, _provisionCts.Token);
+            espWifiConnected = await _prov.ProvisionAsync(_state.Token, _ssid, _password, _groupId, _provisionCts.Token);
         }
         catch (Exception e)
         {

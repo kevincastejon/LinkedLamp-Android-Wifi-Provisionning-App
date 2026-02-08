@@ -48,6 +48,15 @@ public class BackendClient
         _state.Token = null;
         SecureStorage.Remove("UserToken");
     }
+    public async Task ForgotPasswordAsync(string username)
+    {
+        await SendAsync<string>(HttpMethod.Post, "/forgot-password", null, new { username });
+    }
+    public async Task ChangePasswordAsync(string token, string currentPassword, string newPassword)
+    {
+        await SendAsync<string>(HttpMethod.Post, "/me/change-password", token, new { currentPassword, newPassword });
+    }
+
 
     private HttpRequestMessage NewRequest(HttpMethod method, string path, string? token, object? body)
     {

@@ -303,14 +303,14 @@ public sealed class LinkedLampBLEService
         }
         return ssidList;
     }
-    public async Task<bool> ProvisionAsync(string ssid, string password, string groupName, CancellationToken cancellationToken = default)
+    public async Task<bool> ProvisionAsync(string userToken, string ssid, string password, string groupName, CancellationToken cancellationToken = default)
     {
         if (_appToEspChar == null)
         {
             Log($"[ProvisionAsync] <Exception> AppToEsp characteristic is null.");
             throw new InvalidOperationException("AppToEsp characteristic is null.");
         }
-        var payload = SerializeConfiguration(groupName.Trim(), ssid.Trim(), password.Trim());
+        var payload = SerializeConfiguration(userToken.Trim(), groupName.Trim(), ssid.Trim(), password.Trim());
         _provisionTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
         try
         {
@@ -496,15 +496,19 @@ public sealed class LinkedLampBLEService
             Debug.WriteLine($"[LinkedLamp] [LinkedLampBLEService] {message}");
         }
     }
-    private static byte[] SerializeConfiguration(string groupName, string ssid, string pass)
+    private static byte[] SerializeConfiguration(string userToken, string groupName, string ssid, string pass)
     {
         var data = new List<byte>
         {
             (byte)AppToEspMessageType.CONFIGURATION
         };
+        var userTokenBytes = Encoding.UTF8.GetBytes(userToken);
         var groupNameBytes = Encoding.UTF8.GetBytes(groupName);
         var ssidBytes = Encoding.UTF8.GetBytes(ssid);
         var passBytes = Encoding.UTF8.GetBytes(pass);
+
+        data.Add((byte)userTokenBytes.Length);
+        data.AddRange(userTokenBytes);
 
         data.Add((byte)groupNameBytes.Length);
         data.AddRange(groupNameBytes);
