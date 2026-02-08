@@ -11,6 +11,7 @@ using Plugin.BLE.Abstractions.Contracts;
 using MauiPermissions = Microsoft.Maui.ApplicationModel.Permissions;
 using System.Text.RegularExpressions;
 using System.Linq;
+using static LinkedLamp.Services.LinkedLampBLEService;
 
 namespace LinkedLamp.Pages;
 
@@ -323,10 +324,10 @@ public partial class ScanPage : ContentPage
         GroupPicker.IsVisible = false;
         StartProvisionProcessButton.IsVisible = false;
         _provisionCts = new CancellationTokenSource();
-        bool espWifiConnected;
+        ProvisionResult provisionResult;
         try
         {
-            espWifiConnected = await _prov.ProvisionAsync(_state.Token, _ssid, _password, _groupId, _provisionCts.Token);
+            provisionResult = await _prov.ProvisionAsync(_state.Token, _ssid, _password, _groupId, _provisionCts.Token);
         }
         catch (Exception e)
         {
@@ -340,15 +341,21 @@ public partial class ScanPage : ContentPage
             CancelScanAndDisposeCancellationToken();
             await DisconnectDevice();
         }
-        if (espWifiConnected)
+        switch (provisionResult)
         {
-            MainLabel.Text = "The LinkedLamp device is connected to wifi!";
-        }
-        else
-        {
-            MainLabel.Text = "The LinkedLamp device connection to wifi failed.";
-            SecondaryLabel.Text = "Wifi password may be wrong.";
-            RetryScanAndConnectProcessButton.IsVisible = true;
+            case ProvisionResult.CONFIG_OK:
+                MainLabel.Text = "The LinkedLamp device is connected to wifi!";
+                break;
+            case ProvisionResult.WIFI_FAILED:
+                MainLabel.Text = "The LinkedLamp device connection to wifi failed.";
+                SecondaryLabel.Text = "Wifi password may be wrong.";
+                RetryScanAndConnectProcessButton.IsVisible = true;
+                break;
+            case ProvisionResult.CONFIG_FAILED:
+                MainLabel.Text = "The LinkedLamp device connection to LinkedLamp service failed.";
+                SecondaryLabel.Text = "You may have been removed from this group by the owner.";
+                RetryScanAndConnectProcessButton.IsVisible = true;
+                break;
         }
     }
     private async void OnSsidSelected(object? sender, EventArgs e)

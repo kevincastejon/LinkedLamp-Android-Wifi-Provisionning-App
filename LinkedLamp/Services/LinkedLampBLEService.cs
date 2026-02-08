@@ -16,7 +16,8 @@ public sealed class LinkedLampBLEService
         SSID_END,
         CONFIGURATION_ACK,
         CONFIG_OK,
-        WIFI_FAIL
+        WIFI_FAIL,
+        CONFIG_FAIL,
     }
     private enum AppToEspMessageType : byte
     {
@@ -24,6 +25,12 @@ public sealed class LinkedLampBLEService
         SSID_ACK,
         CONFIGURATION,
         CONFIGURATION_END,
+    }
+    public enum ProvisionResult
+    {
+        CONFIG_OK,
+        WIFI_FAILED,
+        CONFIG_FAILED,
     }
     private static readonly Guid SERVICE_UUID = Guid.Parse("6E400001-B5A3-F393-E0A9-E50E24DCCA9E");
     private static readonly Guid APP_TO_ESP_UUID = Guid.Parse("6E400002-B5A3-F393-E0A9-E50E24DCCA9E");
@@ -41,7 +48,7 @@ public sealed class LinkedLampBLEService
     private Action? _onDeviceDisconnected;
     private bool _verbose;
     private TaskCompletionSource? _ssidListTcs;
-    private TaskCompletionSource<bool>? _provisionTcs;
+    private TaskCompletionSource<ProvisionResult>? _provisionTcs;
     public bool IsScanning => _adapter.IsScanning;
     public bool IsConnected => _isConnected;
     public bool IsConnecting => _isConnecting;
@@ -303,7 +310,7 @@ public sealed class LinkedLampBLEService
         }
         return ssidList;
     }
-    public async Task<bool> ProvisionAsync(string userToken, string ssid, string password, string groupName, CancellationToken cancellationToken = default)
+    public async Task<ProvisionResult> ProvisionAsync(string userToken, string ssid, string password, string groupName, CancellationToken cancellationToken = default)
     {
         if (_appToEspChar == null)
         {
@@ -311,7 +318,7 @@ public sealed class LinkedLampBLEService
             throw new InvalidOperationException("AppToEsp characteristic is null.");
         }
         var payload = SerializeConfiguration(userToken.Trim(), groupName.Trim(), ssid.Trim(), password.Trim());
-        _provisionTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        _provisionTcs = new TaskCompletionSource<ProvisionResult>(TaskCreationOptions.RunContinuationsAsynchronously);
         try
         {
             await _appToEspChar.WriteAsync(payload, cancellationToken);
@@ -322,9 +329,9 @@ public sealed class LinkedLampBLEService
             Log($"[DisconnectAsync] <Native Exception> {e.Message}");
             throw;
         }
-        bool espWifiConnected = await _provisionTcs.Task;
+        ProvisionResult provisionResult = await _provisionTcs.Task;
         _provisionTcs = null;
-        return espWifiConnected;
+        return provisionResult;
     }
     private async Task SetupBLEService(CancellationToken cancellationToken)
     {
@@ -417,17 +424,24 @@ public sealed class LinkedLampBLEService
             case EspToAppMessageType.WIFI_FAIL:
                 OnEspWifiFailed();
                 break;
+            case EspToAppMessageType.CONFIG_FAIL:
+                OnEspConfigFailed();
+                break;
             default:
                 break;
         }
     }
     private void OnEspWifiConnected()
     {
-        _provisionTcs?.TrySetResult(true);
+        _provisionTcs?.TrySetResult(ProvisionResult.CONFIG_OK);
     }
     private void OnEspWifiFailed()
     {
-        _provisionTcs?.TrySetResult(false);
+        _provisionTcs?.TrySetResult(ProvisionResult.WIFI_FAILED);
+    }
+    private void OnEspConfigFailed()
+    {
+        _provisionTcs?.TrySetResult(ProvisionResult.CONFIG_FAILED);
     }
     private async void OnSsidReceived(byte[] ssidMsg)
     {
