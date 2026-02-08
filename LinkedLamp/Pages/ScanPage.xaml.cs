@@ -10,6 +10,7 @@ using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using MauiPermissions = Microsoft.Maui.ApplicationModel.Permissions;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace LinkedLamp.Pages;
 
@@ -24,19 +25,47 @@ public partial class ScanPage : ContentPage
 
     private string _ssid = "";
     private string _password = "";
-    private string _groupName = "";
+    private string _groupId = "";
 
-    public ScanPage(LinkedLampBLEService prov)
+    private readonly AppState _state;
+    private readonly BackendClient _backend;
+
+    public ScanPage(LinkedLampBLEService prov, AppState state, BackendClient backend)
     {
         InitializeComponent();
         _prov = prov;
+        _state = state;
+        _backend = backend;
         _prov.Verbose = true;
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
-        StartScanAndConnectProcess();
         base.OnAppearing();
+        if (string.IsNullOrWhiteSpace(_state.Token))
+        {
+            await Navigation.PopToRootAsync();
+            return;
+        }
+        try
+        {
+            var groups = await _backend.GetGroupsAsync(_state.Token);
+            _state.GroupsCache = groups;
+        }
+        catch (BackendAuthException)
+        {
+            _backend.ClearToken();
+            _state.GroupsCache.Clear();
+            await Navigation.PopToRootAsync();
+            return;
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", ex.Message, "OK");
+            await Navigation.PopAsync();
+            return;
+        }
+        StartScanAndConnectProcess();
     }
     protected override void OnDisappearing()
     {
@@ -78,7 +107,7 @@ public partial class ScanPage : ContentPage
         RetryScanAndConnectProcessButton.IsVisible = false;
         SsidPicker.IsVisible = false;
         PassEntry.IsVisible = false;
-        GroupNameEntry.IsVisible = false;
+        GroupPicker.IsVisible = false;
         StartProvisionProcessButton.IsVisible = false;
         MainLabel.Text = "Detecting LinkedLamp device...";
         SecondaryLabel.Text = "";
@@ -90,7 +119,7 @@ public partial class ScanPage : ContentPage
         {
             return;
         }
-        MainLabel.Text = "Select a WiFi network then enter WiFi password and the LinkedLamp Group you want your LinkedLamp to use";
+        MainLabel.Text = "Select a WiFi network then enter WiFi password and select the LinkedLamp group you want your LinkedLamp to use";
         SecondaryLabel.Text = "";
     }
     private async Task<bool> ScanAndConnect()
@@ -149,8 +178,24 @@ public partial class ScanPage : ContentPage
         SsidPicker.IsVisible = true;
         SsidPicker.SelectedIndex = 0;
         PassEntry.IsVisible = true;
-        GroupNameEntry.IsVisible = true;
-        GroupNameEntry.Text = Preferences.Get("GroupName", "");
+        GroupPicker.IsVisible = true;
+        GroupPicker.ItemsSource = _state.GroupsCache;
+        var selectedId = Preferences.Get("SelectedGroupId", "");
+        if (!string.IsNullOrWhiteSpace(selectedId))
+        {
+            var g = _state.GroupsCache.FirstOrDefault(x => x.Id == selectedId);
+            if (g != null) GroupPicker.SelectedItem = g;
+        }
+        if (GroupPicker.SelectedItem == null && _state.GroupsCache.Count > 0)
+        {
+            GroupPicker.SelectedItem = _state.GroupsCache[0];
+        }
+        if (GroupPicker.SelectedItem is GroupDto g2)
+        {
+            _groupId = g2.Id ?? "";
+            Preferences.Set("SelectedGroupId", _groupId);
+        }
+        StartProvisionProcessButton.IsVisible = !string.IsNullOrWhiteSpace(_groupId) && _groupId.Length > 2;
         return true;
     }
     private async Task<bool> CheckPermissions()
@@ -275,13 +320,13 @@ public partial class ScanPage : ContentPage
     {
         SsidPicker.IsVisible = false;
         PassEntry.IsVisible = false;
-        GroupNameEntry.IsVisible = false;
+        GroupPicker.IsVisible = false;
         StartProvisionProcessButton.IsVisible = false;
         _provisionCts = new CancellationTokenSource();
         bool espWifiConnected;
         try
         {
-            espWifiConnected = await _prov.ProvisionAsync(_ssid, _password, _groupName, _provisionCts.Token);
+            espWifiConnected = await _prov.ProvisionAsync(_ssid, _password, _groupId, _provisionCts.Token);
         }
         catch (Exception e)
         {
@@ -324,16 +369,12 @@ public partial class ScanPage : ContentPage
         }
         _password = filtered;
     }
-    private void OnGroupNameChanged(object sender, TextChangedEventArgs e)
+    private void OnGroupSelected(object? sender, EventArgs e)
     {
-        string filtered = Regex.Replace(e.NewTextValue, @"[^\x20-\x7E]", "");
-        if (filtered != e.NewTextValue)
-        {
-            ((Entry)sender).Text = filtered;
-        }
-        _groupName = filtered;
-        Preferences.Set("GroupName", _groupName);
-        StartProvisionProcessButton.IsVisible = e.NewTextValue.Length > 2;
+        if (GroupPicker.SelectedItem is not GroupDto g) return;
+        _groupId = g.Id ?? "";
+        Preferences.Set("SelectedGroupId", _groupId);
+        StartProvisionProcessButton.IsVisible = !string.IsNullOrWhiteSpace(_groupId) && _groupId.Length > 2;
     }
     private async void OnDeviceDisconnected()
     {
@@ -343,7 +384,7 @@ public partial class ScanPage : ContentPage
         RetryScanAndConnectProcessButton.IsVisible = true;
         SsidPicker.IsVisible = false;
         PassEntry.IsVisible = false;
-        GroupNameEntry.IsVisible = false;
+        GroupPicker.IsVisible = false;
         StartProvisionProcessButton.IsVisible = false;
         MainLabel.Text = "Detecting LinkedLamp device...";
         SecondaryLabel.Text = "Your LinkedLamp device has disconnected.";

@@ -5,12 +5,23 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     Title="Home">
 
-    <VerticalStackLayout Padding="24" Spacing="16">
-        <Label x:Name="MainLabel"
-               Text="This app will guide you on the configuration of your LinkedLamp devices"
-               FontSize="18" />
+    <Grid Padding="24" RowDefinitions="Auto,*" RowSpacing="16">
+        <Label
+            Text="LinkedLamp"
+            FontSize="22"
+            Grid.Row="0" />
 
-        <Button Text="Start"
-                Clicked="OnStartClicked" />
-    </VerticalStackLayout>
+        <VerticalStackLayout Grid.Row="1" Spacing="12">
+            <VerticalStackLayout x:Name="LoggedOutLayout" Spacing="12" IsVisible="False">
+                <Button Text="Create account" Clicked="OnCreateAccountClicked" />
+                <Button Text="Connect to account" Clicked="OnConnectToAccountClicked" />
+                <Button Text="I forgot my password" Clicked="OnForgotPasswordClicked" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout x:Name="LoggedInLayout" Spacing="12" IsVisible="False">
+                <Button Text="Manage groups" Clicked="OnManageGroupsClicked" />
+                <Button Text="Configure LinkedLamp" Clicked="OnConfigureLinkedLampClicked" />
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

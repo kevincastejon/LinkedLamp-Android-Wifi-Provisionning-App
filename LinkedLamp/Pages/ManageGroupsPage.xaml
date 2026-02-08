@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LinkedLamp.Pages.ManageGroupsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Manage groups">
+
+    <Grid Padding="24" RowDefinitions="Auto,*,Auto" RowSpacing="12">
+        <Label x:Name="StatusLabel" Text="" Grid.Row="0" />
+        <CollectionView x:Name="GroupsView" Grid.Row="1" SelectionMode="Single" SelectionChanged="OnGroupSelected">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="8" ColumnDefinitions="*,Auto">
+                        <Label Text="{Binding Name}" FontSize="18" />
+                        <Label Text="{Binding Role}" Grid.Column="1" VerticalTextAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Grid.Row="2" Text="Create group" Clicked="OnCreateGroupClicked" />
+    </Grid>
+</ContentPage>

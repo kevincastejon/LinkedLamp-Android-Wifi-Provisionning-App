@@ -6,5 +6,13 @@
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30" />
 	<uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" />
 	<uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
-	<application android:enableOnBackInvokedCallback="true" android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true" android:label="Linked Lamp"></application>
+	<application 
+		android:enableOnBackInvokedCallback="true" 
+		android:allowBackup="true" 
+		android:icon="@mipmap/appicon" 
+		android:supportsRtl="true" 
+		android:label="Linked Lamp"
+		android:usesCleartextTraffic="true">
+	>
+        </application>
 </manifest>

@@ -23,10 +23,10 @@
             IsPassword="True"
             TextChanged="OnPassEntryChanged"
             MaxLength="63"/>
-        <Entry x:Name="GroupNameEntry"
-            Placeholder="Group name"
-            TextChanged="OnGroupNameChanged"
-            MaxLength="32"/>
+        <Picker x:Name="GroupPicker"
+            Title="Select group"
+            SelectedIndexChanged="OnGroupSelected"
+            IsVisible="false"/>
         <Button
             x:Name="StartProvisionProcessButton"
             Text="Send configuration"
