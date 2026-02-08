@@ -73,5 +73,14 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
+<PropertyGroup Condition="'$(TargetFramework)'=='net10.0-android' and '$(Configuration)'=='Release'">
+  <AndroidPackageFormat>apk</AndroidPackageFormat>
+
+  <AndroidKeyStore>true</AndroidKeyStore>
+  <AndroidSigningKeyStore>C:\keys\linkedlamp-release.jks</AndroidSigningKeyStore>
+  <AndroidSigningKeyAlias>linkedlamp</AndroidSigningKeyAlias>
+  <AndroidSigningStorePass>YOUR_STORE_PASSWORD</AndroidSigningStorePass>
+  <AndroidSigningKeyPass>YOUR_KEY_PASSWORD</AndroidSigningKeyPass>
+</PropertyGroup>
 
 </Project>
