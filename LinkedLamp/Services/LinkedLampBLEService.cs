@@ -15,7 +15,7 @@ public sealed class LinkedLampBLEService
         SSID,
         SSID_END,
         CONFIGURATION_ACK,
-        CONFIG_FAILED,
+        CONFIG_OK,
         WIFI_FAIL
     }
     private enum AppToEspMessageType : byte
@@ -411,7 +411,7 @@ public sealed class LinkedLampBLEService
             case EspToAppMessageType.SSID_END:
                 OnSsidEndReceived();
                 break;
-            case EspToAppMessageType.CONFIG_FAILED:
+            case EspToAppMessageType.CONFIG_OK:
                 OnEspWifiConnected();
                 break;
             case EspToAppMessageType.WIFI_FAIL:
