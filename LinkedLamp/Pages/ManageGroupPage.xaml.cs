@@ -10,6 +10,7 @@ public partial class ManageGroupPage : ContentPage
     private string? _groupId;
     private GroupDto? _group;
     private List<MemberDto> _members = new();
+    private bool _refreshInProgress;
 
     public ManageGroupPage(AppState state, BackendClient backend)
     {
@@ -29,10 +30,15 @@ public partial class ManageGroupPage : ContentPage
         await LoadAsync();
     }
 
-    private async Task LoadAsync()
+    private async Task LoadAsync(bool clearList = true, bool showLoadingLabel = true)
     {
-        StatusLabel.Text = "Loading...";
-        MembersView.ItemsSource = null;
+        if (showLoadingLabel)
+            StatusLabel.Text = "Loading...";
+        else
+            StatusLabel.Text = "";
+
+        if (clearList)
+            MembersView.ItemsSource = null;
 
         if (string.IsNullOrWhiteSpace(_state.Token) || string.IsNullOrWhiteSpace(_groupId))
         {
@@ -80,37 +86,38 @@ public partial class ManageGroupPage : ContentPage
         DeleteButton.IsVisible = _group.CanDelete;
         LeaveButton.IsVisible = _group.CanLeave;
         AddUserButton.IsVisible = _group.CanManageMembers;
+        Log($"[LoadAsync] CanManageMembers {_group.CanManageMembers}");
 
-        if (_group.CanManageMembers)
+        try
         {
-            try
-            {
-                _members = await _backend.ListMembersAsync(_state.Token, _groupId);
-                MembersView.ItemsSource = _members.Select(m => new MemberRow(m, CanRemoveMember(m))).ToList();
-            }
-            catch (BackendHttpException ex)
-            {
-                StatusLabel.Text = ex.Code ?? ex.Message;
-            }
-            catch (BackendAuthException)
-            {
-                _backend.ClearToken();
-                _state.GroupsCache.Clear();
-                await Navigation.PopToRootAsync();
-                return;
-            }
-            catch (Exception ex)
-            {
-                StatusLabel.Text = ex.Message;
-            }
+            _members = await _backend.ListMembersAsync(_state.Token, _groupId);
+            Log($"[LoadAsync] Members count {_members.Count}");
+            MembersView.ItemsSource = _members.Select(m => new MemberRow(m, CanRemoveMember(m))).ToList();
         }
-        else
+        catch (BackendHttpException ex)
         {
-            MembersView.ItemsSource = new List<MemberRow>();
+            Log($"[LoadAsync] <Exception> BackendHttpException {ex.Message}");
+            StatusLabel.Text = ex.Code ?? ex.Message;
+            return;
+        }
+        catch (BackendAuthException ex)
+        {
+            Log($"[LoadAsync] <Exception> BackendAuthException {ex.Message}");
+            _backend.ClearToken();
+            _state.GroupsCache.Clear();
+            await Navigation.PopToRootAsync();
+            return;
+        }
+        catch (Exception ex)
+        {
+            Log($"[LoadAsync] <Exception> {ex.Message}");
+            StatusLabel.Text = ex.Message;
+            return;
         }
 
         StatusLabel.Text = "";
     }
+
 
     private bool CanRemoveMember(MemberDto m)
     {
@@ -266,9 +273,34 @@ public partial class ManageGroupPage : ContentPage
             await DisplayAlert("Error", ex.Message, "OK");
         }
     }
+    private async void OnMembersRefreshing(object sender, EventArgs e)
+    {
+        if (_refreshInProgress)
+        {
+            MembersRefreshView.IsRefreshing = false;
+            return;
+        }
+
+        _refreshInProgress = true;
+
+        try
+        {
+            await LoadAsync(clearList: false, showLoadingLabel: false);
+        }
+        finally
+        {
+            _refreshInProgress = false;
+            MembersRefreshView.IsRefreshing = false;
+        }
+    }
+
 
     private record MemberRow(string UserId, string Username, string Role, bool CanRemove)
     {
         public MemberRow(MemberDto m, bool canRemove) : this(m.UserId ?? "", m.Username ?? "", m.Role ?? "", canRemove) { }
+    }
+    private void Log(string message)
+    {
+        System.Diagnostics.Debug.WriteLine($"[LinkedLamp] [ManageGroupPage] {message}");
     }
 }

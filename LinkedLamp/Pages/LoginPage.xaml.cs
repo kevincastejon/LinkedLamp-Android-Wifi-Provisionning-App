@@ -6,7 +6,7 @@ public partial class LoginPage : ContentPage
 {
     private readonly AppState _state;
     private readonly BackendClient _backend;
-
+    private bool _passwordVisible;
     public LoginPage(AppState state, BackendClient backend)
     {
         InitializeComponent();
@@ -41,5 +41,15 @@ public partial class LoginPage : ContentPage
         {
             StatusLabel.Text = ex.Message;
         }
+    }
+    private void OnTogglePasswordClicked(object sender, EventArgs e)
+    {
+        _passwordVisible = !_passwordVisible;
+
+        PasswordEntry.IsPassword = !_passwordVisible;
+
+        TogglePasswordButton.Source = _passwordVisible
+            ? "eye_open.png"
+            : "eye_closed.png";
     }
 }

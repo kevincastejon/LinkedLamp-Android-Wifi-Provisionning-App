@@ -8,6 +8,8 @@ public partial class ManageGroupsPage : ContentPage
     private readonly BackendClient _backend;
     private readonly ManageGroupPage _manageGroupPage;
 
+    private bool _refreshInProgress;
+
     public ManageGroupsPage(AppState state, BackendClient backend, ManageGroupPage manageGroupPage)
     {
         InitializeComponent();
@@ -19,13 +21,36 @@ public partial class ManageGroupsPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await RefreshGroupsAsync();
+        await RefreshGroupsAsync(clearList: true);
     }
 
-    private async Task RefreshGroupsAsync()
+    private async void OnGroupsRefreshing(object sender, EventArgs e)
+    {
+        if (_refreshInProgress)
+        {
+            GroupsRefreshView.IsRefreshing = false;
+            return;
+        }
+
+        _refreshInProgress = true;
+
+        try
+        {
+            await RefreshGroupsAsync(clearList: false);
+        }
+        finally
+        {
+            _refreshInProgress = false;
+            GroupsRefreshView.IsRefreshing = false;
+        }
+    }
+
+    private async Task RefreshGroupsAsync(bool clearList)
     {
         StatusLabel.Text = "Loading...";
-        GroupsView.ItemsSource = null;
+
+        if (clearList)
+            GroupsView.ItemsSource = null;
 
         if (string.IsNullOrWhiteSpace(_state.Token))
         {
@@ -64,7 +89,7 @@ public partial class ManageGroupsPage : ContentPage
         try
         {
             await _backend.CreateGroupAsync(_state.Token, name.Trim());
-            await RefreshGroupsAsync();
+            await RefreshGroupsAsync(clearList: true);
         }
         catch (BackendAuthException)
         {

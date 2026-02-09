@@ -10,7 +10,6 @@ using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using MauiPermissions = Microsoft.Maui.ApplicationModel.Permissions;
 using System.Text.RegularExpressions;
-using System.Linq;
 using static LinkedLamp.Services.LinkedLampBLEService;
 
 namespace LinkedLamp.Pages;
@@ -30,6 +29,7 @@ public partial class ScanPage : ContentPage
 
     private readonly AppState _state;
     private readonly BackendClient _backend;
+    private bool _passwordVisible;
 
     public ScanPage(LinkedLampBLEService prov, AppState state, BackendClient backend)
     {
@@ -108,6 +108,7 @@ public partial class ScanPage : ContentPage
         RetryScanAndConnectProcessButton.IsVisible = false;
         SsidPicker.IsVisible = false;
         PassEntry.IsVisible = false;
+        TogglePasswordButton.IsVisible = false;
         GroupPicker.IsVisible = false;
         StartProvisionProcessButton.IsVisible = false;
         MainLabel.Text = "Detecting LinkedLamp device...";
@@ -179,6 +180,7 @@ public partial class ScanPage : ContentPage
         SsidPicker.IsVisible = true;
         SsidPicker.SelectedIndex = 0;
         PassEntry.IsVisible = true;
+        TogglePasswordButton.IsVisible = true;
         GroupPicker.IsVisible = true;
         GroupPicker.ItemsSource = _state.GroupsCache;
         var selectedId = Preferences.Get("SelectedGroupId", "");
@@ -321,6 +323,7 @@ public partial class ScanPage : ContentPage
     {
         SsidPicker.IsVisible = false;
         PassEntry.IsVisible = false;
+        TogglePasswordButton.IsVisible = false;
         GroupPicker.IsVisible = false;
         StartProvisionProcessButton.IsVisible = false;
         _provisionCts = new CancellationTokenSource();
@@ -344,15 +347,15 @@ public partial class ScanPage : ContentPage
         switch (provisionResult)
         {
             case ProvisionResult.CONFIG_OK:
-                MainLabel.Text = "The LinkedLamp device is connected to wifi!";
+                MainLabel.Text = "The LinkedLamp is configured!";
                 break;
             case ProvisionResult.WIFI_FAILED:
-                MainLabel.Text = "The LinkedLamp device connection to wifi failed.";
+                MainLabel.Text = "The LinkedLamp connection to wifi failed.";
                 SecondaryLabel.Text = "Wifi password may be wrong.";
                 RetryScanAndConnectProcessButton.IsVisible = true;
                 break;
             case ProvisionResult.CONFIG_FAILED:
-                MainLabel.Text = "The LinkedLamp device connection to LinkedLamp service failed.";
+                MainLabel.Text = "The LinkedLamp connection to service failed.";
                 SecondaryLabel.Text = "You may have been removed from this group by the owner.";
                 RetryScanAndConnectProcessButton.IsVisible = true;
                 break;
@@ -391,6 +394,7 @@ public partial class ScanPage : ContentPage
         RetryScanAndConnectProcessButton.IsVisible = true;
         SsidPicker.IsVisible = false;
         PassEntry.IsVisible = false;
+        TogglePasswordButton.IsVisible = false;
         GroupPicker.IsVisible = false;
         StartProvisionProcessButton.IsVisible = false;
         MainLabel.Text = "Detecting LinkedLamp device...";
@@ -484,5 +488,15 @@ public partial class ScanPage : ContentPage
         {
             System.Diagnostics.Debug.WriteLine($"[LinkedLamp] [ScanPage] {message}");
         }
+    }
+    private void OnTogglePasswordClicked(object sender, EventArgs e)
+    {
+        _passwordVisible = !_passwordVisible;
+
+        PassEntry.IsPassword = !_passwordVisible;
+
+        TogglePasswordButton.Source = _passwordVisible
+            ? "eye_open.png"
+            : "eye_closed.png";
     }
 }

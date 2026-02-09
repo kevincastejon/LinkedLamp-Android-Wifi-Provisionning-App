@@ -7,7 +7,20 @@
 
     <VerticalStackLayout Padding="24" Spacing="12">
         <Entry x:Name="UsernameEntry" Placeholder="Username" />
-        <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
+        <Grid>
+            <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
+            <ImageButton
+                x:Name="TogglePasswordButton"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Margin="0,0,8,0"
+                BackgroundColor="Transparent"
+                WidthRequest="32"
+                HeightRequest="32"
+                Padding="4"
+                Clicked="OnTogglePasswordClicked"
+                Source="eye_closed.png" />
+        </Grid>
         <Button Text="Login" Clicked="OnLoginClicked" />
         <Label x:Name="StatusLabel" Text="" />
     </VerticalStackLayout>

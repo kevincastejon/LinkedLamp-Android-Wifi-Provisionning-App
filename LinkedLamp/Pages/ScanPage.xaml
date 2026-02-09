@@ -18,11 +18,24 @@
             Title="Select SSID"
             SelectedIndexChanged="OnSsidSelected" 
             IsVisible = "false"/>
-        <Entry x:Name="PassEntry"
-            Placeholder="Wifi password"
-            IsPassword="True"
-            TextChanged="OnPassEntryChanged"
-            MaxLength="63"/>
+        <Grid>
+            <Entry x:Name="PassEntry"
+                Placeholder="Wifi password"
+                IsPassword="True"
+                TextChanged="OnPassEntryChanged"
+                MaxLength="63"/>
+            <ImageButton
+                x:Name="TogglePasswordButton"
+                HorizontalOptions="End"
+                VerticalOptions="Center"
+                Margin="0,0,8,0"
+                BackgroundColor="Transparent"
+                WidthRequest="32"
+                HeightRequest="32"
+                Padding="4"
+                Clicked="OnTogglePasswordClicked"
+                Source="eye_closed.png" />
+        </Grid>
         <Picker x:Name="GroupPicker"
             Title="Select group"
             SelectedIndexChanged="OnGroupSelected"

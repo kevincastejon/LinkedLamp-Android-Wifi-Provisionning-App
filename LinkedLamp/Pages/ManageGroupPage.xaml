@@ -14,8 +14,8 @@
             <Button x:Name="AddUserButton" Text="Add user" Clicked="OnAddUserClicked" IsVisible="False" />
             <Button x:Name="DeleteButton" Text="Delete" Clicked="OnDeleteClicked" IsVisible="False" />
         </HorizontalStackLayout>
-
-        <CollectionView x:Name="MembersView" Grid.Row="2">
+        <RefreshView x:Name="MembersRefreshView" Grid.Row="2" Refreshing="OnMembersRefreshing">
+            <CollectionView x:Name="MembersView" Grid.Row="2">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="8" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
@@ -26,7 +26,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
+        </RefreshView>
         <Label x:Name="StatusLabel" Text="" Grid.Row="3" />
     </Grid>
 </ContentPage>
