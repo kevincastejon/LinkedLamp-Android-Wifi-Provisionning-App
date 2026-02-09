@@ -3,6 +3,7 @@
     x:Class="LinkedLamp.Pages.HomePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:i18n="clr-namespace:LinkedLamp.Resources.Strings"
     Title="Home">
 
     <Grid Padding="24" RowDefinitions="Auto,*" RowSpacing="16">
@@ -13,7 +14,7 @@
 
         <VerticalStackLayout Grid.Row="1" Spacing="12">
             <VerticalStackLayout x:Name="LoggedOutLayout" Spacing="12" IsVisible="False">
-                <Button Text="Create account" Clicked="OnCreateAccountClicked" />
+                <Button Text="{x:Static i18n:AppResources.CreateAccount}" Clicked="OnCreateAccountClicked" />
                 <Button Text="Connect to account" Clicked="OnConnectToAccountClicked" />
                 <Button Text="I forgot my password" Clicked="OnForgotPasswordClicked" />
             </VerticalStackLayout>
