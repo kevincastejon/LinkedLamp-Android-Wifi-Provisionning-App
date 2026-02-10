@@ -61,11 +61,101 @@ namespace LinkedLamp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Configure LinkedLamp.
+        /// </summary>
+        public static string ConfigureLinkedLampButton {
+            get {
+                return ResourceManager.GetString("ConfigureLinkedLampButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Connect to account.
+        /// </summary>
+        public static string ConnectToAccount {
+            get {
+                return ResourceManager.GetString("ConnectToAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Create account.
         /// </summary>
         public static string CreateAccount {
             get {
                 return ResourceManager.GetString("CreateAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à I forgot my password.
+        /// </summary>
+        public static string ForgotPassword {
+            get {
+                return ResourceManager.GetString("ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Cancel.
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_Cancel {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Change password.
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_ChangePassword {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Delete account.
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_DeleteAccount {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_DeleteAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Logout.
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_Logout {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Account.
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_Title {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Home.
+        /// </summary>
+        public static string HomePageTitle {
+            get {
+                return ResourceManager.GetString("HomePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Manage groups.
+        /// </summary>
+        public static string ManageGroupsButton {
+            get {
+                return ResourceManager.GetString("ManageGroupsButton", resourceCulture);
             }
         }
     }
