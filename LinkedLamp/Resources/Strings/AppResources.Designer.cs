@@ -635,5 +635,275 @@ namespace LinkedLamp.Resources.Strings {
                 return ResourceManager.GetString("Register_UsernamePasswordRequired", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à activate the permission {0} in the app settings.
+        /// </summary>
+        public static string Scan_AppSettingsLinkText {
+            get {
+                return ResourceManager.GetString("Scan_AppSettingsLinkText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Bluetooth activation error..
+        /// </summary>
+        public static string Scan_BluetoothActivationError {
+            get {
+                return ResourceManager.GetString("Scan_BluetoothActivationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Bluetooth permission denied. Please .
+        /// </summary>
+        public static string Scan_BluetoothPermissionDenied_Prefix {
+            get {
+                return ResourceManager.GetString("Scan_BluetoothPermissionDenied_Prefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Bluetooth permission error..
+        /// </summary>
+        public static string Scan_BluetoothPermissionError {
+            get {
+                return ResourceManager.GetString("Scan_BluetoothPermissionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Bluetooth permission is mandatory..
+        /// </summary>
+        public static string Scan_BluetoothPermissionMandatory {
+            get {
+                return ResourceManager.GetString("Scan_BluetoothPermissionMandatory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à You may have been removed from this group by the owner..
+        /// </summary>
+        public static string Scan_ConfigFailed_Subtitle {
+            get {
+                return ResourceManager.GetString("Scan_ConfigFailed_Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The LinkedLamp connection to service failed..
+        /// </summary>
+        public static string Scan_ConfigFailed_Title {
+            get {
+                return ResourceManager.GetString("Scan_ConfigFailed_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The LinkedLamp is configured!.
+        /// </summary>
+        public static string Scan_ConfigOk {
+            get {
+                return ResourceManager.GetString("Scan_ConfigOk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Connected to LinkedLamp. LinkedLamp scanning for WiFi networks....
+        /// </summary>
+        public static string Scan_ConnectedScanningWifi {
+            get {
+                return ResourceManager.GetString("Scan_ConnectedScanningWifi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Detecting LinkedLamp device....
+        /// </summary>
+        public static string Scan_DetectingDevice {
+            get {
+                return ResourceManager.GetString("Scan_DetectingDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Your LinkedLamp device has disconnected..
+        /// </summary>
+        public static string Scan_DeviceDisconnected_Message {
+            get {
+                return ResourceManager.GetString("Scan_DeviceDisconnected_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Error during provisioning..
+        /// </summary>
+        public static string Scan_ErrorDuringProvisioning {
+            get {
+                return ResourceManager.GetString("Scan_ErrorDuringProvisioning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Error during scan..
+        /// </summary>
+        public static string Scan_ErrorDuringScan {
+            get {
+                return ResourceManager.GetString("Scan_ErrorDuringScan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Select group.
+        /// </summary>
+        public static string Scan_GroupPicker_Title {
+            get {
+                return ResourceManager.GetString("Scan_GroupPicker_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à LinkedLamp detected. Connecting....
+        /// </summary>
+        public static string Scan_LinkedLampDetectedConnecting {
+            get {
+                return ResourceManager.GetString("Scan_LinkedLampDetectedConnecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Location.
+        /// </summary>
+        public static string Scan_Location {
+            get {
+                return ResourceManager.GetString("Scan_Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à System location disabled. Please .
+        /// </summary>
+        public static string Scan_LocationDisabled_Prefix {
+            get {
+                return ResourceManager.GetString("Scan_LocationDisabled_Prefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à activate the location.
+        /// </summary>
+        public static string Scan_LocationLinkText {
+            get {
+                return ResourceManager.GetString("Scan_LocationLinkText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Turn on the bluetooth mode on your LinkedLamp device by powering it on while holding the button pressed.
+        /// </summary>
+        public static string Scan_MainInstruction {
+            get {
+                return ResourceManager.GetString("Scan_MainInstruction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Nearby Devices.
+        /// </summary>
+        public static string Scan_NearbyDevices {
+            get {
+                return ResourceManager.GetString("Scan_NearbyDevices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Your LinkedLamp has not found any WiFi network around..
+        /// </summary>
+        public static string Scan_NoWifiFound {
+            get {
+                return ResourceManager.GetString("Scan_NoWifiFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Please activate Bluetooth..
+        /// </summary>
+        public static string Scan_PleaseActivateBluetooth {
+            get {
+                return ResourceManager.GetString("Scan_PleaseActivateBluetooth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Retry.
+        /// </summary>
+        public static string Scan_Retry {
+            get {
+                return ResourceManager.GetString("Scan_Retry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Select a WiFi network then enter WiFi password and select the LinkedLamp group you want your LinkedLamp to use.
+        /// </summary>
+        public static string Scan_SelectWifiThenPasswordAndGroup {
+            get {
+                return ResourceManager.GetString("Scan_SelectWifiThenPasswordAndGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Send configuration.
+        /// </summary>
+        public static string Scan_SendConfiguration {
+            get {
+                return ResourceManager.GetString("Scan_SendConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Select SSID.
+        /// </summary>
+        public static string Scan_SsidPicker_Title {
+            get {
+                return ResourceManager.GetString("Scan_SsidPicker_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Scan.
+        /// </summary>
+        public static string Scan_Title {
+            get {
+                return ResourceManager.GetString("Scan_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Wifi password may be wrong..
+        /// </summary>
+        public static string Scan_WifiFailed_Subtitle {
+            get {
+                return ResourceManager.GetString("Scan_WifiFailed_Subtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à The LinkedLamp connection to wifi failed..
+        /// </summary>
+        public static string Scan_WifiFailed_Title {
+            get {
+                return ResourceManager.GetString("Scan_WifiFailed_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à WiFi password.
+        /// </summary>
+        public static string Scan_WifiPassword_Placeholder {
+            get {
+                return ResourceManager.GetString("Scan_WifiPassword_Placeholder", resourceCulture);
+            }
+        }
     }
 }

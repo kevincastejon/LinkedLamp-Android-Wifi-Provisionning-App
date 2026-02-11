@@ -309,4 +309,94 @@
   <data name="Register_UsernamePasswordRequired" xml:space="preserve">
     <value>Username and password are required.</value>
   </data>
+  <data name="Scan_Title" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="Scan_MainInstruction" xml:space="preserve">
+    <value>Turn on the bluetooth mode on your LinkedLamp device by powering it on while holding the button pressed</value>
+  </data>
+  <data name="Scan_Retry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="Scan_SsidPicker_Title" xml:space="preserve">
+    <value>Select SSID</value>
+  </data>
+  <data name="Scan_WifiPassword_Placeholder" xml:space="preserve">
+    <value>WiFi password</value>
+  </data>
+  <data name="Scan_GroupPicker_Title" xml:space="preserve">
+    <value>Select group</value>
+  </data>
+  <data name="Scan_SendConfiguration" xml:space="preserve">
+    <value>Send configuration</value>
+  </data>
+  <data name="Scan_DetectingDevice" xml:space="preserve">
+    <value>Detecting LinkedLamp device...</value>
+  </data>
+  <data name="Scan_SelectWifiThenPasswordAndGroup" xml:space="preserve">
+    <value>Select a WiFi network then enter WiFi password and select the LinkedLamp group you want your LinkedLamp to use</value>
+  </data>
+  <data name="Scan_LinkedLampDetectedConnecting" xml:space="preserve">
+    <value>LinkedLamp detected. Connecting...</value>
+  </data>
+  <data name="Scan_ConnectedScanningWifi" xml:space="preserve">
+    <value>Connected to LinkedLamp. LinkedLamp scanning for WiFi networks...</value>
+  </data>
+  <data name="Scan_ErrorDuringScan" xml:space="preserve">
+    <value>Error during scan.</value>
+  </data>
+  <data name="Scan_NoWifiFound" xml:space="preserve">
+    <value>Your LinkedLamp has not found any WiFi network around.</value>
+  </data>
+  <data name="Scan_BluetoothPermissionError" xml:space="preserve">
+    <value>Bluetooth permission error.</value>
+  </data>
+  <data name="Scan_BluetoothPermissionMandatory" xml:space="preserve">
+    <value>Bluetooth permission is mandatory.</value>
+  </data>
+  <data name="Scan_PleaseActivateBluetooth" xml:space="preserve">
+    <value>Please activate Bluetooth.</value>
+  </data>
+  <data name="Scan_BluetoothActivationError" xml:space="preserve">
+    <value>Bluetooth activation error.</value>
+  </data>
+  <data name="Scan_ErrorDuringProvisioning" xml:space="preserve">
+    <value>Error during provisioning.</value>
+  </data>
+  <data name="Scan_ConfigOk" xml:space="preserve">
+    <value>The LinkedLamp is configured!</value>
+  </data>
+  <data name="Scan_WifiFailed_Title" xml:space="preserve">
+    <value>The LinkedLamp connection to wifi failed.</value>
+  </data>
+  <data name="Scan_WifiFailed_Subtitle" xml:space="preserve">
+    <value>Wifi password may be wrong.</value>
+  </data>
+  <data name="Scan_ConfigFailed_Title" xml:space="preserve">
+    <value>The LinkedLamp connection to service failed.</value>
+  </data>
+  <data name="Scan_ConfigFailed_Subtitle" xml:space="preserve">
+    <value>You may have been removed from this group by the owner.</value>
+  </data>
+  <data name="Scan_DeviceDisconnected_Message" xml:space="preserve">
+    <value>Your LinkedLamp device has disconnected.</value>
+  </data>
+  <data name="Scan_BluetoothPermissionDenied_Prefix" xml:space="preserve">
+    <value>Bluetooth permission denied. Please </value>
+  </data>
+  <data name="Scan_AppSettingsLinkText" xml:space="preserve">
+    <value>activate the permission {0} in the app settings</value>
+  </data>
+  <data name="Scan_Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="Scan_NearbyDevices" xml:space="preserve">
+    <value>Nearby Devices</value>
+  </data>
+  <data name="Scan_LocationLinkText" xml:space="preserve">
+    <value>activate the location</value>
+  </data>
+  <data name="Scan_LocationDisabled_Prefix" xml:space="preserve">
+    <value>System location disabled. Please </value>
+  </data>
 </root>

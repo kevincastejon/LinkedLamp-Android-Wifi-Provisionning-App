@@ -4,6 +4,7 @@ using Android.Content;
 using Android.Locations;
 using Android.OS;
 #endif
+using LinkedLamp.Resources.Strings;
 using LinkedLamp.Services;
 using LinkedLamp.Permissions;
 using Plugin.BLE;
@@ -62,7 +63,7 @@ public partial class ScanPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
             await Navigation.PopAsync();
             return;
         }
@@ -111,7 +112,7 @@ public partial class ScanPage : ContentPage
         TogglePasswordButton.IsVisible = false;
         GroupPicker.IsVisible = false;
         StartProvisionProcessButton.IsVisible = false;
-        MainLabel.Text = "Detecting LinkedLamp device...";
+        MainLabel.Text = AppResources.Scan_DetectingDevice;
         SecondaryLabel.Text = "";
         if (!await CheckPermissions())
         {
@@ -121,7 +122,7 @@ public partial class ScanPage : ContentPage
         {
             return;
         }
-        MainLabel.Text = "Select a WiFi network then enter WiFi password and select the LinkedLamp group you want your LinkedLamp to use";
+        MainLabel.Text = AppResources.Scan_SelectWifiThenPasswordAndGroup;
         SecondaryLabel.Text = "";
     }
     private async Task<bool> ScanAndConnect()
@@ -134,14 +135,14 @@ public partial class ScanPage : ContentPage
         _scanAndConnectCts = new CancellationTokenSource();
         List<string> ssids;
         _prov.OnDeviceDisconnected += OnDeviceDisconnected;
-        MainLabel.Text = "Turn on the bluetooth mode on your LinkedLamp device by powering it on while holding the button pressed";
+        MainLabel.Text = AppResources.Scan_MainInstruction;
         Log($"[OnScan] Scan until find and connect to best device process then request ssids list process started.");
         try
         {
             IDevice? device = await _prov.ScanUntilFindBestDeviceAsync(DeviceNameFilter, 500, _scanAndConnectCts.Token);
-            MainLabel.Text = "LinkedLamp detected.\nConnecting...";
+            MainLabel.Text = AppResources.Scan_LinkedLampDetectedConnecting;
             await _prov.ConnectAsync(device);
-            MainLabel.Text = "Connected to LinkedLamp.\nLinkedLamp scanning for WiFi networks...";
+            MainLabel.Text = AppResources.Scan_ConnectedScanningWifi;
             ssids = await _prov.RequestSsidList();
         }
         catch (System.OperationCanceledException)
@@ -155,7 +156,7 @@ public partial class ScanPage : ContentPage
         catch (Exception ex)
         {
             Log($"[OnScan] <Exception> {ex.Message}.");
-            SecondaryLabel.Text = "Error during scan.";
+            SecondaryLabel.Text = AppResources.Scan_ErrorDuringScan;
             RetryScanAndConnectProcessButton.IsVisible = true;
             await DisconnectDevice();
             return false;
@@ -168,8 +169,8 @@ public partial class ScanPage : ContentPage
         if (ssids.Count == 0)
         {
             Log($"[OnScan] <Exception> Ssids list is empty.");
-            MainLabel.Text = "Connected to LinkedLamp.\nLinkedLamp scanning for WiFi networks...";
-            SecondaryLabel.Text = "Your LinkedLamp has not found any WiFi network around.";
+            MainLabel.Text = AppResources.Scan_ConnectedScanningWifi;
+            SecondaryLabel.Text = AppResources.Scan_NoWifiFound;
             RetryScanAndConnectProcessButton.IsVisible = true;
             await DisconnectDevice();
             return false;
@@ -210,7 +211,7 @@ public partial class ScanPage : ContentPage
         }
         catch (Exception)
         {
-            SecondaryLabel.Text = "Bluetooth permission error.";
+            SecondaryLabel.Text = AppResources.Scan_BluetoothPermissionError;
             RetryScanAndConnectProcessButton.IsVisible = true;
             return false;
         }
@@ -229,7 +230,7 @@ public partial class ScanPage : ContentPage
                 }
                 catch (Exception)
                 {
-                    SecondaryLabel.Text = "Bluetooth permission error.";
+                    SecondaryLabel.Text = AppResources.Scan_BluetoothPermissionError;
                     RetryScanAndConnectProcessButton.IsVisible = true;
                     return false;
                 }
@@ -243,7 +244,7 @@ public partial class ScanPage : ContentPage
                 }
                 catch (Exception)
                 {
-                    SecondaryLabel.Text = "Bluetooth permission error.";
+                    SecondaryLabel.Text = AppResources.Scan_BluetoothPermissionError;
                     RetryScanAndConnectProcessButton.IsVisible = true;
                     return false;
                 }
@@ -256,7 +257,7 @@ public partial class ScanPage : ContentPage
                     }
                     catch (Exception)
                     {
-                        SecondaryLabel.Text = "Bluetooth permission error.";
+                        SecondaryLabel.Text = AppResources.Scan_BluetoothPermissionError;
                         RetryScanAndConnectProcessButton.IsVisible = true;
                         return false;
                     }
@@ -267,7 +268,7 @@ public partial class ScanPage : ContentPage
                     }
                     else
                     {
-                        SecondaryLabel.Text = $"Bluetooth permission is mandatory.";
+                        SecondaryLabel.Text = AppResources.Scan_BluetoothPermissionMandatory;
                         RetryScanAndConnectProcessButton.IsVisible = true;
                     }
                     return false;
@@ -302,14 +303,14 @@ public partial class ScanPage : ContentPage
             }
             if (!btEnabled)
             {
-                SecondaryLabel.Text = "Please activate Bluetooth.";
+                SecondaryLabel.Text = AppResources.Scan_PleaseActivateBluetooth;
                 RetryScanAndConnectProcessButton.IsVisible = true;
                 return false;
             }
         }
         catch (Exception)
         {
-            SecondaryLabel.Text = "Bluetooth activation error.";
+            SecondaryLabel.Text = AppResources.Scan_BluetoothActivationError;
             RetryScanAndConnectProcessButton.IsVisible = true;
             return false;
         }
@@ -334,7 +335,7 @@ public partial class ScanPage : ContentPage
         }
         catch (Exception e)
         {
-            SecondaryLabel.Text = "Error during provisioning.";
+            SecondaryLabel.Text = AppResources.Scan_ErrorDuringProvisioning;
             RetryScanAndConnectProcessButton.IsVisible = true;
             Log($"[StartProvisionProcess] <Exception> {e.Message}.");
             return;
@@ -347,16 +348,16 @@ public partial class ScanPage : ContentPage
         switch (provisionResult)
         {
             case ProvisionResult.CONFIG_OK:
-                MainLabel.Text = "The LinkedLamp is configured!";
+                MainLabel.Text = AppResources.Scan_ConfigOk;
                 break;
             case ProvisionResult.WIFI_FAILED:
-                MainLabel.Text = "The LinkedLamp connection to wifi failed.";
-                SecondaryLabel.Text = "Wifi password may be wrong.";
+                MainLabel.Text = AppResources.Scan_WifiFailed_Title;
+                SecondaryLabel.Text = AppResources.Scan_WifiFailed_Subtitle;
                 RetryScanAndConnectProcessButton.IsVisible = true;
                 break;
             case ProvisionResult.CONFIG_FAILED:
-                MainLabel.Text = "The LinkedLamp connection to service failed.";
-                SecondaryLabel.Text = "You may have been removed from this group by the owner.";
+                MainLabel.Text = AppResources.Scan_ConfigFailed_Title;
+                SecondaryLabel.Text = AppResources.Scan_ConfigFailed_Subtitle;
                 RetryScanAndConnectProcessButton.IsVisible = true;
                 break;
         }
@@ -397,15 +398,15 @@ public partial class ScanPage : ContentPage
         TogglePasswordButton.IsVisible = false;
         GroupPicker.IsVisible = false;
         StartProvisionProcessButton.IsVisible = false;
-        MainLabel.Text = "Detecting LinkedLamp device...";
-        SecondaryLabel.Text = "Your LinkedLamp device has disconnected.";
+        MainLabel.Text = AppResources.Scan_DetectingDevice;
+        SecondaryLabel.Text = AppResources.Scan_DeviceDisconnected_Message;
     }
 #if ANDROID
     private void SetSecondaryLabelToAppSettingsLink()
     {
         var linkSpan = new Span
         {
-            Text = $"activate the permission {(Build.VERSION.SdkInt < BuildVersionCodes.S ? "Location" : "Nearby Devices")} in the app settings",
+            Text = string.Format(AppResources.Scan_AppSettingsLinkText, (Build.VERSION.SdkInt < BuildVersionCodes.S ? AppResources.Scan_Location : AppResources.Scan_NearbyDevices)),
             TextColor = Colors.Cyan,
             TextDecorations = TextDecorations.Underline
         };
@@ -420,7 +421,7 @@ public partial class ScanPage : ContentPage
         {
             Spans =
                     {
-                        new Span { Text = "Bluetooth permission denied. Please " },
+                        new Span { Text = AppResources.Scan_BluetoothPermissionDenied_Prefix },
                         linkSpan,
                         new Span { Text = "." },
                     }
@@ -430,7 +431,7 @@ public partial class ScanPage : ContentPage
     {
         var linkSpan = new Span
         {
-            Text = "activate the location",
+            Text = AppResources.Scan_LocationLinkText,
             TextColor = Colors.Cyan,
             TextDecorations = TextDecorations.Underline
         };
@@ -444,7 +445,7 @@ public partial class ScanPage : ContentPage
         {
             Spans =
         {
-            new Span { Text = "System loation disabled. Please " },
+            new Span { Text = AppResources.Scan_LocationDisabled_Prefix },
             linkSpan,
             new Span { Text = "." },
         }

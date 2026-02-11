@@ -309,4 +309,94 @@
   <data name="Register_UsernamePasswordRequired" xml:space="preserve">
     <value>Le nom d'utilisateur et le mot de passe sont requis.</value>
   </data>
+  <data name="Scan_Title" xml:space="preserve">
+    <value>Scan</value>
+  </data>
+  <data name="Scan_MainInstruction" xml:space="preserve">
+    <value>Active le mode Bluetooth de ta LinkedLamp en l’allumant tout en maintenant le bouton enfoncé</value>
+  </data>
+  <data name="Scan_Retry" xml:space="preserve">
+    <value>Réessayer</value>
+  </data>
+  <data name="Scan_SsidPicker_Title" xml:space="preserve">
+    <value>Sélectionner le SSID</value>
+  </data>
+  <data name="Scan_WifiPassword_Placeholder" xml:space="preserve">
+    <value>Mot de passe Wi-Fi</value>
+  </data>
+  <data name="Scan_GroupPicker_Title" xml:space="preserve">
+    <value>Sélectionner le groupe</value>
+  </data>
+  <data name="Scan_SendConfiguration" xml:space="preserve">
+    <value>Envoyer la configuration</value>
+  </data>
+  <data name="Scan_DetectingDevice" xml:space="preserve">
+    <value>Détection de la LinkedLamp...</value>
+  </data>
+  <data name="Scan_SelectWifiThenPasswordAndGroup" xml:space="preserve">
+    <value>Sélectionne un réseau Wi-Fi, saisis le mot de passe Wi-Fi, puis sélectionne le groupe LinkedLamp que tu veux utiliser</value>
+  </data>
+  <data name="Scan_LinkedLampDetectedConnecting" xml:space="preserve">
+    <value>LinkedLamp détectée. Connexion...</value>
+  </data>
+  <data name="Scan_ConnectedScanningWifi" xml:space="preserve">
+    <value>Connecté à la LinkedLamp. Recherche des réseaux Wi-Fi...</value>
+  </data>
+  <data name="Scan_ErrorDuringScan" xml:space="preserve">
+    <value>Erreur pendant le scan.</value>
+  </data>
+  <data name="Scan_NoWifiFound" xml:space="preserve">
+    <value>Ta LinkedLamp n’a trouvé aucun réseau Wi-Fi à proximité.</value>
+  </data>
+  <data name="Scan_BluetoothPermissionError" xml:space="preserve">
+    <value>Erreur de permission Bluetooth.</value>
+  </data>
+  <data name="Scan_BluetoothPermissionMandatory" xml:space="preserve">
+    <value>La permission Bluetooth est obligatoire.</value>
+  </data>
+  <data name="Scan_PleaseActivateBluetooth" xml:space="preserve">
+    <value>Merci d’activer le Bluetooth.</value>
+  </data>
+  <data name="Scan_BluetoothActivationError" xml:space="preserve">
+    <value>Erreur d’activation du Bluetooth.</value>
+  </data>
+  <data name="Scan_ErrorDuringProvisioning" xml:space="preserve">
+    <value>Erreur pendant la configuration.</value>
+  </data>
+  <data name="Scan_ConfigOk" xml:space="preserve">
+    <value>La LinkedLamp est configurée !</value>
+  </data>
+  <data name="Scan_WifiFailed_Title" xml:space="preserve">
+    <value>La connexion Wi-Fi de la LinkedLamp a échoué.</value>
+  </data>
+  <data name="Scan_WifiFailed_Subtitle" xml:space="preserve">
+    <value>Le mot de passe Wi-Fi est peut-être incorrect.</value>
+  </data>
+  <data name="Scan_ConfigFailed_Title" xml:space="preserve">
+    <value>La connexion de la LinkedLamp au service a échoué.</value>
+  </data>
+  <data name="Scan_ConfigFailed_Subtitle" xml:space="preserve">
+    <value>Tu as peut-être été retiré de ce groupe par le propriétaire.</value>
+  </data>
+  <data name="Scan_DeviceDisconnected_Message" xml:space="preserve">
+    <value>Ta LinkedLamp s’est déconnectée.</value>
+  </data>
+  <data name="Scan_BluetoothPermissionDenied_Prefix" xml:space="preserve">
+    <value>Permission Bluetooth refusée. Merci de </value>
+  </data>
+  <data name="Scan_AppSettingsLinkText" xml:space="preserve">
+    <value>activer la permission {0} dans les paramètres de l’application</value>
+  </data>
+  <data name="Scan_Location" xml:space="preserve">
+    <value>Localisation</value>
+  </data>
+  <data name="Scan_NearbyDevices" xml:space="preserve">
+    <value>Appareils à proximité</value>
+  </data>
+  <data name="Scan_LocationLinkText" xml:space="preserve">
+    <value>activer la localisation</value>
+  </data>
+  <data name="Scan_LocationDisabled_Prefix" xml:space="preserve">
+    <value>Localisation système désactivée. Merci de </value>
+  </data>
 </root>
