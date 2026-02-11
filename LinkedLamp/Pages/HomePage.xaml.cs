@@ -46,17 +46,17 @@ public partial class HomePage : ContentPage
         var menu = new ToolbarItem { Text = AppResources.Home_AccountHamburgerMenu_Title, Order = ToolbarItemOrder.Primary, Priority = 0 };
         menu.Clicked += async (_, __) =>
         {
-            var action = await DisplayActionSheetAsync(AppResources.Home_AccountHamburgerMenu_Title, AppResources.Home_AccountHamburgerMenu_Cancel, null, AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_Logout, AppResources.Home_AccountHamburgerMenu_DeleteAccount);
+            var action = await DisplayActionSheetAsync(AppResources.Home_AccountHamburgerMenu_Title, AppResources.Global_Cancel, null, AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_Logout, AppResources.Home_AccountHamburgerMenu_DeleteAccount);
 
             if (action == AppResources.Home_AccountHamburgerMenu_ChangePassword)
             {
-                var currentPassword = await DisplayPromptAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, "Current password:", "Next", "Cancel", "Password", maxLength: 128);
+                var currentPassword = await DisplayPromptAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_CurrentPassword, AppResources.Global_Next, AppResources.Global_Cancel, AppResources.Global_Password, maxLength: 128);
                 if (currentPassword == null) return;
 
-                var newPassword = await DisplayPromptAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, "New password:", "Next", "Cancel", "Password", maxLength: 128);
+                var newPassword = await DisplayPromptAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_NewPassword, AppResources.Global_Next, AppResources.Global_Cancel, AppResources.Global_Password, maxLength: 128);
                 if (newPassword == null) return;
 
-                var confirmPassword = await DisplayPromptAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, "Confirm new password:", "OK", "Cancel", "Password", maxLength: 128);
+                var confirmPassword = await DisplayPromptAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_ConfirmNewPassword, "OK", AppResources.Global_Cancel, AppResources.Global_Password, maxLength: 128);
                 if (confirmPassword == null) return;
 
                 currentPassword = currentPassword.Trim();
@@ -111,7 +111,7 @@ public partial class HomePage : ContentPage
             }
             else if (action == AppResources.Home_AccountHamburgerMenu_DeleteAccount)
             {
-                var confirm = await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_DeleteAccount, "This will delete your account and all owned groups. Continue?", "Delete", "Cancel");
+                var confirm = await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_DeleteAccount, "This will delete your account and all owned groups. Continue?", "Delete", AppResources.Global_Cancel);
                 if (!confirm) return;
 
                 try
@@ -151,7 +151,7 @@ public partial class HomePage : ContentPage
 
     private async void OnForgotPasswordClicked(object sender, EventArgs e)
     {
-        var username = await DisplayPromptAsync("Password recovery", "Enter your username:", "OK", "Cancel");
+        var username = await DisplayPromptAsync("Password recovery", "Enter your username:", "OK", AppResources.Global_Cancel);
         if (string.IsNullOrWhiteSpace(username)) return;
 
         try

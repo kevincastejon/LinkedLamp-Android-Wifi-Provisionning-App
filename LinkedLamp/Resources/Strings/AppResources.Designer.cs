@@ -61,47 +61,29 @@ namespace LinkedLamp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Configure LinkedLamp.
-        /// </summary>
-        public static string ConfigureLinkedLampButton {
-            get {
-                return ResourceManager.GetString("ConfigureLinkedLampButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à Connect to account.
-        /// </summary>
-        public static string ConnectToAccount {
-            get {
-                return ResourceManager.GetString("ConnectToAccount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à Create account.
-        /// </summary>
-        public static string CreateAccount {
-            get {
-                return ResourceManager.GetString("CreateAccount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Recherche une chaîne localisée semblable à I forgot my password.
-        /// </summary>
-        public static string ForgotPassword {
-            get {
-                return ResourceManager.GetString("ForgotPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Recherche une chaîne localisée semblable à Cancel.
         /// </summary>
-        public static string Home_AccountHamburgerMenu_Cancel {
+        public static string Global_Cancel {
             get {
-                return ResourceManager.GetString("Home_AccountHamburgerMenu_Cancel", resourceCulture);
+                return ResourceManager.GetString("Global_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Next.
+        /// </summary>
+        public static string Global_Next {
+            get {
+                return ResourceManager.GetString("Global_Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Password.
+        /// </summary>
+        public static string Global_Password {
+            get {
+                return ResourceManager.GetString("Global_Password", resourceCulture);
             }
         }
         
@@ -111,6 +93,24 @@ namespace LinkedLamp.Resources.Strings {
         public static string Home_AccountHamburgerMenu_ChangePassword {
             get {
                 return ResourceManager.GetString("Home_AccountHamburgerMenu_ChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Confirm new password:.
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_ConfirmNewPassword {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_ConfirmNewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Current password:.
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_CurrentPassword {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_CurrentPassword", resourceCulture);
             }
         }
         
@@ -133,6 +133,15 @@ namespace LinkedLamp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à New password:.
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_NewPassword {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Account.
         /// </summary>
         public static string Home_AccountHamburgerMenu_Title {
@@ -142,20 +151,56 @@ namespace LinkedLamp.Resources.Strings {
         }
         
         /// <summary>
-        ///   Recherche une chaîne localisée semblable à Home.
+        ///   Recherche une chaîne localisée semblable à Configure LinkedLamp.
         /// </summary>
-        public static string HomePageTitle {
+        public static string Home_ConfigureLinkedLampButton {
             get {
-                return ResourceManager.GetString("HomePageTitle", resourceCulture);
+                return ResourceManager.GetString("Home_ConfigureLinkedLampButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Connect to account.
+        /// </summary>
+        public static string Home_ConnectToAccountButton {
+            get {
+                return ResourceManager.GetString("Home_ConnectToAccountButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create account.
+        /// </summary>
+        public static string Home_CreateAccountButton {
+            get {
+                return ResourceManager.GetString("Home_CreateAccountButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à I forgot my password.
+        /// </summary>
+        public static string Home_ForgotPasswordButton {
+            get {
+                return ResourceManager.GetString("Home_ForgotPasswordButton", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Recherche une chaîne localisée semblable à Manage groups.
         /// </summary>
-        public static string ManageGroupsButton {
+        public static string Home_ManageGroupsButton {
             get {
-                return ResourceManager.GetString("ManageGroupsButton", resourceCulture);
+                return ResourceManager.GetString("Home_ManageGroupsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Home.
+        /// </summary>
+        public static string Home_PageTitle {
+            get {
+                return ResourceManager.GetString("Home_PageTitle", resourceCulture);
             }
         }
     }
