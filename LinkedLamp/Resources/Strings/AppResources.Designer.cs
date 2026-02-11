@@ -70,11 +70,29 @@ namespace LinkedLamp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Error.
+        /// </summary>
+        public static string Global_Error {
+            get {
+                return ResourceManager.GetString("Global_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Next.
         /// </summary>
         public static string Global_Next {
             get {
                 return ResourceManager.GetString("Global_Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à OK.
+        /// </summary>
+        public static string Global_Ok {
+            get {
+                return ResourceManager.GetString("Global_Ok", resourceCulture);
             }
         }
         
@@ -115,11 +133,38 @@ namespace LinkedLamp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Current password is incorrect..
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_CurrentPasswordIncorrect {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_CurrentPasswordIncorrect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Delete account.
         /// </summary>
         public static string Home_AccountHamburgerMenu_DeleteAccount {
             get {
                 return ResourceManager.GetString("Home_AccountHamburgerMenu_DeleteAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Delete.
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_DeleteAccount_ConfirmDeleteButton {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_DeleteAccount_ConfirmDeleteButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à This will delete your account and all owned groups. Continue?.
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_DeleteAccount_ConfirmMessage {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_DeleteAccount_ConfirmMessage", resourceCulture);
             }
         }
         
@@ -138,6 +183,33 @@ namespace LinkedLamp.Resources.Strings {
         public static string Home_AccountHamburgerMenu_NewPassword {
             get {
                 return ResourceManager.GetString("Home_AccountHamburgerMenu_NewPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à New password is too short..
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_NewPasswordTooShort {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_NewPasswordTooShort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Passwords do not match..
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_PasswordsDoNotMatch {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_PasswordsDoNotMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Password updated..
+        /// </summary>
+        public static string Home_AccountHamburgerMenu_PasswordUpdated {
+            get {
+                return ResourceManager.GetString("Home_AccountHamburgerMenu_PasswordUpdated", resourceCulture);
             }
         }
         
@@ -201,6 +273,69 @@ namespace LinkedLamp.Resources.Strings {
         public static string Home_PageTitle {
             get {
                 return ResourceManager.GetString("Home_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Connection failure..
+        /// </summary>
+        public static string Home_PasswordRecovery_ConnectionFailure {
+            get {
+                return ResourceManager.GetString("Home_PasswordRecovery_ConnectionFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Email sending failed (SMTP not configured or error)..
+        /// </summary>
+        public static string Home_PasswordRecovery_EmailSendFailed {
+            get {
+                return ResourceManager.GetString("Home_PasswordRecovery_EmailSendFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Enter your username:.
+        /// </summary>
+        public static string Home_PasswordRecovery_EnterUsername {
+            get {
+                return ResourceManager.GetString("Home_PasswordRecovery_EnterUsername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à No email is associated with this account..
+        /// </summary>
+        public static string Home_PasswordRecovery_NoEmail {
+            get {
+                return ResourceManager.GetString("Home_PasswordRecovery_NoEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à A new password has been sent to the email associated with this account..
+        /// </summary>
+        public static string Home_PasswordRecovery_Sent {
+            get {
+                return ResourceManager.GetString("Home_PasswordRecovery_Sent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Password recovery.
+        /// </summary>
+        public static string Home_PasswordRecovery_Title {
+            get {
+                return ResourceManager.GetString("Home_PasswordRecovery_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à User not found..
+        /// </summary>
+        public static string Home_PasswordRecovery_UserNotFound {
+            get {
+                return ResourceManager.GetString("Home_PasswordRecovery_UserNotFound", resourceCulture);
             }
         }
     }

@@ -165,4 +165,49 @@
   <data name="Home_AccountHamburgerMenu_ConfirmNewPassword" xml:space="preserve">
     <value>Confirm new password:</value>
   </data>
+  <data name="Global_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Global_Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Home_AccountHamburgerMenu_NewPasswordTooShort" xml:space="preserve">
+    <value>New password is too short.</value>
+  </data>
+  <data name="Home_AccountHamburgerMenu_PasswordsDoNotMatch" xml:space="preserve">
+    <value>Passwords do not match.</value>
+  </data>
+  <data name="Home_AccountHamburgerMenu_PasswordUpdated" xml:space="preserve">
+    <value>Password updated.</value>
+  </data>
+  <data name="Home_AccountHamburgerMenu_CurrentPasswordIncorrect" xml:space="preserve">
+    <value>Current password is incorrect.</value>
+  </data>
+  <data name="Home_AccountHamburgerMenu_DeleteAccount_ConfirmMessage" xml:space="preserve">
+    <value>This will delete your account and all owned groups. Continue?</value>
+  </data>
+  <data name="Home_AccountHamburgerMenu_DeleteAccount_ConfirmDeleteButton" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Home_PasswordRecovery_Title" xml:space="preserve">
+    <value>Password recovery</value>
+  </data>
+  <data name="Home_PasswordRecovery_EnterUsername" xml:space="preserve">
+    <value>Enter your username:</value>
+  </data>
+  <data name="Home_PasswordRecovery_Sent" xml:space="preserve">
+    <value>A new password has been sent to the email associated with this account.</value>
+  </data>
+  <data name="Home_PasswordRecovery_NoEmail" xml:space="preserve">
+    <value>No email is associated with this account.</value>
+  </data>
+  <data name="Home_PasswordRecovery_UserNotFound" xml:space="preserve">
+    <value>User not found.</value>
+  </data>
+  <data name="Home_PasswordRecovery_EmailSendFailed" xml:space="preserve">
+    <value>Email sending failed (SMTP not configured or error).</value>
+  </data>
+  <data name="Home_PasswordRecovery_ConnectionFailure" xml:space="preserve">
+    <value>Connection failure.</value>
+  </data>
 </root>

@@ -56,7 +56,7 @@ public partial class HomePage : ContentPage
                 var newPassword = await DisplayPromptAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_NewPassword, AppResources.Global_Next, AppResources.Global_Cancel, AppResources.Global_Password, maxLength: 128);
                 if (newPassword == null) return;
 
-                var confirmPassword = await DisplayPromptAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_ConfirmNewPassword, "OK", AppResources.Global_Cancel, AppResources.Global_Password, maxLength: 128);
+                var confirmPassword = await DisplayPromptAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_ConfirmNewPassword, AppResources.Global_Ok, AppResources.Global_Cancel, AppResources.Global_Password, maxLength: 128);
                 if (confirmPassword == null) return;
 
                 currentPassword = currentPassword.Trim();
@@ -65,20 +65,20 @@ public partial class HomePage : ContentPage
 
                 if (newPassword.Length < 6)
                 {
-                    await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, "New password is too short.", "OK");
+                    await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_NewPasswordTooShort, AppResources.Global_Ok);
                     return;
                 }
 
                 if (newPassword != confirmPassword)
                 {
-                    await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, "Passwords do not match.", "OK");
+                    await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_PasswordsDoNotMatch, AppResources.Global_Ok);
                     return;
                 }
 
                 try
                 {
                     await _backend.ChangePasswordAsync(_state.Token!, currentPassword, newPassword);
-                    await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, "Password updated.", "OK");
+                    await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_PasswordUpdated, AppResources.Global_Ok);
                 }
                 catch (BackendAuthException)
                 {
@@ -90,15 +90,15 @@ public partial class HomePage : ContentPage
                 }
                 catch (BackendHttpException ex) when (ex.Code == "invalid_credentials")
                 {
-                    await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, "Current password is incorrect.", "OK");
+                    await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_CurrentPasswordIncorrect, AppResources.Global_Ok);
                 }
                 catch (BackendHttpException ex) when (ex.Code == "new_password_too_short")
                 {
-                    await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, "New password is too short.", "OK");
+                    await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_NewPasswordTooShort, AppResources.Global_Ok);
                 }
                 catch (Exception ex)
                 {
-                    await DisplayAlertAsync("Error", ex.Message, "OK");
+                    await DisplayAlertAsync(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
                 }
             }
             else if (action == AppResources.Home_AccountHamburgerMenu_Logout)
@@ -111,7 +111,7 @@ public partial class HomePage : ContentPage
             }
             else if (action == AppResources.Home_AccountHamburgerMenu_DeleteAccount)
             {
-                var confirm = await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_DeleteAccount, "This will delete your account and all owned groups. Continue?", "Delete", AppResources.Global_Cancel);
+                var confirm = await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_DeleteAccount, AppResources.Home_AccountHamburgerMenu_DeleteAccount_ConfirmMessage, AppResources.Home_AccountHamburgerMenu_DeleteAccount_ConfirmDeleteButton, AppResources.Global_Cancel);
                 if (!confirm) return;
 
                 try
@@ -123,7 +123,7 @@ public partial class HomePage : ContentPage
                 }
                 catch (Exception ex)
                 {
-                    await DisplayAlertAsync("Error", ex.Message, "OK");
+                    await DisplayAlertAsync(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
                     return;
                 }
 
@@ -151,29 +151,29 @@ public partial class HomePage : ContentPage
 
     private async void OnForgotPasswordClicked(object sender, EventArgs e)
     {
-        var username = await DisplayPromptAsync("Password recovery", "Enter your username:", "OK", AppResources.Global_Cancel);
+        var username = await DisplayPromptAsync(AppResources.Home_PasswordRecovery_Title, AppResources.Home_PasswordRecovery_EnterUsername, AppResources.Global_Ok, AppResources.Global_Cancel);
         if (string.IsNullOrWhiteSpace(username)) return;
 
         try
         {
             await _backend.ForgotPasswordAsync(username.Trim());
-            await DisplayAlertAsync("Password recovery", "A new password has been sent to the email associated with this account.", "OK");
+            await DisplayAlertAsync(AppResources.Home_PasswordRecovery_Title, AppResources.Home_PasswordRecovery_Sent, AppResources.Global_Ok);
         }
         catch (BackendHttpException ex) when (ex.Code == "email_not_set")
         {
-            await DisplayAlertAsync("Password recovery", "No email is associated with this account.", "OK");
+            await DisplayAlertAsync(AppResources.Home_PasswordRecovery_Title, AppResources.Home_PasswordRecovery_NoEmail, AppResources.Global_Ok);
         }
         catch (BackendHttpException ex) when (ex.Code == "user_not_found")
         {
-            await DisplayAlertAsync("Password recovery", "User not found.", "OK");
+            await DisplayAlertAsync(AppResources.Home_PasswordRecovery_Title, AppResources.Home_PasswordRecovery_UserNotFound, AppResources.Global_Ok);
         }
         catch (BackendHttpException ex) when (ex.Code == "email_send_failed")
         {
-            await DisplayAlertAsync("Password recovery", "Email sending failed (SMTP not configured or error).", "OK");
+            await DisplayAlertAsync(AppResources.Home_PasswordRecovery_Title, AppResources.Home_PasswordRecovery_EmailSendFailed, AppResources.Global_Ok);
         }
         catch
         {
-            await DisplayAlertAsync("Password recovery", "Connection failure.", "OK");
+            await DisplayAlertAsync(AppResources.Home_PasswordRecovery_Title, AppResources.Home_PasswordRecovery_ConnectionFailure, AppResources.Global_Ok);
         }
     }
 

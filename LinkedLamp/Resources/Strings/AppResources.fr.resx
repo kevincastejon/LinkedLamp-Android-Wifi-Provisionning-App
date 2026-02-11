@@ -165,4 +165,49 @@
   <data name="Home_AccountHamburgerMenu_ConfirmNewPassword" xml:space="preserve">
     <value>Confirmer le nouveau mot de passe:</value>
   </data>
+  <data name="Global_Ok" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="Global_Error" xml:space="preserve">
+    <value>Erreur</value>
+  </data>
+  <data name="Home_AccountHamburgerMenu_NewPasswordTooShort" xml:space="preserve">
+    <value>Le nouveau mot de passe est trop court.</value>
+  </data>
+  <data name="Home_AccountHamburgerMenu_PasswordsDoNotMatch" xml:space="preserve">
+    <value>Les mots de passe ne correspondent pas.</value>
+  </data>
+  <data name="Home_AccountHamburgerMenu_PasswordUpdated" xml:space="preserve">
+    <value>Mot de passe mis à jour.</value>
+  </data>
+  <data name="Home_AccountHamburgerMenu_CurrentPasswordIncorrect" xml:space="preserve">
+    <value>Le mot de passe actuel est incorrect.</value>
+  </data>
+  <data name="Home_AccountHamburgerMenu_DeleteAccount_ConfirmMessage" xml:space="preserve">
+    <value>Cela supprimera votre compte et tous les groupes que vous possédez. Continuer ?</value>
+  </data>
+  <data name="Home_AccountHamburgerMenu_DeleteAccount_ConfirmDeleteButton" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Home_PasswordRecovery_Title" xml:space="preserve">
+    <value>Récupération du mot de passe</value>
+  </data>
+  <data name="Home_PasswordRecovery_EnterUsername" xml:space="preserve">
+    <value>Entrez votre nom d'utilisateur :</value>
+  </data>
+  <data name="Home_PasswordRecovery_Sent" xml:space="preserve">
+    <value>Un nouveau mot de passe a été envoyé à l'adresse e-mail associée à ce compte.</value>
+  </data>
+  <data name="Home_PasswordRecovery_NoEmail" xml:space="preserve">
+    <value>Aucun e-mail n'est associé à ce compte.</value>
+  </data>
+  <data name="Home_PasswordRecovery_UserNotFound" xml:space="preserve">
+    <value>Utilisateur introuvable.</value>
+  </data>
+  <data name="Home_PasswordRecovery_EmailSendFailed" xml:space="preserve">
+    <value>Échec de l'envoi de l'e-mail (SMTP non configuré ou erreur).</value>
+  </data>
+  <data name="Home_PasswordRecovery_ConnectionFailure" xml:space="preserve">
+    <value>Échec de connexion.</value>
+  </data>
 </root>
