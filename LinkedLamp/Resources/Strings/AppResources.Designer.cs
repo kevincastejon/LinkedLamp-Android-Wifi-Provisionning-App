@@ -338,5 +338,50 @@ namespace LinkedLamp.Resources.Strings {
                 return ResourceManager.GetString("Home_PasswordRecovery_UserNotFound", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Login.
+        /// </summary>
+        public static string Login_Button {
+            get {
+                return ResourceManager.GetString("Login_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Password.
+        /// </summary>
+        public static string Login_PasswordPlaceholder {
+            get {
+                return ResourceManager.GetString("Login_PasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Username and password are required..
+        /// </summary>
+        public static string Login_RequiredFieldsError {
+            get {
+                return ResourceManager.GetString("Login_RequiredFieldsError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Connect to account.
+        /// </summary>
+        public static string Login_Title {
+            get {
+                return ResourceManager.GetString("Login_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Username.
+        /// </summary>
+        public static string Login_UsernamePlaceholder {
+            get {
+                return ResourceManager.GetString("Login_UsernamePlaceholder", resourceCulture);
+            }
+        }
     }
 }
