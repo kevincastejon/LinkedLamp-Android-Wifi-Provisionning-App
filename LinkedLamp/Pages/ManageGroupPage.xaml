@@ -1,18 +1,19 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="LinkedLamp.Pages.ManageGroupPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Manage group">
+    xmlns:i18n="clr-namespace:LinkedLamp.Resources.Strings"
+    Title="{x:Static i18n:AppResources.ManageGroup_PageTitle}">
 
     <Grid Padding="24" RowDefinitions="Auto,Auto,*,Auto" RowSpacing="12">
         <Label x:Name="HeaderLabel" Text="" FontSize="20" Grid.Row="0" />
 
         <HorizontalStackLayout Grid.Row="1" Spacing="8">
-            <Button x:Name="RenameButton" Text="Rename" Clicked="OnRenameClicked" IsVisible="False" />
-            <Button x:Name="LeaveButton" Text="Leave" Clicked="OnLeaveClicked" IsVisible="False" />
-            <Button x:Name="AddUserButton" Text="Add user" Clicked="OnAddUserClicked" IsVisible="False" />
-            <Button x:Name="DeleteButton" Text="Delete" Clicked="OnDeleteClicked" IsVisible="False" />
+            <Button x:Name="RenameButton" Text="{x:Static i18n:AppResources.ManageGroup_RenameButton}" Clicked="OnRenameClicked" IsVisible="False" />
+            <Button x:Name="LeaveButton" Text="{x:Static i18n:AppResources.ManageGroup_LeaveButton}" Clicked="OnLeaveClicked" IsVisible="False" />
+            <Button x:Name="AddUserButton" Text="{x:Static i18n:AppResources.ManageGroup_AddUserButton}" Clicked="OnAddUserClicked" IsVisible="False" />
+            <Button x:Name="DeleteButton" Text="{x:Static i18n:AppResources.ManageGroup_DeleteButton}" Clicked="OnDeleteClicked" IsVisible="False" />
         </HorizontalStackLayout>
         <RefreshView x:Name="MembersRefreshView" Grid.Row="2" Refreshing="OnMembersRefreshing">
             <CollectionView x:Name="MembersView" Grid.Row="2">
@@ -21,7 +22,7 @@
                     <Grid Padding="8" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
                         <Label Text="{Binding Username}" FontSize="18" />
                         <Label Text="{Binding Role}" Grid.Column="1" VerticalTextAlignment="Center" />
-                        <Button Text="Remove" Grid.Column="2" Clicked="OnRemoveMemberClicked" IsVisible="{Binding CanRemove}" />
+                        <Button Text="{x:Static i18n:AppResources.ManageGroup_RemoveUserButton}" Grid.Column="2" Clicked="OnRemoveMemberClicked" IsVisible="{Binding CanRemove}" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

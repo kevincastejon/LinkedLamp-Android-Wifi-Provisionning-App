@@ -225,4 +225,70 @@
   <data name="Login_RequiredFieldsError" xml:space="preserve">
     <value>Nom d'utilisateur et mot de passe requis.</value>
   </data>
+  <data name="ManageGroup_PageTitle" xml:space="preserve">
+    <value>Gestion du groupe</value>
+  </data>
+  <data name="ManageGroup_RenameButton" xml:space="preserve">
+    <value>Renommer</value>
+  </data>
+  <data name="ManageGroup_LeaveButton" xml:space="preserve">
+    <value>Quitter</value>
+  </data>
+  <data name="ManageGroup_AddUserButton" xml:space="preserve">
+    <value>Ajouter un utilisateur</value>
+  </data>
+  <data name="ManageGroup_DeleteButton" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="ManageGroup_RemoveUserButton" xml:space="preserve">
+    <value>Retirer</value>
+  </data>
+  <data name="ManageGroup_Loading" xml:space="preserve">
+    <value>Chargement...</value>
+  </data>
+  <data name="ManageGroup_RenameGroup_Title" xml:space="preserve">
+    <value>Renommer le groupe</value>
+  </data>
+  <data name="ManageGroup_RenameGroup_NewName" xml:space="preserve">
+    <value>Nouveau nom</value>
+  </data>
+  <data name="ManageGroup_RenameGroup_Rename" xml:space="preserve">
+    <value>Renommer</value>
+  </data>
+  <data name="ManageGroup_LeaveGroup_Title" xml:space="preserve">
+    <value>Quitter le groupe</value>
+  </data>
+  <data name="ManageGroup_LeaveGroup_ConfirmMessage" xml:space="preserve">
+    <value>Voulez-vous quitter ce groupe ?</value>
+  </data>
+  <data name="ManageGroup_LeaveGroup_Leave" xml:space="preserve">
+    <value>Quitter</value>
+  </data>
+  <data name="ManageGroup_AddUser_Title" xml:space="preserve">
+    <value>Ajouter un utilisateur</value>
+  </data>
+  <data name="ManageGroup_AddUser_Username" xml:space="preserve">
+    <value>Nom d'utilisateur</value>
+  </data>
+  <data name="ManageGroup_AddUser_Add" xml:space="preserve">
+    <value>Ajouter</value>
+  </data>
+  <data name="ManageGroup_DeleteGroup_Title" xml:space="preserve">
+    <value>Supprimer le groupe</value>
+  </data>
+  <data name="ManageGroup_DeleteGroup_ConfirmMessage" xml:space="preserve">
+    <value>Supprimer ce groupe ?</value>
+  </data>
+  <data name="ManageGroup_DeleteGroup_Delete" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="ManageGroup_RemoveUser_Title" xml:space="preserve">
+    <value>Retirer l'utilisateur</value>
+  </data>
+  <data name="ManageGroup_RemoveUser_ConfirmMessageFormat" xml:space="preserve">
+    <value>Retirer {0} de ce groupe ?</value>
+  </data>
+  <data name="ManageGroup_RemoveUser_Remove" xml:space="preserve">
+    <value>Retirer</value>
+  </data>
 </root>

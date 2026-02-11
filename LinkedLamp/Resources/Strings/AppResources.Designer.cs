@@ -383,5 +383,203 @@ namespace LinkedLamp.Resources.Strings {
                 return ResourceManager.GetString("Login_UsernamePlaceholder", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add.
+        /// </summary>
+        public static string ManageGroup_AddUser_Add {
+            get {
+                return ResourceManager.GetString("ManageGroup_AddUser_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add user.
+        /// </summary>
+        public static string ManageGroup_AddUser_Title {
+            get {
+                return ResourceManager.GetString("ManageGroup_AddUser_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Username.
+        /// </summary>
+        public static string ManageGroup_AddUser_Username {
+            get {
+                return ResourceManager.GetString("ManageGroup_AddUser_Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Add user.
+        /// </summary>
+        public static string ManageGroup_AddUserButton {
+            get {
+                return ResourceManager.GetString("ManageGroup_AddUserButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Delete.
+        /// </summary>
+        public static string ManageGroup_DeleteButton {
+            get {
+                return ResourceManager.GetString("ManageGroup_DeleteButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Delete this group?.
+        /// </summary>
+        public static string ManageGroup_DeleteGroup_ConfirmMessage {
+            get {
+                return ResourceManager.GetString("ManageGroup_DeleteGroup_ConfirmMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Delete.
+        /// </summary>
+        public static string ManageGroup_DeleteGroup_Delete {
+            get {
+                return ResourceManager.GetString("ManageGroup_DeleteGroup_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Delete group.
+        /// </summary>
+        public static string ManageGroup_DeleteGroup_Title {
+            get {
+                return ResourceManager.GetString("ManageGroup_DeleteGroup_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Leave.
+        /// </summary>
+        public static string ManageGroup_LeaveButton {
+            get {
+                return ResourceManager.GetString("ManageGroup_LeaveButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Do you want to leave this group?.
+        /// </summary>
+        public static string ManageGroup_LeaveGroup_ConfirmMessage {
+            get {
+                return ResourceManager.GetString("ManageGroup_LeaveGroup_ConfirmMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Leave.
+        /// </summary>
+        public static string ManageGroup_LeaveGroup_Leave {
+            get {
+                return ResourceManager.GetString("ManageGroup_LeaveGroup_Leave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Leave group.
+        /// </summary>
+        public static string ManageGroup_LeaveGroup_Title {
+            get {
+                return ResourceManager.GetString("ManageGroup_LeaveGroup_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Loading....
+        /// </summary>
+        public static string ManageGroup_Loading {
+            get {
+                return ResourceManager.GetString("ManageGroup_Loading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Manage group.
+        /// </summary>
+        public static string ManageGroup_PageTitle {
+            get {
+                return ResourceManager.GetString("ManageGroup_PageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Remove {0} from this group?.
+        /// </summary>
+        public static string ManageGroup_RemoveUser_ConfirmMessageFormat {
+            get {
+                return ResourceManager.GetString("ManageGroup_RemoveUser_ConfirmMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Remove.
+        /// </summary>
+        public static string ManageGroup_RemoveUser_Remove {
+            get {
+                return ResourceManager.GetString("ManageGroup_RemoveUser_Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Remove user.
+        /// </summary>
+        public static string ManageGroup_RemoveUser_Title {
+            get {
+                return ResourceManager.GetString("ManageGroup_RemoveUser_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Remove.
+        /// </summary>
+        public static string ManageGroup_RemoveUserButton {
+            get {
+                return ResourceManager.GetString("ManageGroup_RemoveUserButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Rename.
+        /// </summary>
+        public static string ManageGroup_RenameButton {
+            get {
+                return ResourceManager.GetString("ManageGroup_RenameButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à New name.
+        /// </summary>
+        public static string ManageGroup_RenameGroup_NewName {
+            get {
+                return ResourceManager.GetString("ManageGroup_RenameGroup_NewName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Rename.
+        /// </summary>
+        public static string ManageGroup_RenameGroup_Rename {
+            get {
+                return ResourceManager.GetString("ManageGroup_RenameGroup_Rename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Rename group.
+        /// </summary>
+        public static string ManageGroup_RenameGroup_Title {
+            get {
+                return ResourceManager.GetString("ManageGroup_RenameGroup_Title", resourceCulture);
+            }
+        }
     }
 }

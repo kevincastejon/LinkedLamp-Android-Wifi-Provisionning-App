@@ -1,4 +1,5 @@
-using LinkedLamp.Services;
+﻿using LinkedLamp.Services;
+using LinkedLamp.Resources.Strings;
 
 namespace LinkedLamp.Pages;
 
@@ -33,7 +34,7 @@ public partial class ManageGroupPage : ContentPage
     private async Task LoadAsync(bool clearList = true, bool showLoadingLabel = true)
     {
         if (showLoadingLabel)
-            StatusLabel.Text = "Loading...";
+            StatusLabel.Text = AppResources.ManageGroup_Loading;
         else
             StatusLabel.Text = "";
 
@@ -66,7 +67,7 @@ public partial class ManageGroupPage : ContentPage
             catch (Exception ex)
             {
                 StatusLabel.Text = "";
-                await DisplayAlert("Error", ex.Message, "OK");
+                await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
                 await Navigation.PopAsync();
                 return;
             }
@@ -79,7 +80,7 @@ public partial class ManageGroupPage : ContentPage
             return;
         }
 
-        Title = _group.Name ?? "Manage group";
+        Title = _group.Name ?? AppResources.ManageGroup_PageTitle;
         HeaderLabel.Text = _group.Name ?? "";
 
         RenameButton.IsVisible = _group.CanRename;
@@ -131,7 +132,7 @@ public partial class ManageGroupPage : ContentPage
     {
         if (_group == null || string.IsNullOrWhiteSpace(_state.Token) || string.IsNullOrWhiteSpace(_groupId)) return;
 
-        var name = await DisplayPromptAsync("Rename group", "New name", "Rename", "Cancel", initialValue: _group.Name ?? "");
+        var name = await DisplayPromptAsync(AppResources.ManageGroup_RenameGroup_Title, AppResources.ManageGroup_RenameGroup_NewName, AppResources.ManageGroup_RenameGroup_Rename, AppResources.Global_Cancel, initialValue: _group.Name ?? "");
         if (string.IsNullOrWhiteSpace(name)) return;
 
         try
@@ -149,11 +150,11 @@ public partial class ManageGroupPage : ContentPage
         }
         catch (BackendHttpException ex)
         {
-            await DisplayAlert("Error", ex.Code ?? ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
         }
     }
 
@@ -161,7 +162,7 @@ public partial class ManageGroupPage : ContentPage
     {
         if (_group == null || string.IsNullOrWhiteSpace(_state.Token) || string.IsNullOrWhiteSpace(_groupId)) return;
 
-        var confirm = await DisplayAlert("Leave group", "Do you want to leave this group?", "Leave", "Cancel");
+        var confirm = await DisplayAlert(AppResources.ManageGroup_LeaveGroup_Title, AppResources.ManageGroup_LeaveGroup_ConfirmMessage, AppResources.ManageGroup_LeaveGroup_Leave, AppResources.Global_Cancel);
         if (!confirm) return;
 
         try
@@ -178,11 +179,11 @@ public partial class ManageGroupPage : ContentPage
         }
         catch (BackendHttpException ex)
         {
-            await DisplayAlert("Error", ex.Code ?? ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
         }
     }
 
@@ -190,7 +191,7 @@ public partial class ManageGroupPage : ContentPage
     {
         if (_group == null || string.IsNullOrWhiteSpace(_state.Token) || string.IsNullOrWhiteSpace(_groupId)) return;
 
-        var username = await DisplayPromptAsync("Add user", "Username", "Add", "Cancel");
+        var username = await DisplayPromptAsync(AppResources.ManageGroup_AddUser_Title, AppResources.ManageGroup_AddUser_Username, AppResources.ManageGroup_AddUser_Add, AppResources.Global_Cancel);
         if (string.IsNullOrWhiteSpace(username)) return;
 
         try
@@ -206,11 +207,11 @@ public partial class ManageGroupPage : ContentPage
         }
         catch (BackendHttpException ex)
         {
-            await DisplayAlert("Error", ex.Code ?? ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
         }
     }
 
@@ -218,7 +219,7 @@ public partial class ManageGroupPage : ContentPage
     {
         if (_group == null || string.IsNullOrWhiteSpace(_state.Token) || string.IsNullOrWhiteSpace(_groupId)) return;
 
-        var confirm = await DisplayAlert("Delete group", "Delete this group?", "Delete", "Cancel");
+        var confirm = await DisplayAlert(AppResources.ManageGroup_DeleteGroup_Title, AppResources.ManageGroup_DeleteGroup_ConfirmMessage, AppResources.ManageGroup_DeleteGroup_Delete, AppResources.Global_Cancel);
         if (!confirm) return;
 
         try
@@ -235,11 +236,11 @@ public partial class ManageGroupPage : ContentPage
         }
         catch (BackendHttpException ex)
         {
-            await DisplayAlert("Error", ex.Code ?? ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
         }
     }
 
@@ -250,7 +251,7 @@ public partial class ManageGroupPage : ContentPage
         if (btn.BindingContext is not MemberRow row) return;
         if (!row.CanRemove) return;
 
-        var confirm = await DisplayAlert("Remove user", $"Remove {row.Username} from this group?", "Remove", "Cancel");
+        var confirm = await DisplayAlert(AppResources.ManageGroup_RemoveUser_Title, string.Format(AppResources.ManageGroup_RemoveUser_ConfirmMessageFormat, row.Username), AppResources.ManageGroup_RemoveUser_Remove, AppResources.Global_Cancel);
         if (!confirm) return;
 
         try
@@ -266,11 +267,11 @@ public partial class ManageGroupPage : ContentPage
         }
         catch (BackendHttpException ex)
         {
-            await DisplayAlert("Error", ex.Code ?? ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
         }
     }
     private async void OnMembersRefreshing(object sender, EventArgs e)
