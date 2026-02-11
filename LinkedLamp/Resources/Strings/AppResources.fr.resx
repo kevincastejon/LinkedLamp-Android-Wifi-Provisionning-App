@@ -303,4 +303,10 @@
   <data name="ManageGroups_Create" xml:space="preserve">
     <value>Créer</value>
   </data>
+  <data name="Register_EmailOptionalPlaceholder" xml:space="preserve">
+    <value>Email (optionnel)</value>
+  </data>
+  <data name="Register_UsernamePasswordRequired" xml:space="preserve">
+    <value>Le nom d'utilisateur et le mot de passe sont requis.</value>
+  </data>
 </root>

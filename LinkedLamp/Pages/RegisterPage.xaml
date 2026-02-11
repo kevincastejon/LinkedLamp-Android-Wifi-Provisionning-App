@@ -3,12 +3,13 @@
     x:Class="LinkedLamp.Pages.RegisterPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Create account">
+    xmlns:i18n="clr-namespace:LinkedLamp.Resources.Strings"
+    Title="{x:Static i18n:AppResources.Home_CreateAccountButton}">
 
     <VerticalStackLayout Padding="24" Spacing="12">
-        <Entry x:Name="UsernameEntry" Placeholder="Username" />
+        <Entry x:Name="UsernameEntry" Placeholder="{x:Static i18n:AppResources.Login_UsernamePlaceholder}" />
         <Grid>
-            <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
+            <Entry x:Name="PasswordEntry" Placeholder="{x:Static i18n:AppResources.Global_Password}" IsPassword="True" />
             <ImageButton
                 x:Name="TogglePasswordButton"
                 HorizontalOptions="End"
@@ -21,8 +22,8 @@
                 Clicked="OnTogglePasswordClicked"
                 Source="eye_closed.png" />
         </Grid>
-        <Entry x:Name="EmailEntry" Placeholder="Email (optional)" Keyboard="Email" />
-        <Button Text="Create account" Clicked="OnRegisterClicked" />
+        <Entry x:Name="EmailEntry" Placeholder="{x:Static i18n:AppResources.Register_EmailOptionalPlaceholder}" Keyboard="Email" />
+        <Button Text="{x:Static i18n:AppResources.Home_CreateAccountButton}" Clicked="OnRegisterClicked" />
         <Label x:Name="StatusLabel" Text="" />
     </VerticalStackLayout>
 </ContentPage>

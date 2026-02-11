@@ -617,5 +617,23 @@ namespace LinkedLamp.Resources.Strings {
                 return ResourceManager.GetString("ManageGroups_GroupName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Email (optional).
+        /// </summary>
+        public static string Register_EmailOptionalPlaceholder {
+            get {
+                return ResourceManager.GetString("Register_EmailOptionalPlaceholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Username and password are required..
+        /// </summary>
+        public static string Register_UsernamePasswordRequired {
+            get {
+                return ResourceManager.GetString("Register_UsernamePasswordRequired", resourceCulture);
+            }
+        }
     }
 }

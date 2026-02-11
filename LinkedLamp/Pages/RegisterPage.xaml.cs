@@ -1,4 +1,5 @@
 using LinkedLamp.Services;
+using LinkedLamp.Resources.Strings;
 
 namespace LinkedLamp.Pages;
 
@@ -24,7 +25,7 @@ public partial class RegisterPage : ContentPage
 
         if (username.Length == 0 || password.Length == 0)
         {
-            StatusLabel.Text = "Username and password are required.";
+            StatusLabel.Text = AppResources.Register_UsernamePasswordRequired;
             return;
         }
 
