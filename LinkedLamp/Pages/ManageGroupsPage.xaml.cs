@@ -1,4 +1,5 @@
 using LinkedLamp.Services;
+using LinkedLamp.Resources.Strings;
 
 namespace LinkedLamp.Pages;
 
@@ -47,7 +48,7 @@ public partial class ManageGroupsPage : ContentPage
 
     private async Task RefreshGroupsAsync(bool clearList)
     {
-        StatusLabel.Text = "Loading...";
+        StatusLabel.Text = AppResources.ManageGroup_Loading;
 
         if (clearList)
             GroupsView.ItemsSource = null;
@@ -74,7 +75,7 @@ public partial class ManageGroupsPage : ContentPage
         catch (Exception ex)
         {
             StatusLabel.Text = "";
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
             await Navigation.PopAsync();
         }
     }
@@ -83,7 +84,7 @@ public partial class ManageGroupsPage : ContentPage
     {
         if (string.IsNullOrWhiteSpace(_state.Token)) return;
 
-        var name = await DisplayPromptAsync("Create group", "Group name", "Create", "Cancel");
+        var name = await DisplayPromptAsync(AppResources.ManageGroups_CreateGroupTitle, AppResources.ManageGroups_GroupName, AppResources.ManageGroups_Create, AppResources.Global_Cancel);
         if (string.IsNullOrWhiteSpace(name)) return;
 
         try
@@ -99,11 +100,11 @@ public partial class ManageGroupsPage : ContentPage
         }
         catch (BackendHttpException ex)
         {
-            await DisplayAlert("Error", ex.Code ?? ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
         }
     }
 

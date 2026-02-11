@@ -291,4 +291,16 @@
   <data name="ManageGroup_RemoveUser_Remove" xml:space="preserve">
     <value>Retirer</value>
   </data>
+  <data name="ManageGroups_CreateGroupButton" xml:space="preserve">
+    <value>Créer un groupe</value>
+  </data>
+  <data name="ManageGroups_CreateGroupTitle" xml:space="preserve">
+    <value>Créer un groupe</value>
+  </data>
+  <data name="ManageGroups_GroupName" xml:space="preserve">
+    <value>Nom du groupe</value>
+  </data>
+  <data name="ManageGroups_Create" xml:space="preserve">
+    <value>Créer</value>
+  </data>
 </root>

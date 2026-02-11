@@ -581,5 +581,41 @@ namespace LinkedLamp.Resources.Strings {
                 return ResourceManager.GetString("ManageGroup_RenameGroup_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create.
+        /// </summary>
+        public static string ManageGroups_Create {
+            get {
+                return ResourceManager.GetString("ManageGroups_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create group.
+        /// </summary>
+        public static string ManageGroups_CreateGroupButton {
+            get {
+                return ResourceManager.GetString("ManageGroups_CreateGroupButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Create group.
+        /// </summary>
+        public static string ManageGroups_CreateGroupTitle {
+            get {
+                return ResourceManager.GetString("ManageGroups_CreateGroupTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à Group name.
+        /// </summary>
+        public static string ManageGroups_GroupName {
+            get {
+                return ResourceManager.GetString("ManageGroups_GroupName", resourceCulture);
+            }
+        }
     }
 }

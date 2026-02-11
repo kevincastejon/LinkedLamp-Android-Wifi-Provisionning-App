@@ -3,7 +3,8 @@
     x:Class="LinkedLamp.Pages.ManageGroupsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="Manage groups">
+    xmlns:i18n="clr-namespace:LinkedLamp.Resources.Strings"
+    Title="{x:Static i18n:AppResources.Home_ManageGroupsButton}">
 
     <Grid Padding="24" RowDefinitions="Auto,*,Auto" RowSpacing="12">
         <Label x:Name="StatusLabel" Text="" Grid.Row="0" />
@@ -19,6 +20,6 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-        <Button Grid.Row="2" Text="Create group" Clicked="OnCreateGroupClicked" />
+        <Button Grid.Row="2" Text="{x:Static i18n:AppResources.ManageGroups_CreateGroupButton}" Clicked="OnCreateGroupClicked" />
     </Grid>
 </ContentPage>
