@@ -247,8 +247,8 @@ public partial class ManageGroupPage : ContentPage
     private async void OnRemoveMemberClicked(object sender, EventArgs e)
     {
         if (_group == null || string.IsNullOrWhiteSpace(_state.Token) || string.IsNullOrWhiteSpace(_groupId)) return;
-        if (sender is not Button btn) return;
-        if (btn.BindingContext is not MemberRow row) return;
+        if (sender is not BindableObject bo) return;
+        if (bo.BindingContext is not MemberRow row) return;
         if (!row.CanRemove) return;
 
         var confirm = await DisplayAlert(AppResources.ManageGroup_RemoveUser_Title, string.Format(AppResources.ManageGroup_RemoveUser_ConfirmMessageFormat, row.Username), AppResources.ManageGroup_RemoveUser_Remove, AppResources.Global_Cancel);

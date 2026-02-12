@@ -6,28 +6,54 @@
     xmlns:i18n="clr-namespace:LinkedLamp.Resources.Strings"
     Title="{x:Static i18n:AppResources.ManageGroup_PageTitle}">
 
-    <Grid Padding="24" RowDefinitions="Auto,Auto,*,Auto" RowSpacing="12">
-        <Label x:Name="HeaderLabel" Text="" FontSize="20" Grid.Row="0" />
+    <Grid Padding="24" RowDefinitions="Auto,Auto,*" RowSpacing="16">
+        <VerticalStackLayout Grid.Row="0" Spacing="6">
+            <Label x:Name="HeaderLabel" Text="" Style="{DynamicResource PageTitle}" />
+            <Label x:Name="StatusLabel" Text="" Style="{DynamicResource Subtitle}" />
+        </VerticalStackLayout>
 
-        <HorizontalStackLayout Grid.Row="1" Spacing="8">
-            <Button x:Name="RenameButton" Text="{x:Static i18n:AppResources.ManageGroup_RenameButton}" Clicked="OnRenameClicked" IsVisible="False" />
-            <Button x:Name="LeaveButton" Text="{x:Static i18n:AppResources.ManageGroup_LeaveButton}" Clicked="OnLeaveClicked" IsVisible="False" />
-            <Button x:Name="AddUserButton" Text="{x:Static i18n:AppResources.ManageGroup_AddUserButton}" Clicked="OnAddUserClicked" IsVisible="False" />
-            <Button x:Name="DeleteButton" Text="{x:Static i18n:AppResources.ManageGroup_DeleteButton}" Clicked="OnDeleteClicked" IsVisible="False" />
-        </HorizontalStackLayout>
+        <ScrollView Grid.Row="1" HorizontalScrollBarVisibility="Never" Orientation="Horizontal">
+            <HorizontalStackLayout Spacing="10">
+                <Button x:Name="AddUserButton" Text="{x:Static i18n:AppResources.ManageGroup_AddUserButton}" Clicked="OnAddUserClicked" IsVisible="False" />
+                <Button x:Name="RenameButton" Text="{x:Static i18n:AppResources.ManageGroup_RenameButton}" Clicked="OnRenameClicked" IsVisible="False" Style="{DynamicResource SecondaryButton}" />
+                <Button x:Name="LeaveButton" Text="{x:Static i18n:AppResources.ManageGroup_LeaveButton}" Clicked="OnLeaveClicked" IsVisible="False" Style="{DynamicResource SecondaryButton}" />
+                <Button x:Name="DeleteButton" Text="{x:Static i18n:AppResources.ManageGroup_DeleteButton}" Clicked="OnDeleteClicked" IsVisible="False" Style="{DynamicResource SecondaryButton}" TextColor="{DynamicResource Magenta}" />
+            </HorizontalStackLayout>
+        </ScrollView>
+
         <RefreshView x:Name="MembersRefreshView" Grid.Row="2" Refreshing="OnMembersRefreshing">
-            <CollectionView x:Name="MembersView" Grid.Row="2">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="8" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
-                        <Label Text="{Binding Username}" FontSize="18" />
-                        <Label Text="{Binding Role}" Grid.Column="1" VerticalTextAlignment="Center" />
-                        <Button Text="{x:Static i18n:AppResources.ManageGroup_RemoveUserButton}" Grid.Column="2" Clicked="OnRemoveMemberClicked" IsVisible="{Binding CanRemove}" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            <CollectionView x:Name="MembersView">
+                <CollectionView.EmptyView>
+                    <Border Style="{DynamicResource Card}">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Aucun membre" FontAttributes="Bold" />
+                            <Label Text="Ajoute un utilisateur pour le lier à ce groupe." Style="{DynamicResource Subtitle}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItem Text="{x:Static i18n:AppResources.ManageGroup_RemoveUserButton}" BackgroundColor="{DynamicResource Magenta}" Invoked="OnRemoveMemberClicked" IsVisible="{Binding CanRemove}" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Border Style="{DynamicResource Card}">
+                                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                    <VerticalStackLayout Spacing="2">
+                                        <Label Text="{Binding Username}" FontSize="18" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                        <Label Text="Glisse pour retirer" Style="{DynamicResource Subtitle}" IsVisible="{Binding CanRemove}" />
+                                    </VerticalStackLayout>
+                                    <Border Grid.Column="1" Style="{DynamicResource Chip}">
+                                        <Label Text="{Binding Role}" FontSize="12" FontAttributes="Bold" />
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </RefreshView>
-        <Label x:Name="StatusLabel" Text="" Grid.Row="3" />
     </Grid>
 </ContentPage>
