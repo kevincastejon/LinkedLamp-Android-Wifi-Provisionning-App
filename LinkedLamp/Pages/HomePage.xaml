@@ -7,11 +7,8 @@
     Title="{x:Static i18n:AppResources.Home_PageTitle}">
 
     <Grid Padding="24" RowDefinitions="Auto,*" RowSpacing="16">
-        <Label
-            Text="LinkedLamp"
-            FontSize="22"
-            Grid.Row="0" />
-
+        <Label Text="LinkedLamp" FontSize="22" Grid.Row="0" Style="{DynamicResource PageTitle}"/>
+        
         <VerticalStackLayout Grid.Row="1" Spacing="12">
             <VerticalStackLayout x:Name="LoggedOutLayout" Spacing="12" IsVisible="False">
                 <Button Text="{x:Static i18n:AppResources.Home_CreateAccountButton}" Clicked="OnCreateAccountClicked" />

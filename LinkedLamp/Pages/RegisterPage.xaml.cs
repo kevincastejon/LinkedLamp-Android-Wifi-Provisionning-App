@@ -31,8 +31,8 @@ public partial class RegisterPage : ContentPage
 
         try
         {
-            var token = await _backend.RegisterAsync(username, password, email);
-            await _backend.SaveTokenAsync(token);
+            var userIdentity = await _backend.RegisterAsync(username, password, email);
+            await _backend.SaveUserIdentityAsync(userIdentity.Item1, userIdentity.Item2, userIdentity.Item3);
             _state.GroupsCache.Clear();
             await Navigation.PopToRootAsync();
         }

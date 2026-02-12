@@ -31,17 +31,13 @@ public partial class ManageGroupPage : ContentPage
         await LoadAsync();
     }
 
-    private async Task LoadAsync(bool clearList = true, bool showLoadingLabel = true)
+    private async Task LoadAsync()
     {
-        if (showLoadingLabel)
-            StatusLabel.Text = AppResources.ManageGroup_Loading;
-        else
-            StatusLabel.Text = "";
+        StatusLabel.Text = AppResources.ManageGroup_Loading;
 
-        if (clearList)
-            MembersView.ItemsSource = null;
+        MembersView.ItemsSource = null;
 
-        if (string.IsNullOrWhiteSpace(_state.Token) || string.IsNullOrWhiteSpace(_groupId))
+        if (string.IsNullOrWhiteSpace(_state.UserToken) || string.IsNullOrWhiteSpace(_groupId))
         {
             await Navigation.PopToRootAsync();
             return;
@@ -53,7 +49,7 @@ public partial class ManageGroupPage : ContentPage
         {
             try
             {
-                var groups = await _backend.GetGroupsAsync(_state.Token);
+                var groups = await _backend.GetGroupsAsync(_state.UserToken);
                 _state.GroupsCache = groups;
                 _group = _state.GroupsCache.FirstOrDefault(g => g.Id == _groupId);
             }
@@ -67,7 +63,7 @@ public partial class ManageGroupPage : ContentPage
             catch (Exception ex)
             {
                 StatusLabel.Text = "";
-                await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
+                await DisplayAlertAsync(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
                 await Navigation.PopAsync();
                 return;
             }
@@ -81,7 +77,6 @@ public partial class ManageGroupPage : ContentPage
         }
 
         Title = _group.Name ?? AppResources.ManageGroup_PageTitle;
-        HeaderLabel.Text = _group.Name ?? "";
 
         RenameButton.IsVisible = _group.CanRename;
         DeleteButton.IsVisible = _group.CanDelete;
@@ -91,9 +86,13 @@ public partial class ManageGroupPage : ContentPage
 
         try
         {
-            _members = await _backend.ListMembersAsync(_state.Token, _groupId);
+            _members = await _backend.ListMembersAsync(_state.UserToken, _groupId);
             Log($"[LoadAsync] Members count {_members.Count}");
-            MembersView.ItemsSource = _members.Select(m => new MemberRow(m, CanRemoveMember(m))).ToList();
+            MembersView.ItemsSource = _members.Select(m =>
+            {
+                Log($"[LoadAsync] >>> m.UserId:{m.UserId} _state.UserId:{_state.UserId}");
+                return new MemberRow(m, CanRemoveMember(m), m.UserId == _state.UserId);
+            }).ToList();
         }
         catch (BackendHttpException ex)
         {
@@ -130,14 +129,14 @@ public partial class ManageGroupPage : ContentPage
 
     private async void OnRenameClicked(object sender, EventArgs e)
     {
-        if (_group == null || string.IsNullOrWhiteSpace(_state.Token) || string.IsNullOrWhiteSpace(_groupId)) return;
+        if (_group == null || string.IsNullOrWhiteSpace(_state.UserToken) || string.IsNullOrWhiteSpace(_groupId)) return;
 
         var name = await DisplayPromptAsync(AppResources.ManageGroup_RenameGroup_Title, AppResources.ManageGroup_RenameGroup_NewName, AppResources.ManageGroup_RenameGroup_Rename, AppResources.Global_Cancel, initialValue: _group.Name ?? "");
         if (string.IsNullOrWhiteSpace(name)) return;
 
         try
         {
-            var updated = await _backend.RenameGroupAsync(_state.Token, _groupId, name.Trim());
+            var updated = await _backend.RenameGroupAsync(_state.UserToken, _groupId, name.Trim());
             var idx = _state.GroupsCache.FindIndex(x => x.Id == _groupId);
             if (idx >= 0) _state.GroupsCache[idx] = updated;
             await LoadAsync();
@@ -150,25 +149,25 @@ public partial class ManageGroupPage : ContentPage
         }
         catch (BackendHttpException ex)
         {
-            await DisplayAlert(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
         }
         catch (Exception ex)
         {
-            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
         }
     }
 
     private async void OnLeaveClicked(object sender, EventArgs e)
     {
-        if (_group == null || string.IsNullOrWhiteSpace(_state.Token) || string.IsNullOrWhiteSpace(_groupId)) return;
+        if (_group == null || string.IsNullOrWhiteSpace(_state.UserToken) || string.IsNullOrWhiteSpace(_groupId)) return;
 
-        var confirm = await DisplayAlert(AppResources.ManageGroup_LeaveGroup_Title, AppResources.ManageGroup_LeaveGroup_ConfirmMessage, AppResources.ManageGroup_LeaveGroup_Leave, AppResources.Global_Cancel);
+        var confirm = await DisplayAlertAsync(AppResources.ManageGroup_LeaveGroup_Title, AppResources.ManageGroup_LeaveGroup_ConfirmMessage, AppResources.ManageGroup_LeaveGroup_Leave, AppResources.Global_Cancel);
         if (!confirm) return;
 
         try
         {
-            await _backend.LeaveGroupAsync(_state.Token, _groupId);
-            _state.GroupsCache = await _backend.GetGroupsAsync(_state.Token);
+            await _backend.LeaveGroupAsync(_state.UserToken, _groupId);
+            _state.GroupsCache = await _backend.GetGroupsAsync(_state.UserToken);
             await Navigation.PopAsync();
         }
         catch (BackendAuthException)
@@ -179,24 +178,24 @@ public partial class ManageGroupPage : ContentPage
         }
         catch (BackendHttpException ex)
         {
-            await DisplayAlert(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
         }
         catch (Exception ex)
         {
-            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
         }
     }
 
     private async void OnAddUserClicked(object sender, EventArgs e)
     {
-        if (_group == null || string.IsNullOrWhiteSpace(_state.Token) || string.IsNullOrWhiteSpace(_groupId)) return;
+        if (_group == null || string.IsNullOrWhiteSpace(_state.UserToken) || string.IsNullOrWhiteSpace(_groupId)) return;
 
         var username = await DisplayPromptAsync(AppResources.ManageGroup_AddUser_Title, AppResources.ManageGroup_AddUser_Username, AppResources.ManageGroup_AddUser_Add, AppResources.Global_Cancel);
         if (string.IsNullOrWhiteSpace(username)) return;
 
         try
         {
-            await _backend.AddMemberAsync(_state.Token, _groupId, username.Trim());
+            await _backend.AddMemberAsync(_state.UserToken, _groupId, username.Trim());
             await LoadAsync();
         }
         catch (BackendAuthException)
@@ -207,25 +206,25 @@ public partial class ManageGroupPage : ContentPage
         }
         catch (BackendHttpException ex)
         {
-            await DisplayAlert(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
         }
         catch (Exception ex)
         {
-            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
         }
     }
 
     private async void OnDeleteClicked(object sender, EventArgs e)
     {
-        if (_group == null || string.IsNullOrWhiteSpace(_state.Token) || string.IsNullOrWhiteSpace(_groupId)) return;
+        if (_group == null || string.IsNullOrWhiteSpace(_state.UserToken) || string.IsNullOrWhiteSpace(_groupId)) return;
 
-        var confirm = await DisplayAlert(AppResources.ManageGroup_DeleteGroup_Title, AppResources.ManageGroup_DeleteGroup_ConfirmMessage, AppResources.ManageGroup_DeleteGroup_Delete, AppResources.Global_Cancel);
+        var confirm = await DisplayAlertAsync(AppResources.ManageGroup_DeleteGroup_Title, AppResources.ManageGroup_DeleteGroup_ConfirmMessage, AppResources.ManageGroup_DeleteGroup_Delete, AppResources.Global_Cancel);
         if (!confirm) return;
 
         try
         {
-            await _backend.DeleteGroupAsync(_state.Token, _groupId);
-            _state.GroupsCache = await _backend.GetGroupsAsync(_state.Token);
+            await _backend.DeleteGroupAsync(_state.UserToken, _groupId);
+            _state.GroupsCache = await _backend.GetGroupsAsync(_state.UserToken);
             await Navigation.PopAsync();
         }
         catch (BackendAuthException)
@@ -236,27 +235,27 @@ public partial class ManageGroupPage : ContentPage
         }
         catch (BackendHttpException ex)
         {
-            await DisplayAlert(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
         }
         catch (Exception ex)
         {
-            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
         }
     }
 
     private async void OnRemoveMemberClicked(object sender, EventArgs e)
     {
-        if (_group == null || string.IsNullOrWhiteSpace(_state.Token) || string.IsNullOrWhiteSpace(_groupId)) return;
+        if (_group == null || string.IsNullOrWhiteSpace(_state.UserToken) || string.IsNullOrWhiteSpace(_groupId)) return;
         if (sender is not Button btn) return;
         if (btn.BindingContext is not MemberRow row) return;
         if (!row.CanRemove) return;
 
-        var confirm = await DisplayAlert(AppResources.ManageGroup_RemoveUser_Title, string.Format(AppResources.ManageGroup_RemoveUser_ConfirmMessageFormat, row.Username), AppResources.ManageGroup_RemoveUser_Remove, AppResources.Global_Cancel);
+        var confirm = await DisplayAlertAsync(AppResources.ManageGroup_RemoveUser_Title, string.Format(AppResources.ManageGroup_RemoveUser_ConfirmMessageFormat, row.Username), AppResources.ManageGroup_RemoveUser_Remove, AppResources.Global_Cancel);
         if (!confirm) return;
 
         try
         {
-            await _backend.RemoveMemberAsync(_state.Token, _groupId, row.UserId);
+            await _backend.RemoveMemberAsync(_state.UserToken, _groupId, row.UserId);
             await LoadAsync();
         }
         catch (BackendAuthException)
@@ -267,11 +266,11 @@ public partial class ManageGroupPage : ContentPage
         }
         catch (BackendHttpException ex)
         {
-            await DisplayAlert(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
         }
         catch (Exception ex)
         {
-            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
         }
     }
     private async void OnMembersRefreshing(object sender, EventArgs e)
@@ -286,7 +285,7 @@ public partial class ManageGroupPage : ContentPage
 
         try
         {
-            await LoadAsync(clearList: false, showLoadingLabel: false);
+            await LoadAsync();
         }
         finally
         {
@@ -296,9 +295,9 @@ public partial class ManageGroupPage : ContentPage
     }
 
 
-    private record MemberRow(string UserId, string Username, string Role, bool CanRemove)
+    private record MemberRow(string UserId, string Username, string Role, bool CanRemove, bool IsOwner)
     {
-        public MemberRow(MemberDto m, bool canRemove) : this(m.UserId ?? "", m.Username ?? "", m.Role ?? "", canRemove) { }
+        public MemberRow(MemberDto m, bool canRemove, bool isYourself) : this(m.UserId ?? "", m.Username + (isYourself ? $" ({AppResources.ManageGroup_Yourself})" : "") ?? "", m.Role ?? "", canRemove, !string.IsNullOrEmpty(m.Role) && m.Role == "owner") { }
     }
     private void Log(string message)
     {

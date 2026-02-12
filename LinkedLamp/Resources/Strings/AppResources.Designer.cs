@@ -583,6 +583,15 @@ namespace LinkedLamp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à you.
+        /// </summary>
+        public static string ManageGroup_Yourself {
+            get {
+                return ResourceManager.GetString("ManageGroup_Yourself", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Create.
         /// </summary>
         public static string ManageGroups_Create {
@@ -610,11 +619,29 @@ namespace LinkedLamp.Resources.Strings {
         }
         
         /// <summary>
+        ///   Recherche une chaîne localisée semblable à Friends groups.
+        /// </summary>
+        public static string ManageGroups_FriendsGroupsSubtitle {
+            get {
+                return ResourceManager.GetString("ManageGroups_FriendsGroupsSubtitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Recherche une chaîne localisée semblable à Group name.
         /// </summary>
         public static string ManageGroups_GroupName {
             get {
                 return ResourceManager.GetString("ManageGroups_GroupName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une chaîne localisée semblable à My groups.
+        /// </summary>
+        public static string ManageGroups_MyGroupsSubtitle {
+            get {
+                return ResourceManager.GetString("ManageGroups_MyGroupsSubtitle", resourceCulture);
             }
         }
         

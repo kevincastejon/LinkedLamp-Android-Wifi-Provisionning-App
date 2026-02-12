@@ -27,25 +27,27 @@ public class BackendClient
         try
         {
             var t = await SecureStorage.GetAsync("UserToken");
-            _state.Token = string.IsNullOrWhiteSpace(t) ? null : t;
-            return _state.Token;
+            _state.UserToken = string.IsNullOrWhiteSpace(t) ? null : t;
+            return _state.UserToken;
         }
         catch
         {
-            _state.Token = null;
+            _state.UserToken = null;
             return null;
         }
     }
 
-    public async Task SaveTokenAsync(string token)
+    public async Task SaveUserIdentityAsync(string userToken, string userId, string userName)
     {
-        _state.Token = token;
-        await SecureStorage.SetAsync("UserToken", token);
+        _state.UserToken = userToken;
+        _state.UserId = userId;
+        _state.UserName = userName;
+        await SecureStorage.SetAsync("UserToken", userToken);
     }
 
     public void ClearToken()
     {
-        _state.Token = null;
+        _state.UserToken = null;
         SecureStorage.Remove("UserToken");
     }
     public async Task ForgotPasswordAsync(string username)
@@ -130,20 +132,30 @@ public class BackendClient
         }
     }
 
-    public async Task<string> RegisterAsync(string username, string password, string? email)
+    public async Task<(string, string, string)> RegisterAsync(string username, string password, string? email)
     {
         var res = await SendAsync<AuthResponse>(HttpMethod.Post, "/register", null, new { username, password, email });
         if (string.IsNullOrWhiteSpace(res.Token)) throw new BackendHttpException(0, "missing_token", "");
-        return res.Token;
+        if (string.IsNullOrWhiteSpace(res.UserId)) throw new BackendHttpException(0, "missing_userId", "");
+        if (string.IsNullOrWhiteSpace(res.UserName)) throw new BackendHttpException(0, "missing_userName", "");
+        return new(res.Token, res.UserId, res.UserName);
     }
 
-    public async Task<string> LoginAsync(string username, string password)
+    public async Task<(string, string, string)> LoginAsync(string username, string password)
     {
         var res = await SendAsync<AuthResponse>(HttpMethod.Post, "/login", null, new { username, password });
         if (string.IsNullOrWhiteSpace(res.Token)) throw new BackendHttpException(0, "missing_token", "");
-        return res.Token;
+        if (string.IsNullOrWhiteSpace(res.UserId)) throw new BackendHttpException(0, "missing_userid", "");
+        if (string.IsNullOrWhiteSpace(res.UserName)) throw new BackendHttpException(0, "missing_username", "");
+        return new(res.Token, res.UserId, res.UserName);
     }
-
+    public async Task<(string, string)> GetUserInfoAsync(string token)
+    {
+        var res = await SendAsync<AuthResponse>(HttpMethod.Get, "/me", token, null);
+        if (string.IsNullOrWhiteSpace(res.UserId)) throw new BackendHttpException(0, "missing_userid", "");
+        if (string.IsNullOrWhiteSpace(res.UserName)) throw new BackendHttpException(0, "missing_username", "");
+        return new(res.UserId, res.UserName);
+    }
     public async Task<List<GroupDto>> GetGroupsAsync(string token)
     {
         var res = await SendAsync<GroupsResponse>(HttpMethod.Get, "/groups", token, null);
@@ -218,6 +230,8 @@ public class BackendHttpException : Exception
 public class AuthResponse
 {
     public string? Token { get; set; }
+    public string? UserId { get; set; }
+    public string? UserName { get; set; }
 }
 
 public class GroupsResponse
@@ -246,6 +260,7 @@ public class GroupDto
     public bool CanRename { get; set; }
     public bool CanDelete { get; set; }
     public bool CanManageMembers { get; set; }
+    public bool IsOwner => Role == "owner";
 
     public override string ToString()
     {

@@ -7,27 +7,44 @@
     Title="{x:Static i18n:AppResources.ManageGroup_PageTitle}">
 
     <Grid Padding="24" RowDefinitions="Auto,Auto,*,Auto" RowSpacing="12">
-        <Label x:Name="HeaderLabel" Text="" FontSize="20" Grid.Row="0" />
-
-        <HorizontalStackLayout Grid.Row="1" Spacing="8">
-            <Button x:Name="RenameButton" Text="{x:Static i18n:AppResources.ManageGroup_RenameButton}" Clicked="OnRenameClicked" IsVisible="False" />
-            <Button x:Name="LeaveButton" Text="{x:Static i18n:AppResources.ManageGroup_LeaveButton}" Clicked="OnLeaveClicked" IsVisible="False" />
-            <Button x:Name="AddUserButton" Text="{x:Static i18n:AppResources.ManageGroup_AddUserButton}" Clicked="OnAddUserClicked" IsVisible="False" />
-            <Button x:Name="DeleteButton" Text="{x:Static i18n:AppResources.ManageGroup_DeleteButton}" Clicked="OnDeleteClicked" IsVisible="False" />
-        </HorizontalStackLayout>
+            <HorizontalStackLayout Grid.Row="1" Spacing="8">
+                <Button x:Name="RenameButton" Text="{x:Static i18n:AppResources.ManageGroup_RenameButton}" Clicked="OnRenameClicked" IsVisible="False" />
+                <Button x:Name="LeaveButton" Text="{x:Static i18n:AppResources.ManageGroup_LeaveButton}" Clicked="OnLeaveClicked" IsVisible="False" />
+                <Button x:Name="AddUserButton" Text="{x:Static i18n:AppResources.ManageGroup_AddUserButton}" Clicked="OnAddUserClicked" IsVisible="False" />
+                <Button x:Name="DeleteButton" Text="{x:Static i18n:AppResources.ManageGroup_DeleteButton}" Clicked="OnDeleteClicked" IsVisible="False" />
+            </HorizontalStackLayout>
+        <Label Grid.Row="2" x:Name="StatusLabel" Text="" />
         <RefreshView x:Name="MembersRefreshView" Grid.Row="2" Refreshing="OnMembersRefreshing">
             <CollectionView x:Name="MembersView" Grid.Row="2">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Padding="8" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8">
-                        <Label Text="{Binding Username}" FontSize="18" />
-                        <Label Text="{Binding Role}" Grid.Column="1" VerticalTextAlignment="Center" />
-                        <Button Text="{x:Static i18n:AppResources.ManageGroup_RemoveUserButton}" Grid.Column="2" Clicked="OnRemoveMemberClicked" IsVisible="{Binding CanRemove}" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems Mode="Reveal">
+                                    <SwipeItem Text="{x:Static i18n:AppResources.ManageGroup_RemoveUserButton}" BackgroundColor="Transparent" Invoked="OnRemoveMemberClicked" IsVisible="{Binding CanRemove}" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+                            <Border Style="{DynamicResource Card}">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="2">
+                                    <Image Grid.Column="0" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" IsVisible="{Binding IsOwner}">
+                                        <Image.Source>
+                                            <FontImageSource Glyph="&#xecb3;" FontFamily="MaterialSymbols" Size="20" Color="#F5B301" />
+                                        </Image.Source>
+                                    </Image>
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                        <Label Text="{Binding Username}" FontSize="18" FontAttributes="Bold" LineBreakMode="TailTruncation" />
+                                    </VerticalStackLayout>
+                                    <Image Grid.Column="2" WidthRequest="30" HeightRequest="30" VerticalOptions="Center" IsVisible="{Binding CanRemove}">
+                                        <Image.Source>
+                                            <FontImageSource Glyph="&#xe16c;" FontFamily="MaterialSymbols" Size="20" Color="#D32F2F" />
+                                        </Image.Source>
+                                    </Image>
+                                </Grid>
+                            </Border>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </RefreshView>
-        <Label x:Name="StatusLabel" Text="" Grid.Row="3" />
     </Grid>
 </ContentPage>

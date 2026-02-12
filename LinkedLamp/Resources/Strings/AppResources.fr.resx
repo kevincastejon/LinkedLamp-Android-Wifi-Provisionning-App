@@ -399,4 +399,13 @@
   <data name="Scan_LocationDisabled_Prefix" xml:space="preserve">
     <value>Localisation système désactivée. Merci de </value>
   </data>
+  <data name="ManageGroups_MyGroupsSubtitle" xml:space="preserve">
+    <value>Mes groupes</value>
+  </data>
+  <data name="ManageGroups_FriendsGroupsSubtitle" xml:space="preserve">
+    <value>Groupes de mes amis</value>
+  </data>
+  <data name="ManageGroup_Yourself" xml:space="preserve">
+    <value>vous</value>
+  </data>
 </root>

@@ -26,14 +26,28 @@ public partial class HomePage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await _backend.LoadTokenAsync();
+        string? token = await _backend.LoadTokenAsync();
+        if (token != null)
+        {
+            try
+            {
+                var userIdentity = await _backend.GetUserInfoAsync(token);
+                _state.UserId = userIdentity.Item1;
+                _state.UserName = userIdentity.Item2;
+            }
+            catch (Exception e)
+            {
+                Log($"[OnAppearing] <NativeException> {e.Message}");
+                _backend.ClearToken();
+            }
+        }
         UpdateUi();
         ConfigureToolbar();
     }
 
     private void UpdateUi()
     {
-        var hasToken = !string.IsNullOrWhiteSpace(_state.Token);
+        var hasToken = !string.IsNullOrWhiteSpace(_state.UserToken);
         LoggedInLayout.IsVisible = hasToken;
         LoggedOutLayout.IsVisible = !hasToken;
     }
@@ -41,7 +55,7 @@ public partial class HomePage : ContentPage
     private void ConfigureToolbar()
     {
         ToolbarItems.Clear();
-        if (string.IsNullOrWhiteSpace(_state.Token)) return;
+        if (string.IsNullOrWhiteSpace(_state.UserToken)) return;
 
         var menu = new ToolbarItem { Text = AppResources.Home_AccountHamburgerMenu_Title, Order = ToolbarItemOrder.Primary, Priority = 0 };
         menu.Clicked += async (_, __) =>
@@ -77,7 +91,7 @@ public partial class HomePage : ContentPage
 
                 try
                 {
-                    await _backend.ChangePasswordAsync(_state.Token!, currentPassword, newPassword);
+                    await _backend.ChangePasswordAsync(_state.UserToken!, currentPassword, newPassword);
                     await DisplayAlertAsync(AppResources.Home_AccountHamburgerMenu_ChangePassword, AppResources.Home_AccountHamburgerMenu_PasswordUpdated, AppResources.Global_Ok);
                 }
                 catch (BackendAuthException)
@@ -116,7 +130,7 @@ public partial class HomePage : ContentPage
 
                 try
                 {
-                    await _backend.DeleteAccountAsync(_state.Token!);
+                    await _backend.DeleteAccountAsync(_state.UserToken!);
                 }
                 catch (BackendAuthException)
                 {
@@ -185,5 +199,9 @@ public partial class HomePage : ContentPage
     private async void OnConfigureLinkedLampClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(_scanPage);
+    }
+    private void Log(string message)
+    {
+        System.Diagnostics.Debug.WriteLine($"[LinkedLamp] [HomePage] {message}");
     }
 }

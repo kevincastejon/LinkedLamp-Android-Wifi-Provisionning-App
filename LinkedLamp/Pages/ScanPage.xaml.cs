@@ -44,14 +44,14 @@ public partial class ScanPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (string.IsNullOrWhiteSpace(_state.Token))
+        if (string.IsNullOrWhiteSpace(_state.UserToken))
         {
             await Navigation.PopToRootAsync();
             return;
         }
         try
         {
-            var groups = await _backend.GetGroupsAsync(_state.Token);
+            var groups = await _backend.GetGroupsAsync(_state.UserToken);
             _state.GroupsCache = groups;
         }
         catch (BackendAuthException)
@@ -63,7 +63,7 @@ public partial class ScanPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
             await Navigation.PopAsync();
             return;
         }
@@ -331,7 +331,7 @@ public partial class ScanPage : ContentPage
         ProvisionResult provisionResult;
         try
         {
-            provisionResult = await _prov.ProvisionAsync(_state.Token, _ssid, _password, _groupId, _provisionCts.Token);
+            provisionResult = await _prov.ProvisionAsync(_state.UserToken, _ssid, _password, _groupId, _provisionCts.Token);
         }
         catch (Exception e)
         {

@@ -22,7 +22,7 @@ public partial class ManageGroupsPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await RefreshGroupsAsync(clearList: true);
+        await RefreshGroupsAsync();
     }
 
     private async void OnGroupsRefreshing(object sender, EventArgs e)
@@ -37,7 +37,7 @@ public partial class ManageGroupsPage : ContentPage
 
         try
         {
-            await RefreshGroupsAsync(clearList: false);
+            await RefreshGroupsAsync();
         }
         finally
         {
@@ -46,14 +46,15 @@ public partial class ManageGroupsPage : ContentPage
         }
     }
 
-    private async Task RefreshGroupsAsync(bool clearList)
+    private async Task RefreshGroupsAsync()
     {
         StatusLabel.Text = AppResources.ManageGroup_Loading;
 
-        if (clearList)
-            GroupsView.ItemsSource = null;
-
-        if (string.IsNullOrWhiteSpace(_state.Token))
+        MyGroupsView.ItemsSource = null;
+        FriendsGroupsView.ItemsSource = null;
+        MyGroupsLabel.IsVisible = false;
+        FriendsGroupsLabel.IsVisible = false;
+        if (string.IsNullOrWhiteSpace(_state.UserToken))
         {
             await Navigation.PopToRootAsync();
             return;
@@ -61,9 +62,14 @@ public partial class ManageGroupsPage : ContentPage
 
         try
         {
-            var groups = await _backend.GetGroupsAsync(_state.Token);
+            var groups = await _backend.GetGroupsAsync(_state.UserToken);
             _state.GroupsCache = groups;
-            GroupsView.ItemsSource = _state.GroupsCache;
+            List<GroupDto> myGroupsList = groups.Where(x => x.IsOwner).ToList();
+            List<GroupDto> friendsGroupsList = groups.Where(x => !x.IsOwner).ToList();
+            MyGroupsView.ItemsSource = myGroupsList;
+            FriendsGroupsView.ItemsSource = friendsGroupsList;
+            MyGroupsLabel.IsVisible = myGroupsList.Count > 0;
+            FriendsGroupsLabel.IsVisible = friendsGroupsList.Count > 0;
             StatusLabel.Text = "";
         }
         catch (BackendAuthException)
@@ -75,22 +81,22 @@ public partial class ManageGroupsPage : ContentPage
         catch (Exception ex)
         {
             StatusLabel.Text = "";
-            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
             await Navigation.PopAsync();
         }
     }
 
     private async void OnCreateGroupClicked(object sender, EventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(_state.Token)) return;
+        if (string.IsNullOrWhiteSpace(_state.UserToken)) return;
 
         var name = await DisplayPromptAsync(AppResources.ManageGroups_CreateGroupTitle, AppResources.ManageGroups_GroupName, AppResources.ManageGroups_Create, AppResources.Global_Cancel);
         if (string.IsNullOrWhiteSpace(name)) return;
 
         try
         {
-            await _backend.CreateGroupAsync(_state.Token, name.Trim());
-            await RefreshGroupsAsync(clearList: true);
+            await _backend.CreateGroupAsync(_state.UserToken, name.Trim());
+            await RefreshGroupsAsync();
         }
         catch (BackendAuthException)
         {
@@ -100,24 +106,37 @@ public partial class ManageGroupsPage : ContentPage
         }
         catch (BackendHttpException ex)
         {
-            await DisplayAlert(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Code ?? ex.Message, AppResources.Global_Ok);
         }
         catch (Exception ex)
         {
-            await DisplayAlert(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
+            await DisplayAlertAsync(AppResources.Global_Error, ex.Message, AppResources.Global_Ok);
         }
     }
 
-    private async void OnGroupSelected(object sender, SelectionChangedEventArgs e)
+    private async void OnMyGroupSelected(object sender, SelectionChangedEventArgs e)
     {
         var selected = e.CurrentSelection.FirstOrDefault() as GroupDto;
         if (selected == null) return;
 
-        GroupsView.SelectedItem = null;
+        MyGroupsView.SelectedItem = null;
 
         if (string.IsNullOrWhiteSpace(selected.Id)) return;
 
         _manageGroupPage.SetGroupId(selected.Id);
         await Navigation.PushAsync(_manageGroupPage);
     }
+    private async void OnFriendsGroupSelected(object sender, SelectionChangedEventArgs e)
+    {
+        var selected = e.CurrentSelection.FirstOrDefault() as GroupDto;
+        if (selected == null) return;
+
+        FriendsGroupsView.SelectedItem = null;
+
+        if (string.IsNullOrWhiteSpace(selected.Id)) return;
+
+        _manageGroupPage.SetGroupId(selected.Id);
+        await Navigation.PushAsync(_manageGroupPage);
+    }
+
 }
