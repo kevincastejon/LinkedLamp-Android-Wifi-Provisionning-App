@@ -50,10 +50,8 @@ public partial class ManageGroupsPage : ContentPage
     {
         StatusLabel.Text = AppResources.ManageGroup_Loading;
 
-        MyGroupsView.ItemsSource = null;
-        FriendsGroupsView.ItemsSource = null;
-        MyGroupsLabel.IsVisible = false;
-        FriendsGroupsLabel.IsVisible = false;
+        GroupsView.ItemsSource = null;
+
         if (string.IsNullOrWhiteSpace(_state.UserToken))
         {
             await Navigation.PopToRootAsync();
@@ -64,12 +62,37 @@ public partial class ManageGroupsPage : ContentPage
         {
             var groups = await _backend.GetGroupsAsync(_state.UserToken);
             _state.GroupsCache = groups;
+
             List<GroupDto> myGroupsList = groups.Where(x => x.IsOwner).ToList();
             List<GroupDto> friendsGroupsList = groups.Where(x => !x.IsOwner).ToList();
-            MyGroupsView.ItemsSource = myGroupsList;
-            FriendsGroupsView.ItemsSource = friendsGroupsList;
-            MyGroupsLabel.IsVisible = myGroupsList.Count > 0;
-            FriendsGroupsLabel.IsVisible = friendsGroupsList.Count > 0;
+
+            var rows = new List<GroupsRow>();
+
+            if (myGroupsList.Count > 0)
+            {
+                rows.Add(new GroupsRow { IsHeader = true, Title = AppResources.ManageGroups_MyGroupsSubtitle });
+                rows.AddRange(myGroupsList.Select(g => new GroupsRow
+                {
+                    IsGroup = true,
+                    Id = g.Id ?? "",
+                    Name = g.Name ?? "",
+                    IsOwner = g.IsOwner
+                }));
+            }
+
+            if (friendsGroupsList.Count > 0)
+            {
+                rows.Add(new GroupsRow { IsHeader = true, Title = AppResources.ManageGroups_FriendsGroupsSubtitle });
+                rows.AddRange(friendsGroupsList.Select(g => new GroupsRow
+                {
+                    IsGroup = true,
+                    Id = g.Id ?? "",
+                    Name = g.Name ?? "",
+                    IsOwner = g.IsOwner
+                }));
+            }
+
+            GroupsView.ItemsSource = rows;
             StatusLabel.Text = "";
         }
         catch (BackendAuthException)
@@ -114,29 +137,28 @@ public partial class ManageGroupsPage : ContentPage
         }
     }
 
-    private async void OnMyGroupSelected(object sender, SelectionChangedEventArgs e)
+    private async void OnGroupSelected(object sender, SelectionChangedEventArgs e)
     {
-        var selected = e.CurrentSelection.FirstOrDefault() as GroupDto;
+        var selected = e.CurrentSelection.FirstOrDefault() as GroupsRow;
         if (selected == null) return;
 
-        MyGroupsView.SelectedItem = null;
+        GroupsView.SelectedItem = null;
 
-        if (string.IsNullOrWhiteSpace(selected.Id)) return;
-
-        _manageGroupPage.SetGroupId(selected.Id);
-        await Navigation.PushAsync(_manageGroupPage);
-    }
-    private async void OnFriendsGroupSelected(object sender, SelectionChangedEventArgs e)
-    {
-        var selected = e.CurrentSelection.FirstOrDefault() as GroupDto;
-        if (selected == null) return;
-
-        FriendsGroupsView.SelectedItem = null;
-
+        if (!selected.IsGroup) return;
         if (string.IsNullOrWhiteSpace(selected.Id)) return;
 
         _manageGroupPage.SetGroupId(selected.Id);
         await Navigation.PushAsync(_manageGroupPage);
     }
 
+    public class GroupsRow
+    {
+        public bool IsHeader { get; set; }
+        public bool IsGroup { get; set; }
+
+        public string Title { get; set; } = "";
+        public string Id { get; set; } = "";
+        public string Name { get; set; } = "";
+        public bool IsOwner { get; set; }
+    }
 }
