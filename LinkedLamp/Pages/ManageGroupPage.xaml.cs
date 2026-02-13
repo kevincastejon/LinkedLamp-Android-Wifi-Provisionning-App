@@ -76,8 +76,8 @@ public partial class ManageGroupPage : ContentPage
             return;
         }
 
-        Title = _group.Name ?? AppResources.ManageGroup_PageTitle;
-
+        Title = $"Group {_group.Name ?? AppResources.ManageGroup_PageTitle}";
+        GroupNameLabel.Text = _group.Name;
         RenameButton.IsVisible = _group.CanRename;
         DeleteButton.IsVisible = _group.CanDelete;
         LeaveButton.IsVisible = _group.CanLeave;
@@ -246,8 +246,8 @@ public partial class ManageGroupPage : ContentPage
     private async void OnRemoveMemberClicked(object sender, EventArgs e)
     {
         if (_group == null || string.IsNullOrWhiteSpace(_state.UserToken) || string.IsNullOrWhiteSpace(_groupId)) return;
-        if (sender is not Button btn) return;
-        if (btn.BindingContext is not MemberRow row) return;
+        if (sender is not SwipeItemView item) return;
+        if (item.CommandParameter is not MemberRow row) return;
         if (!row.CanRemove) return;
 
         var confirm = await DisplayAlertAsync(AppResources.ManageGroup_RemoveUser_Title, string.Format(AppResources.ManageGroup_RemoveUser_ConfirmMessageFormat, row.Username), AppResources.ManageGroup_RemoveUser_Remove, AppResources.Global_Cancel);
@@ -295,12 +295,12 @@ public partial class ManageGroupPage : ContentPage
     }
 
 
-    private record MemberRow(string UserId, string Username, string Role, bool CanRemove, bool IsOwner)
-    {
-        public MemberRow(MemberDto m, bool canRemove, bool isYourself) : this(m.UserId ?? "", m.Username + (isYourself ? $" ({AppResources.ManageGroup_Yourself})" : "") ?? "", m.Role ?? "", canRemove, !string.IsNullOrEmpty(m.Role) && m.Role == "owner") { }
-    }
     private void Log(string message)
     {
         System.Diagnostics.Debug.WriteLine($"[LinkedLamp] [ManageGroupPage] {message}");
     }
+}
+public record MemberRow(string UserId, string Username, string Role, bool CanRemove, bool IsOwner)
+{
+    public MemberRow(MemberDto m, bool canRemove, bool isYourself) : this(m.UserId ?? "", m.Username + (isYourself ? $" ({AppResources.ManageGroup_Yourself})" : "") ?? "", m.Role ?? "", canRemove, !string.IsNullOrEmpty(m.Role) && m.Role == "owner") { }
 }
