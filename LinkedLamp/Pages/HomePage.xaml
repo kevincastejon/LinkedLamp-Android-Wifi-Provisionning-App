@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
     x:Class="LinkedLamp.Pages.HomePage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -6,20 +5,79 @@
     xmlns:i18n="clr-namespace:LinkedLamp.Resources.Strings"
     Title="{x:Static i18n:AppResources.Home_PageTitle}">
 
-    <Grid Padding="24" RowDefinitions="Auto,*" RowSpacing="16">
-        <Label Text="LinkedLamp" FontSize="22" Grid.Row="0" Style="{DynamicResource PageTitle}"/>
-        
-        <VerticalStackLayout Grid.Row="1" Spacing="12">
-            <VerticalStackLayout x:Name="LoggedOutLayout" Spacing="12" IsVisible="False">
-                <Button Text="{x:Static i18n:AppResources.Home_CreateAccountButton}" Clicked="OnCreateAccountClicked" />
-                <Button Text="{x:Static i18n:AppResources.Home_ConnectToAccountButton}" Clicked="OnConnectToAccountClicked" />
-                <Button Text="{x:Static i18n:AppResources.Home_ForgotPasswordButton}" Clicked="OnForgotPasswordClicked" />
+    <Grid Padding="24" RowDefinitions="Auto,*,Auto" RowSpacing="16">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="10" HorizontalOptions="Center">
+            <Image Source="linkedlamp_logo.png"
+                   WidthRequest="96"
+                   HeightRequest="96"
+                   HorizontalOptions="Center" />
+            <Label Text="LinkedLamp"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <Border Grid.Row="1"
+                Style="{DynamicResource Card}"
+                Padding="22">
+
+            <VerticalStackLayout Spacing="14">
+
+                <VerticalStackLayout x:Name="LoggedOutLayout"
+                                     Spacing="12"
+                                     IsVisible="False">
+
+                    <Button Text="{x:Static i18n:AppResources.Home_CreateAccountButton}"
+                            BackgroundColor="#2E7D32"
+                            TextColor="White"
+                            CornerRadius="12"
+                            Padding="14,10"
+                            Clicked="OnCreateAccountClicked" />
+
+                    <Button Text="{x:Static i18n:AppResources.Home_ConnectToAccountButton}"
+                            BackgroundColor="#1E88E5"
+                            TextColor="White"
+                            CornerRadius="12"
+                            Padding="14,10"
+                            Clicked="OnConnectToAccountClicked" />
+
+                    <Button Text="{x:Static i18n:AppResources.Home_ForgotPasswordButton}"
+                            BackgroundColor="Transparent"
+                            TextColor="#1E88E5"
+                            Clicked="OnForgotPasswordClicked" />
+
+                </VerticalStackLayout>
+
+                <VerticalStackLayout x:Name="LoggedInLayout"
+                                     Spacing="12"
+                                     IsVisible="False">
+
+                    <Button Text="{x:Static i18n:AppResources.Home_ManageGroupsButton}"
+                            BackgroundColor="#1E88E5"
+                            TextColor="White"
+                            CornerRadius="12"
+                            Padding="14,10"
+                            Clicked="OnManageGroupsClicked" />
+
+                    <Button Text="{x:Static i18n:AppResources.Home_ConfigureLinkedLampButton}"
+                            BackgroundColor="#455A64"
+                            TextColor="White"
+                            CornerRadius="12"
+                            Padding="14,10"
+                            Clicked="OnConfigureLinkedLampClicked" />
+
+                </VerticalStackLayout>
+
             </VerticalStackLayout>
 
-            <VerticalStackLayout x:Name="LoggedInLayout" Spacing="12" IsVisible="False">
-                <Button Text="{x:Static i18n:AppResources.Home_ManageGroupsButton}" Clicked="OnManageGroupsClicked" />
-                <Button Text="{x:Static i18n:AppResources.Home_ConfigureLinkedLampButton}" Clicked="OnConfigureLinkedLampClicked" />
-            </VerticalStackLayout>
-        </VerticalStackLayout>
+        </Border>
+
+        <Label Grid.Row="2"
+               Text="LinkedLamp"
+               FontSize="12"
+               Opacity="0.35"
+               HorizontalOptions="Center" />
+
     </Grid>
 </ContentPage>
