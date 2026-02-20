@@ -368,15 +368,15 @@ public sealed class LinkedLampBLEService
             throw new InvalidOperationException("AppToEsp Characteristic not found.");
         }
         Log($"[SetupBLEService] Getting appToEsp characteristic (UUID:{APP_TO_ESP_UUID}) success.");
-        Log($"[SetupBLEService] Getting espToApp characteristic (UUID:{ESP_TO_APP_UUID}) started.");
         _espToAppChar = await _connectedService.GetCharacteristicAsync(ESP_TO_APP_UUID, cancellationToken);
-        _espToAppChar.ValueUpdated += OnMessageReceived;
-        await _espToAppChar.StartUpdatesAsync();
         if (_espToAppChar == null)
         {
             Log($"[SetupBLEService] <Exception> EspToApp Characteristic not found.");
             throw new InvalidOperationException("EspToApp Characteristic not found.");
         }
+        Log($"[SetupBLEService] Getting espToApp characteristic (UUID:{ESP_TO_APP_UUID}) started.");
+        _espToAppChar.ValueUpdated += OnMessageReceived;
+        await _espToAppChar.StartUpdatesAsync();
         Log($"[SetupBLEService] Getting espToApp characteristic (UUID:{ESP_TO_APP_UUID}) success.");
     }
     private void OnBLEDeviceDiscovered(object? sender, DeviceEventArgs e)
@@ -487,15 +487,53 @@ public sealed class LinkedLampBLEService
         Log($"[OnSsidReceived] Sending ACK for ssid {ssidIndex} chunk {chunkIndex}/{chunkCount} : \"{ssidChunk}\" started.");
         try
         {
-            await _appToEspChar.WriteAsync([(byte)AppToEspMessageType.SSID_ACK, ssidIndex, chunkIndex]);
+            await SendAckWithRetry(ssidIndex, chunkIndex);
         }
         catch (Exception e)
         {
-            Log($"[OnSsidReceived] <Native Exception> " + e.Message);
+            Log($"[OnSsidReceived] Sending ACK failed : <Native Exception> " + e.Message);
             _ssidListTcs?.TrySetException(e);
             return;
         }
         Log($"[OnSsidReceived] Sending ACK for ssid {ssidIndex} chunk {chunkIndex}/{chunkCount} : \"{ssidChunk}\" done.");
+    }
+    private async Task SendAckWithRetry(byte ssidIndex, byte chunkIndex)
+    {
+        if (_appToEspChar == null)
+        {
+            Log($"[SendAckWithRetry] <Exception> AppToEsp characteristic is null.");
+            _ssidListTcs?.TrySetException(new InvalidOperationException("AppToEsp characteristic is null."));
+            return;
+        }
+        bool success = false;
+        int retriesCount = 0;
+        while (!success && retriesCount < 10)
+        {
+            try
+            {
+                await _appToEspChar.WriteAsync([(byte)AppToEspMessageType.SSID_ACK, ssidIndex, chunkIndex]);
+            }
+            catch (Exception e)
+            {
+                Log($"[SendAckWithRetry] Send ack failed <NativeException> {e.Message}");
+                retriesCount++;
+                if (retriesCount < 10)
+                {
+                    Log($"[SendAckWithRetry] Retrying send ack (count : {retriesCount})");
+                }
+                await Task.Delay(100);
+                continue;
+            }
+            success = true;
+        }
+        if (success)
+        {
+            return;
+        }
+        else
+        {
+            throw new Exception();
+        }
     }
     private void OnSsidEndReceived()
     {
